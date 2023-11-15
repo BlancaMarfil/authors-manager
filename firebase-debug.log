@@ -1,0 +1,67 @@
+[debug] [2023-11-15T10:41:54.148Z] ----------------------------------------------------------------------
+[debug] [2023-11-15T10:41:54.149Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2023-11-15T10:41:54.149Z] CLI Version:   12.9.0
+[debug] [2023-11-15T10:41:54.150Z] Platform:      darwin
+[debug] [2023-11-15T10:41:54.150Z] Node Version:  v18.12.1
+[debug] [2023-11-15T10:41:54.150Z] Time:          Wed Nov 15 2023 11:41:54 GMT+0100 (Central European Standard Time)
+[debug] [2023-11-15T10:41:54.150Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-11-15T10:41:54.185Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-11-15T10:41:54.185Z] > authorizing via signed-in user (blancamarfil94@gmail.com)
+[debug] [2023-11-15T10:41:54.185Z] [iam] checking project authors-manager for permissions ["firebase.projects.get"]
+[debug] [2023-11-15T10:41:54.186Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/authors-manager:testIamPermissions [none]
+[debug] [2023-11-15T10:41:54.186Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/authors-manager:testIamPermissions x-goog-quota-user=projects/authors-manager
+[debug] [2023-11-15T10:41:54.187Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/authors-manager:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-11-15T10:41:54.964Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/authors-manager:testIamPermissions 200
+[debug] [2023-11-15T10:41:54.965Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/authors-manager:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-11-15T10:41:54.966Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/authors-manager [none]
+[debug] [2023-11-15T10:41:55.269Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/authors-manager 200
+[debug] [2023-11-15T10:41:55.269Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/authors-manager {"projectId":"authors-manager","projectNumber":"324822733413","displayName":"authors-manager","name":"projects/authors-manager","resources":{"hostingSite":"authors-manager"},"state":"ACTIVE","etag":"1_d9b06bcb-6d9b-4af0-8169-cb1774c62042"}
+[info] 
+[info] === Serving from '/Users/blanca/Documents/Coding/React/OwnProjects/authors-manager'...
+[info] 
+[debug] [2023-11-15T10:41:55.273Z] defaultcredentials: writing to file /Users/blanca/.config/firebase/blancamarfil94_gmail_com_application_default_credentials.json
+[debug] [2023-11-15T10:41:55.293Z] Setting GAC to /Users/blanca/.config/firebase/blancamarfil94_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/blanca/.config/firebase/blancamarfil94_gmail_com_application_default_credentials.json"}}
+[debug] [2023-11-15T10:41:55.294Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/authors-manager/adminSdkConfig [none]
+[debug] [2023-11-15T10:41:55.510Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/authors-manager/adminSdkConfig 200
+[debug] [2023-11-15T10:41:55.510Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/authors-manager/adminSdkConfig {"projectId":"authors-manager","storageBucket":"authors-manager.appspot.com"}
+[info] i  functions: Watching "/Users/blanca/Documents/Coding/React/OwnProjects/authors-manager/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/blanca/Documents/Coding/React/OwnProjects/authors-manager/functions\" for Cloud Functions..."}}
+[debug] [2023-11-15T10:41:55.532Z] Validating nodejs source
+[debug] [2023-11-15T10:41:56.639Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/src/index.js",
+  "dependencies": {
+    "apollo-server-express": "^3.13.0",
+    "express": "^4.18.2",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "graphql": "^16.8.1"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^4.9.0"
+  },
+  "private": true
+}
+[debug] [2023-11-15T10:41:56.644Z] Building nodejs source
+[debug] [2023-11-15T10:41:56.644Z] Failed to find version of module node: reached end of search path /Users/blanca/Documents/Coding/React/OwnProjects/authors-manager/functions/node_modules
+[info] ✔  functions: Using node@18 from host. 
+[debug] [2023-11-15T10:41:56.647Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-11-15T10:41:56.653Z] Found firebase-functions binary at '/Users/blanca/Documents/Coding/React/OwnProjects/authors-manager/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8758
+
+[debug] [2023-11-15T10:41:57.387Z] Got response from /__/functions.yaml {"endpoints":{"graphql":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"region":["europe-west1"],"httpsTrigger":{},"entryPoint":"graphql"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] ✔  functions: Loaded functions definitions from source: graphql. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: graphql."}}
+[info] ✔  functions[europe-west1-graphql]: http function initialized (http://localhost:5000/authors-manager/europe-west1/graphql). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5000/authors-manager/europe-west1/graphql)."}}
