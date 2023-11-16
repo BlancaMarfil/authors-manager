@@ -1,3 +1,3 @@
-const { catsResolvers } = require("./cats")
+import { catsResolvers } from "./cats";
 
 export const resolvers = [catsResolvers];
