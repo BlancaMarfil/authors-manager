@@ -9,7 +9,7 @@ const colors = {
   black: "#000000",
 };
 
-const spaces = {
+const dimensions = {
   base05: "4px",
   base: "8px",
   base2: "16px",
@@ -21,11 +21,12 @@ const spaces = {
   base8: "64px",
   base9: "72px",
   base10: "80px",
+  base13: "104px",
 };
 
 const theme = {
-    colors,
-    spaces
-}
+  colors,
+  dimensions,
+};
 
 export default theme;
