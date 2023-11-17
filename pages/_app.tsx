@@ -8,8 +8,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Author's manager</title>
-        <link rel="stylesheet" href="public/fonts/Vollkorn.ttf" />
+        <title>Authors manager</title>
+        <link rel="stylesheet" href="/fonts/Vollkorn-VaraibleFont_wght.ttf" />
+        <link rel="stylesheet" href="/fonts/Vollkorn-Italic-VariableFont_wght.ttf" />
       </Head>
       <ThemeProvider theme={defaultTheme}>
         <Layout>

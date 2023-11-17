@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StyledBox = styled.div`
-  width: 32vw;
+  width: 38vw;
   margin: auto;
   margin-top: ${({ theme }) => theme.dimensions.base13};
   padding: ${({ theme }) => theme.dimensions.base6}

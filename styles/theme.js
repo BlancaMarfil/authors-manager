@@ -1,3 +1,5 @@
+const fontFamily = "Vollkorn";
+
 const colors = {
   oceanBlue: "#1F7A8C",
   limeGreen: "#D2E3C8",
@@ -22,11 +24,28 @@ const dimensions = {
   base9: "72px",
   base10: "80px",
   base13: "104px",
+  base17: "136px",
+  base20: "160px",
+};
+
+const fontTypes = {
+  h1: {
+    fontFamily: `${fontFamily}`,
+    fontWeight: "bold",
+    fontSize: `${dimensions.base8}`,
+    lineHeight: `${dimensions.base3}`,
+  },
+  medium: {
+    fontSize: `${dimensions.base3}`,
+    lineHeight: `${dimensions.base3}`,
+  },
 };
 
 const theme = {
+  fontFamily,
   colors,
   dimensions,
+  fontTypes,
 };
 
 export default theme;
