@@ -3,6 +3,7 @@ import RegistrationBlock from "../components/registrationBlock";
 import Button from "../components/UI/button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegistrationType } from "../types/types";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const StyledRowBlock = styled.div`
   display: flex;
@@ -53,6 +54,8 @@ interface Props {
 }
 
 const RegistrationForm = ({ origin }: Props) => {
+  const { loginWithRedirect } = useAuth0();
+
   const initialValues: InitialValues = {
     email: "",
     password: "",
@@ -61,9 +64,31 @@ const RegistrationForm = ({ origin }: Props) => {
 
   const buttonTitle = origin === "signup" ? "Sign Up" : "Log In";
 
+  // Actions
   const onSubmit = (values: any, { setSubmitting }: any) => {
     console.log(values);
+
+    origin === "signup" ? handleSignUp() : handleLogin();
     setSubmitting(false);
+  };
+
+  const handleSignUp = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/home",
+      },
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
+  };
+
+  const handleLogin = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/home",
+      },
+    });
   };
 
   const validate = (values: any) => {
@@ -133,7 +158,9 @@ const RegistrationForm = ({ origin }: Props) => {
           {origin === "signup" && (
             <StyledRowBlock>
               <StyledRow>
-                <StyledLabel htmlFor="confirmPassword">Confirm Password</StyledLabel>
+                <StyledLabel htmlFor="confirmPassword">
+                  Confirm Password
+                </StyledLabel>
                 <StyledField
                   type="password"
                   id="confirmPassword"
