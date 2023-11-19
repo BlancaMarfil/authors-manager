@@ -7,6 +7,8 @@ import BackIcon from "../public/icons/arrow_back.svg";
 import { RegistrationType } from "../types/types";
 import theme from "../styles/theme";
 
+import { useQuery, gql } from "@apollo/client";
+
 const BackContainer = styled.div`
   margin-top: ${({ theme }) => theme.dimensions.base4};
   display: flex;
@@ -21,8 +23,21 @@ const BackDiv = styled.div`
   justify-content: center;
 `;
 
+const GET_DATA = gql`
+  query {
+    users {
+      userId
+      email
+    }
+  }
+`;
+
 const Registration = () => {
   const [registrationType, setRegistrationType] = useState<RegistrationType>();
+
+  const { loading, error, data } = useQuery(GET_DATA);
+
+  console.log("DATA", data);
 
   return (
     <>

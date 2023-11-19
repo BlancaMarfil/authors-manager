@@ -6,6 +6,14 @@ const nextConfig = {
       displayName: true,
     },
   },
+  async rewrites() {
+    return [
+      {
+        source: '/graphql',
+        destination: 'http://localhost:4000/graphql',
+      },
+    ];
+  },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg")
