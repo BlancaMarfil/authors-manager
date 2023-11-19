@@ -8,6 +8,7 @@ import { RegistrationType } from "../types/types";
 import theme from "../styles/theme";
 
 import { useQuery, gql } from "@apollo/client";
+import { useGetAllUsersQuery } from "../graphql/generated";
 
 const BackContainer = styled.div`
   margin-top: ${({ theme }) => theme.dimensions.base4};
@@ -23,19 +24,10 @@ const BackDiv = styled.div`
   justify-content: center;
 `;
 
-const GET_DATA = gql`
-  query {
-    users {
-      userId
-      email
-    }
-  }
-`;
-
 const Registration = () => {
   const [registrationType, setRegistrationType] = useState<RegistrationType>();
 
-  const { loading, error, data } = useQuery(GET_DATA);
+  const { loading, error, data } = useGetAllUsersQuery();
 
   console.log("DATA", data);
 
