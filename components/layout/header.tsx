@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
+import { MouseEvent, useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const StyledLink = styled.a`
   font-size: ${({ theme }) => theme.dimensions.base3};
@@ -12,13 +14,20 @@ const StyledLink = styled.a`
 interface NavLinkProps {
   href: string;
   title: string;
+  onClick?: any;
 }
 
 const NavLink = (props: NavLinkProps) => {
-  const { href, title } = props;
+  const { href, title, onClick } = props;
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onClick();
+  };
+
   return (
     <Link href={href}>
-      <StyledLink>{title}</StyledLink>
+      <StyledLink onClick={onClick && handleClick}>{title}</StyledLink>
     </Link>
   );
 };
@@ -31,25 +40,36 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.oceanBlue};
 `;
 
-const StyledNav = styled.nav`
+const StyledNav = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StyledLeftNav = styled.nav`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.dimensions.base5};
 `;
 
 const Header = () => {
+  const authCtx = useContext(AuthContext);
+
   return (
     <Container>
       <StyledNav>
-        <Image
-          src="/icons/AuthorsManagerLogo.svg"
-          alt="AuthorsManagerLogo"
-          width={32}
-          height={32}
-        />
-        <NavLink href="/" title="Home" />
-        <NavLink href="/authors" title="Authors" />
-        <NavLink href="/books" title="Books" />
+        <StyledLeftNav>
+          <Image
+            src="/icons/AuthorsManagerLogo.svg"
+            alt="AuthorsManagerLogo"
+            width={32}
+            height={32}
+          />
+          <NavLink href="/" title="Home" />
+          <NavLink href="/authors" title="Authors" />
+          <NavLink href="/books" title="Books" />
+        </StyledLeftNav>
+        <NavLink href="/" title="Log Out" onClick={() => authCtx.onLogout()} />
       </StyledNav>
     </Container>
   );

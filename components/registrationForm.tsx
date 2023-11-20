@@ -3,6 +3,10 @@ import RegistrationBlock from "../components/registrationBlock";
 import Button from "../components/UI/button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegistrationType } from "../types/types";
+import { useLoginMutation, useSignUpMutation } from "../graphql/generated";
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 const StyledRowBlock = styled.div`
   display: flex;
@@ -60,9 +64,39 @@ const RegistrationForm = ({ origin }: Props) => {
   };
 
   const buttonTitle = origin === "signup" ? "Sign Up" : "Log In";
+  var token = "";
 
-  const onSubmit = (values: any, { setSubmitting }: any) => {
-    console.log(values);
+  // Hooks
+  const [signUpUser] = useSignUpMutation();
+  const [loginUser] = useLoginMutation();
+  const router = useRouter();
+  const authCtx = useContext(AuthContext);
+
+  // Actions
+  const onSubmit = async (values: any, { setSubmitting }: any) => {
+    if (origin === "signup") {
+      try {
+        await signUpUser({
+          variables: { email: values.email, password: values.password },
+        }).then((dataSignup) => (token = dataSignup.data.createUser.token));
+      } catch (error) {
+        return console.error(error);
+      }
+    } else if (origin === "login") {
+      try {
+        await loginUser({
+          variables: { email: values.email, password: values.password },
+        }).then((dataLogin) => {
+          token = dataLogin.data.loginUser.token;
+        });
+      } catch (error) {
+        return console.error(error);
+      }
+    }
+    if (token) {
+      authCtx.onLogin(token);
+      router.push("/home");
+    }
     setSubmitting(false);
   };
 
@@ -133,7 +167,9 @@ const RegistrationForm = ({ origin }: Props) => {
           {origin === "signup" && (
             <StyledRowBlock>
               <StyledRow>
-                <StyledLabel htmlFor="confirmPassword">Confirm Password</StyledLabel>
+                <StyledLabel htmlFor="confirmPassword">
+                  Confirm Password
+                </StyledLabel>
                 <StyledField
                   type="password"
                   id="confirmPassword"

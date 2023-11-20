@@ -6,8 +6,6 @@ import RegistrationForm from "../components/registrationForm";
 import BackIcon from "../public/icons/arrow_back.svg";
 import { RegistrationType } from "../types/types";
 import theme from "../styles/theme";
-
-import { useQuery, gql } from "@apollo/client";
 import { useGetAllUsersQuery } from "../graphql/generated";
 
 const BackContainer = styled.div`
@@ -28,8 +26,6 @@ const Registration = () => {
   const [registrationType, setRegistrationType] = useState<RegistrationType>();
 
   const { loading, error, data } = useGetAllUsersQuery();
-
-  console.log("DATA", data);
 
   return (
     <>

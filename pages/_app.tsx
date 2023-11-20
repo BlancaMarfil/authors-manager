@@ -4,15 +4,18 @@ import Layout from "../components/layout/layout";
 import "../styles/globals.css";
 import { ApolloProvider } from "@apollo/client";
 import client from "../lib/apolloClient";
+import { AuthContextProvider } from "../context/AuthContext";
 
 function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Layout>
-        <ApolloProvider client={client}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </Layout>
+      <AuthContextProvider>
+        <Layout>
+          <ApolloProvider client={client}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+        </Layout>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }
