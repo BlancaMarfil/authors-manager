@@ -11,7 +11,7 @@ const Home = () => {
   });
 
   const books: InferredBooks[] = data?.searchGoogleBooks?.items || [];
-  const bookLastRead: InferredVolumeInfo = books[0].volumeInfo;
+  const bookLastRead: InferredVolumeInfo = books[0]?.volumeInfo;
 
   console.log("BOOK", bookLastRead);
 

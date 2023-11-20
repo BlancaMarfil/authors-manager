@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "../components/UI/button";
+import Button from "../components/UI/Button";
 import RegistrationBlock from "../components/registrationBlock";
 import { useState } from "react";
 import RegistrationForm from "../components/registrationForm";

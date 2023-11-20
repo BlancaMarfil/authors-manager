@@ -1,6 +1,6 @@
 import { ThemeProvider } from "styled-components";
 import defaultTheme from "../styles/theme";
-import Layout from "../components/layout/layout";
+import Layout from "../components/layout/Layout";
 import "../styles/globals.css";
 import { ApolloProvider } from "@apollo/client";
 import client from "../lib/apolloClient";

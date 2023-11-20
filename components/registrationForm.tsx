@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import RegistrationBlock from "../components/registrationBlock";
-import Button from "../components/UI/button";
+import Button from "./UI/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegistrationType } from "../types/types";
 import { useLoginMutation, useSignUpMutation } from "../graphql/generated";
