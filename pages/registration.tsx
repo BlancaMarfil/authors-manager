@@ -39,7 +39,7 @@ const Registration = () => {
           <RegistrationForm origin={registrationType} />
           <BackContainer>
             <Button
-              buttonStyle="secondary"
+              buttonStyle={"secondary"}
               onClick={() => setRegistrationType(null)}
             >
               <BackDiv>

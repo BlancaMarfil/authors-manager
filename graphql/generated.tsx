@@ -24,6 +24,18 @@ export type AuthUser = {
   userId: Scalars['String']['output'];
 };
 
+export type GoogleBook = {
+  __typename?: 'GoogleBook';
+  id: Scalars['String']['output'];
+  volumeInfo: VolumeInfo;
+};
+
+export type ImageLinks = {
+  __typename?: 'ImageLinks';
+  smallThumbnail: Scalars['String']['output'];
+  thumbnail: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']['output']>;
@@ -44,13 +56,27 @@ export type MutationLoginUserArgs = {
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']['output']>;
+  searchGoogleBooks: SearchBooks;
   userById?: Maybe<User>;
   users?: Maybe<Array<User>>;
 };
 
 
+export type QuerySearchGoogleBooksArgs = {
+  apiKey: Scalars['String']['input'];
+  query: Scalars['String']['input'];
+};
+
+
 export type QueryUserByIdArgs = {
   userId: Scalars['String']['input'];
+};
+
+export type SearchBooks = {
+  __typename?: 'SearchBooks';
+  items?: Maybe<Array<GoogleBook>>;
+  kind: Scalars['String']['output'];
+  totalItems: Scalars['Int']['output'];
 };
 
 export type User = {
@@ -63,6 +89,19 @@ export type User = {
 export type UserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export type VolumeInfo = {
+  __typename?: 'VolumeInfo';
+  authors?: Maybe<Array<Scalars['String']['output']>>;
+  description: Scalars['String']['output'];
+  imageLinks: ImageLinks;
+  infoLink: Scalars['String']['output'];
+  language: Scalars['String']['output'];
+  previewLink: Scalars['String']['output'];
+  publishedDate: Scalars['String']['output'];
+  publisher: Scalars['String']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type SignUpMutationVariables = Exact<{
@@ -80,6 +119,14 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'AuthUser', userId: string, token: string } | null };
+
+export type SearchGoogleBooksQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+  apiKey: Scalars['String']['input'];
+}>;
+
+
+export type SearchGoogleBooksQuery = { __typename?: 'Query', searchGoogleBooks: { __typename?: 'SearchBooks', totalItems: number, items?: Array<{ __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string } } }> | null } };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -157,6 +204,63 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const SearchGoogleBooksDocument = gql`
+    query SearchGoogleBooks($query: String!, $apiKey: String!) {
+  searchGoogleBooks(query: $query, apiKey: $apiKey) @rest(type: "SearchBooks", path: "?q={args.query}&key={args.apiKey}") {
+    totalItems
+    items @type(name: "GoogleBook") {
+      id
+      volumeInfo @type(name: "GoogleBookVolumeInfo") {
+        title
+        authors
+        description
+        publisher
+        publishedDate
+        imageLinks @type(name: "GoogleBookImageLinks") {
+          smallThumbnail
+          thumbnail
+        }
+        infoLink
+        previewLink
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchGoogleBooksQuery__
+ *
+ * To run a query within a React component, call `useSearchGoogleBooksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchGoogleBooksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchGoogleBooksQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *      apiKey: // value for 'apiKey'
+ *   },
+ * });
+ */
+export function useSearchGoogleBooksQuery(baseOptions: Apollo.QueryHookOptions<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>(SearchGoogleBooksDocument, options);
+      }
+export function useSearchGoogleBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>(SearchGoogleBooksDocument, options);
+        }
+export function useSearchGoogleBooksSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>(SearchGoogleBooksDocument, options);
+        }
+export type SearchGoogleBooksQueryHookResult = ReturnType<typeof useSearchGoogleBooksQuery>;
+export type SearchGoogleBooksLazyQueryHookResult = ReturnType<typeof useSearchGoogleBooksLazyQuery>;
+export type SearchGoogleBooksSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksSuspenseQuery>;
+export type SearchGoogleBooksQueryResult = Apollo.QueryResult<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>;
 export const GetAllUsersDocument = gql`
     query GetAllUsers {
   users {

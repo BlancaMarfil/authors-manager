@@ -95,7 +95,7 @@ const RegistrationForm = ({ origin }: Props) => {
     }
     if (token) {
       authCtx.onLogin(token);
-      router.push("/home");
+      // router.push("/");
     }
     setSubmitting(false);
   };

@@ -1,8 +1,20 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  from,
+} from "@apollo/client";
+import { RestLink } from "apollo-link-rest";
+
+const restLink = new RestLink({ uri: process.env.GOOGLE_BOOKS_API_URL });
+
+const graphQLLink = createHttpLink({
+  uri: process.env.GRAPHQL_ENDPOINT,
+});
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
+  link: from([restLink, graphQLLink]),
 });
 
 export default client;
