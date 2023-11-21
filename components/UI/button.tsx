@@ -35,8 +35,12 @@ const StyledButton = styled.button<{ buttonStyle?: string }>`
   font-family: ${({ theme }) => theme.fontFamily};
   font-size: ${({ theme }) => theme.dimensions.base3};
   font-weight: 400;
+  ${(props) => getStyles(props)};
+  width: 100%;
 
-  ${(props) => getStyles(props)}
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    width: revert;
+  }
 `;
 
 interface Props {

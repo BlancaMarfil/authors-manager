@@ -1,16 +1,29 @@
 import styled from "styled-components";
 import RegistrationBox from "./registrationBox";
+import { RegistrationType } from "../types/types";
 
 const Title = styled.h1`
-  margin-top: ${({ theme }) => theme.dimensions.base8};
-  ${({ theme }) => theme.fontTypes.h1}
+  margin-top: ${({ theme }) => theme.dimensions.base4};
+  fontsize: ${({ theme }) => theme.dimensions.base3};
+  lineheight: ${({ theme }) => theme.dimensions.base3};
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    margin-top: ${({ theme }) => theme.dimensions.base8};
+    ${({ theme }) => theme.fontTypes.h1}
+  }
 `;
 
-const RegistrationBlock = ({ children }: { children: JSX.Element[] }) => {
+interface Props {
+  children: JSX.Element[];
+  origin?: RegistrationType;
+}
+
+const RegistrationBlock = (props: Props) => {
+  const { origin = "login", children } = props;
+
   return (
     <>
       <Title>Find your next great book</Title>
-      <RegistrationBox>{children}</RegistrationBox>
+      <RegistrationBox origin={origin}>{children}</RegistrationBox>
     </>
   );
 };

@@ -1,3 +1,4 @@
+import LastReadBlock from "../components/LastReadBlock";
 import Loader from "../components/UI/Loader";
 import { useSearchGoogleBooksQuery } from "../graphql/generated";
 import { InferredBooks, InferredVolumeInfo } from "../types/types";
@@ -15,7 +16,7 @@ const Home = () => {
 
   console.log("BOOK", bookLastRead);
 
-  return <>{loading ? <Loader /> : <div>Hello</div>}</>;
+  return <>{loading ? <Loader /> : <LastReadBlock />}</>;
 };
 
 export default Home;

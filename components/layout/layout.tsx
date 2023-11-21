@@ -2,8 +2,11 @@ import styled from "styled-components";
 import Header from "./Header";
 
 const Container = styled.div`
-  width: 80%;
-  margin: auto;
+  padding: 0 ${({ theme }) => theme.dimensions.base2};
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    width: 80%;
+    margin: auto;
+  }
 `;
 
 const Layout = ({ children }: { children: any }) => {

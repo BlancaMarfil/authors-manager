@@ -18,21 +18,29 @@ const StyledRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: ${({ theme }) => theme.dimensions.base5};
+  gap: ${({ theme }) => theme.dimensions.base3};
+`;
+
+const StyledDivLabel = styled.div`
+  width: 30%;
+  text-align: end;
 `;
 
 const StyledLabel = styled.label`
   width: 100%;
   text-align: end;
-  ${({ theme }) => theme.fontTypes.medium}
-  flex: 1;
+  font-size: 20px;
+  line-height: ${({ theme }) => theme.dimensions.base3};
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    ${({ theme }) => theme.fontTypes.medium}
+  }
 `;
 
 const StyledField = styled(Field)`
+  width: 66%;
   height: ${({ theme }) => theme.dimensions.base5};
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: ${({ theme }) => theme.dimensions.base3};
-  flex: 2;
   padding: 0 ${({ theme }) => theme.dimensions.base2};
   color: ${({ theme }) => theme.colors.gray};
   font-size: ${({ theme }) => theme.dimensions.base2};
@@ -147,10 +155,12 @@ const RegistrationForm = ({ origin }: Props) => {
       onSubmit={onSubmit}
     >
       <Form>
-        <RegistrationBlock>
+        <RegistrationBlock origin={origin}>
           <StyledRowBlock>
             <StyledRow>
-              <StyledLabel htmlFor="email">Email</StyledLabel>
+              <StyledDivLabel>
+                <StyledLabel htmlFor="email">Email</StyledLabel>
+              </StyledDivLabel>
               <StyledField type="email" id="email" name="email" />
             </StyledRow>
             <StyledError name="email" component="div" />
@@ -158,7 +168,9 @@ const RegistrationForm = ({ origin }: Props) => {
 
           <StyledRowBlock>
             <StyledRow>
-              <StyledLabel htmlFor="password">Password</StyledLabel>
+              <StyledDivLabel>
+                <StyledLabel htmlFor="password">Password</StyledLabel>
+              </StyledDivLabel>
               <StyledField type="password" id="password" name="password" />
             </StyledRow>
             <StyledError name="password" component="div" />
@@ -167,9 +179,11 @@ const RegistrationForm = ({ origin }: Props) => {
           {origin === "signup" && (
             <StyledRowBlock>
               <StyledRow>
-                <StyledLabel htmlFor="confirmPassword">
-                  Confirm Password
-                </StyledLabel>
+                <StyledDivLabel>
+                  <StyledLabel htmlFor="confirmPassword">
+                    Confirm Password
+                  </StyledLabel>
+                </StyledDivLabel>
                 <StyledField
                   type="password"
                   id="confirmPassword"

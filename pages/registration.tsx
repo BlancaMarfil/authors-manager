@@ -6,7 +6,6 @@ import RegistrationForm from "../components/registrationForm";
 import BackIcon from "../public/icons/arrow_back.svg";
 import { RegistrationType } from "../types/types";
 import theme from "../styles/theme";
-import { useGetAllUsersQuery } from "../graphql/generated";
 
 const BackContainer = styled.div`
   margin-top: ${({ theme }) => theme.dimensions.base4};
@@ -14,18 +13,23 @@ const BackContainer = styled.div`
   justify-content: center;
 `;
 
-const BackDiv = styled.div`
-  width: 38vw;
+const BackDiv = styled.div<{ origin?: RegistrationType }>`
   display: flex;
   gap: ${({ theme }) => theme.dimensions.base2};
   align-items: center;
   justify-content: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    width: 66vw;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    width: ${(props) => (props.origin === "login" ? "38vw" : "56vw")};
+  }
 `;
 
 const Registration = () => {
   const [registrationType, setRegistrationType] = useState<RegistrationType>();
-
-  const { loading, error, data } = useGetAllUsersQuery();
 
   return (
     <>
@@ -42,7 +46,7 @@ const Registration = () => {
               buttonStyle={"secondary"}
               onClick={() => setRegistrationType(null)}
             >
-              <BackDiv>
+              <BackDiv origin={registrationType}>
                 <BackIcon style={{ fill: theme.colors.sunsetRed }} />
                 Back
               </BackDiv>

@@ -42,6 +42,9 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    domains: ["www.google.com", "books.google.com"],
+  },
 };
 
 module.exports = nextConfig;

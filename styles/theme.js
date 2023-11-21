@@ -33,7 +33,13 @@ const fontTypes = {
     fontFamily: `${fontFamily}`,
     fontWeight: "bold",
     fontSize: `${dimensions.base8}`,
-    lineHeight: `${dimensions.base3}`,
+    lineHeight: `${dimensions.base8}`,
+  },
+  h2: {
+    margin: 0,
+    fontFamily: `${fontFamily}`,
+    fontSize: `${dimensions.base5}`,
+    lineHeight: `${dimensions.base4}`,
   },
   medium: {
     fontSize: `${dimensions.base3}`,
@@ -41,11 +47,18 @@ const fontTypes = {
   },
 };
 
+const breakpoints = {
+  small: "768px",
+  medium: "992px",
+  large: "1200px",
+};
+
 const theme = {
   fontFamily,
   colors,
   dimensions,
   fontTypes,
+  breakpoints,
 };
 
 export default theme;
