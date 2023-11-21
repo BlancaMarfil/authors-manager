@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import RegistrationBox from "./registrationBox";
+import RegistrationBox from "./RegistrationBox";
 import { RegistrationType } from "../types/types";
 
 const Title = styled.h1`

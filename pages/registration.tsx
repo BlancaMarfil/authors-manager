@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Button from "../components/UI/Button";
-import RegistrationBlock from "../components/registrationBlock";
+import RegistrationBlock from "../components/RegistrationBlock";
 import { useState } from "react";
-import RegistrationForm from "../components/registrationForm";
+import RegistrationForm from "../components/RegistrationForm";
 import BackIcon from "../public/icons/arrow_back.svg";
 import { RegistrationType } from "../types/types";
 import theme from "../styles/theme";

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import RegistrationBlock from "../components/registrationBlock";
+import RegistrationBlock from "./RegistrationBlock";
 import Button from "./UI/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegistrationType } from "../types/types";
