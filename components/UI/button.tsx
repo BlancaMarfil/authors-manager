@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 const primaryStyles = css`
+  padding: ${({ theme }) => theme.dimensions.base} 0;
   background: ${({ theme }) => theme.colors.sunsetRed};
   color: white;
   &:hover {
@@ -9,11 +10,11 @@ const primaryStyles = css`
 `;
 
 const secondaryStyles = css`
-  background: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.sunsetRed};
   border: 1px solid ${({ theme }) => theme.colors.sunsetRed};
   &:hover {
-    border-width: 2px;
+    background-color: ${({ theme }) => theme.colors.veryLightGray};
   }
 `;
 
@@ -28,7 +29,6 @@ const getStyles = ({ buttonStyle }: { buttonStyle?: string }) => {
 };
 
 const StyledButton = styled.button<{ buttonStyle?: string }>`
-  padding: ${({ theme }) => theme.dimensions.base} 0;
   border-radius: ${({ theme }) => theme.dimensions.base3};
   cursor: pointer;
   border: 0;

@@ -18,6 +18,7 @@ const BackDiv = styled.div<{ origin?: RegistrationType }>`
   gap: ${({ theme }) => theme.dimensions.base2};
   align-items: center;
   justify-content: center;
+  padding: ${({ theme }) => theme.dimensions.base} 0;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     width: 66vw;
