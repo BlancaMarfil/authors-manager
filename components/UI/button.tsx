@@ -14,7 +14,7 @@ const secondaryStyles = css`
   color: ${({ theme }) => theme.colors.sunsetRed};
   border: 1px solid ${({ theme }) => theme.colors.sunsetRed};
   &:hover {
-    background-color: ${({ theme }) => theme.colors.veryLightGray};
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   }
 `;
 

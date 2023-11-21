@@ -43,7 +43,11 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["www.google.com", "books.google.com"],
+    domains: [
+      "www.google.com",
+      "books.google.com",
+      "play-lh.googleusercontent.com",
+    ],
   },
 };
 
