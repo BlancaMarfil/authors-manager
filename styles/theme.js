@@ -36,7 +36,6 @@ const fontTypes = {
     lineHeight: `${dimensions.base8}`,
   },
   h2: {
-    margin: 0,
     fontFamily: `${fontFamily}`,
     fontSize: `${dimensions.base5}`,
     lineHeight: `${dimensions.base4}`,

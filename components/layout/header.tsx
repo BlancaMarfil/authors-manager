@@ -151,7 +151,7 @@ const Container = styled.div`
   }
 `;
 
-const MobileContent = styled.div<{ isVisible?: boolean }>`
+const MobileContent = styled.div<{ isvisible?: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
@@ -159,7 +159,7 @@ const MobileContent = styled.div<{ isVisible?: boolean }>`
   position: absolute;
   width: 100%;
   z-index: 1;
-  max-height: ${({ isVisible }) => (isVisible ? "200px" : "0")};
+  max-height: ${({ isvisible }) => (isvisible ? "200px" : "0")};
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
 `;
@@ -181,7 +181,7 @@ const Header = () => {
           <WebMenu onClickLogout={authCtx.onLogout} />
         )}
       </Container>
-      <MobileContent isVisible={menuVisible}>
+      <MobileContent isvisible={menuVisible}>
         <NavLinkMobile href="/" title="Home" />
         <NavLinkMobile href="/authors" title="Authors" />
         <NavLinkMobile href="/books" title="Books" />

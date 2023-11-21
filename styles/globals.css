@@ -6,8 +6,8 @@ body {
 }
 
 @font-face {
-  font-family: 'Vollkorn';
-  src: url('/fonts/Vollkorn-VariableFont_wght.ttf') format('truetype');
+  font-family: "Vollkorn";
+  src: url("/fonts/Vollkorn-VariableFont_wght.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -17,6 +17,10 @@ a {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3,
+h4,
 p {
   margin: 0;
 }
