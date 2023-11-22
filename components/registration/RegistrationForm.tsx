@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import RegistrationBlock from "./RegistrationBlock";
-import Button from "./UI/Button";
+import Button from "../UI/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { RegistrationType } from "../types/types";
-import { useLoginMutation, useSignUpMutation } from "../graphql/generated";
+import { RegistrationType } from "../../types/types";
+import { useLoginMutation, useSignUpMutation } from "../../graphql/generated";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 const StyledRowBlock = styled.div`
   display: flex;

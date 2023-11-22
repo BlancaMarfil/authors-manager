@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import RegistrationBox from "./RegistrationBox";
-import { RegistrationType } from "../types/types";
+import { RegistrationType } from "../../types/types";
 
 const Title = styled.h1`
   margin-top: ${({ theme }) => theme.dimensions.base4};

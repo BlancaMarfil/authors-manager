@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 interface Props {
-  children: JSX.Element[];
+  children: JSX.Element | JSX.Element[];
 }
 
 const BlockContainer = ({ children }: Props) => {

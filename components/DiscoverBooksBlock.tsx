@@ -13,7 +13,19 @@ const BlockContent = styled.div`
   position: relative;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    height: 350px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
     height: 408px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.large}) {
+    height: 480px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.fourK}) {
+    height: 300px;
   }
 `;
 
@@ -38,6 +50,10 @@ const BookContainer = styled.div<StyledProps>`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
     left: ${({ leftWeb }) => leftWeb};
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.fourK}) {
+    top: 0;
   }
 `;
 
@@ -90,7 +106,7 @@ const DiscoverBooksBlock = ({ isMobile }: Props) => {
                 leftTablet={leftArrTablet[i]}
                 leftMobile={leftArrMobile[i]}
               >
-                <CoverContainer key={i} imgSrc={img} height={bookHeight} />
+                <CoverContainer key={i} imgSrc={img} />
               </BookContainer>
             ))}
           </div>

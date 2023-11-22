@@ -47,6 +47,11 @@ const nextConfig = {
       "www.google.com",
       "books.google.com",
       "play-lh.googleusercontent.com",
+      "i0.wp.com",
+      "images.ctfassets.net",
+      "www.perfocal.com",
+      "learn.zoner.com",
+      "shotkit.com",
     ],
   },
 };

@@ -1,4 +1,4 @@
-import AuthorsBlock from "../components/AuthorsBlock";
+import AuthorsBlock from "../components/authors/AuthorsBlock";
 import DiscoverBooksBlock from "../components/DiscoverBooksBlock";
 import LastReadBlock from "../components/LastReadBlock";
 import Loader from "../components/UI/Loader";
@@ -28,7 +28,7 @@ const Home = () => {
       ) : (
         <>
           <LastReadBlock isMobile={isMobile} />
-          <AuthorsBlock isMobile={isMobile} />
+          <AuthorsBlock isMobile={isMobile} origin="home"/>
           <DiscoverBooksBlock isMobile={isMobile} />
         </>
       )}

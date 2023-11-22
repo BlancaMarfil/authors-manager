@@ -16,12 +16,8 @@ const PlusDiv = styled.div`
 `;
 
 const BlockContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${({ theme }) => theme.dimensions.base3};
-
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    display: flex;
     flex-direction: row;
     align-items: flex-start;
     gap: ${({ theme }) => theme.dimensions.base6};
@@ -86,7 +82,6 @@ const LastReadBlock = ({ isMobile }: Props) => {
       <ColoredBlockContainer color={theme.colors.limeGreen}>
         <BlockContent>
           <CoverContainer
-            height={isMobile ? "208px" : "347px"}
             imgSrc="https://books.google.com/books/publisher/content?id=be-ZAAAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE73U6ZL0097zOd0J7lKAIpFa6ztqwFyIQhcHickZXrti1F0Hg5U4y7NhKWiSy29mQYEu8dAlYBs-mBraEWHvElx60silnDwh81GP0KNnjiZpQcTSX23jtwOKtcZKJLFFgqh1vemr&source=gbs_api"
           />
           <InfoBlock>

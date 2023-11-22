@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RegistrationType } from "../types/types";
+import { RegistrationType } from "../../types/types";
 
 const StyledBox = styled.div<{ origin?: RegistrationType }>`
   margin-top: ${({ theme }) => theme.dimensions.base4};

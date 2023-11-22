@@ -1,25 +1,40 @@
 import styled from "styled-components";
 import Image from "next/image";
 
-const BookCover = styled.div<{ height: string }>`
+const BookCover = styled.div`
   flex: 1;
   position: relative;
-  width: 100%;
-  height: ${({ height }) => height};
-  border-radius: ${({ theme }) => theme.dimensions.base3};
+  width: 135px;
+  height: 208px;
+  border-radius: ${({ theme }) => theme.dimensions.base};
+  margin: auto;
+  margin-bottom: ${({ theme }) => theme.dimensions.base4};
   overflow: hidden;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    width: 100%;
+    height: 22vw;
+    border-radius: ${({ theme }) => theme.dimensions.base3};
+    margin-top: 0;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.fourK}) {
+    width: 100%;
+    height: 10vw;
+    border-radius: ${({ theme }) => theme.dimensions.base};
+    margin-top: 0;
+  }
 `;
 
 interface Props {
   imgSrc: string;
-  height: string;
 }
 
 const CoverContainer = (props: Props) => {
-  const { imgSrc, height } = props;
+  const { imgSrc } = props;
 
   return (
-    <BookCover height={height}>
+    <BookCover>
       <Image
         src={imgSrc}
         alt="Last Read Cover"

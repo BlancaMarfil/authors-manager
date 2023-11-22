@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import Button from "../components/UI/Button";
-import RegistrationBlock from "../components/RegistrationBlock";
+import RegistrationBlock from "../components/registration/RegistrationBlock";
 import { useState } from "react";
-import RegistrationForm from "../components/RegistrationForm";
+import RegistrationForm from "../components/registration/RegistrationForm";
 import BackIcon from "../public/icons/arrow_back.svg";
 import { RegistrationType } from "../types/types";
 import theme from "../styles/theme";
+
+const FormContainer = styled.div`
+  margin-bottom: ${({ theme }) => theme.dimensions.base10};
+`;
 
 const BackContainer = styled.div`
   margin-top: ${({ theme }) => theme.dimensions.base4};
@@ -40,7 +44,7 @@ const Registration = () => {
           <Button onClick={() => setRegistrationType("signup")}>Sign Up</Button>
         </RegistrationBlock>
       ) : (
-        <>
+        <FormContainer>
           <RegistrationForm origin={registrationType} />
           <BackContainer>
             <Button
@@ -53,7 +57,7 @@ const Registration = () => {
               </BackDiv>
             </Button>
           </BackContainer>
-        </>
+        </FormContainer>
       )}
     </>
   );

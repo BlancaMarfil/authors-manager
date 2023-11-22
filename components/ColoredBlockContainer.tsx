@@ -9,6 +9,7 @@ const ColoredBlock = styled.div<StyledProps>`
   margin: 0 -${({ theme }) => theme.dimensions.base2};
   padding: ${({ theme }) => theme.dimensions.base4};
   background-color: ${({ mobilecolor }) => mobilecolor};
+  height: fit-content;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     margin: 0;

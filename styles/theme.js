@@ -50,6 +50,7 @@ const breakpoints = {
   small: "768px",
   medium: "992px",
   large: "1200px",
+  fourK: "2560px",
 };
 
 const theme = {
