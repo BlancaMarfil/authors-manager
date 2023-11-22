@@ -73,7 +73,7 @@ const AuthorsBlock = ({ isMobile }: Props) => {
           {imgArray.map(
             (img, i) =>
               ((!isMobile && i !== 5) || isMobile) && (
-                <AuthorBlock>
+                <AuthorBlock key={i}>
                   <AuthorPicDiv>
                     <Image
                       src={img}

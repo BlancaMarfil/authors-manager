@@ -6,6 +6,7 @@ import theme from "../styles/theme";
 import BlockHeader from "./BlockHeader";
 import BlockContainer from "./BlockContainer";
 import ColoredBlockContainer from "./ColoredBlockContainer";
+import CoverContainer from "./CoverContainer";
 
 const PlusDiv = styled.div`
   display: flex;
@@ -86,14 +87,10 @@ const LastReadBlock = ({ isMobile }: Props) => {
 
       <ColoredBlockContainer color={theme.colors.limeGreen}>
         <BlockContent>
-          <div style={{ flex: 1 }}>
-            <Image
-              src="https://books.google.com/books/content?id=JMd1zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-              alt="Last Read Cover"
-              width={isMobile ? 135 : 225}
-              height={isMobile ? 208 : 347}
-            />
-          </div>
+          <CoverContainer
+            height={isMobile ? "208px" : "347px"}
+            imgSrc="https://books.google.com/books/publisher/content?id=be-ZAAAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE73U6ZL0097zOd0J7lKAIpFa6ztqwFyIQhcHickZXrti1F0Hg5U4y7NhKWiSy29mQYEu8dAlYBs-mBraEWHvElx60silnDwh81GP0KNnjiZpQcTSX23jtwOKtcZKJLFFgqh1vemr&source=gbs_api"
+          />
           <InfoBlock>
             <BookSeries>Muir Harbour #3</BookSeries>
             <BookTitle>Wedding at Sea</BookTitle>
