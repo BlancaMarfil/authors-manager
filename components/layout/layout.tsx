@@ -3,9 +3,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 const Container = styled.div`
-  padding: 0 ${({ theme }) => theme.dimensions.base2}
-    ${({ theme }) => theme.dimensions.base6};
+  padding: 0 ${({ theme }) => theme.dimensions.base2};
+  
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    padding: 0 ${({ theme }) => theme.dimensions.base2}
+      ${({ theme }) => theme.dimensions.base6};
     width: 80%;
     margin: auto;
   }

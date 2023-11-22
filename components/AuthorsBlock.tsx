@@ -10,8 +10,7 @@ const BlockContent = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: ${({ theme }) => theme.dimensions.base}
-    ${({ theme }) => theme.dimensions.base2};
+  padding: ${({ theme }) => theme.dimensions.base} 0;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     flex-wrap: no-wrap;

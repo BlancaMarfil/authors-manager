@@ -6,10 +6,12 @@ interface StyledProps {
 }
 
 const ColoredBlock = styled.div<StyledProps>`
-  padding: ${({ theme }) => theme.dimensions.base2};
+  margin: 0 -${({ theme }) => theme.dimensions.base2};
+  padding: ${({ theme }) => theme.dimensions.base4};
   background-color: ${({ mobilecolor }) => mobilecolor};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    margin: 0;
     padding: ${({ theme }) => theme.dimensions.base4};
     background-color: ${({ color }) => color};
     border: 1px solid ${({ color }) => color};

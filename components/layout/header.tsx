@@ -59,12 +59,14 @@ const WebMenu = ({ onClickLogout }: MenuProps) => {
   return (
     <StyledNav>
       <StyledLeftNav>
-        <Image
-          src="/icons/AuthorsManagerLogo.svg"
-          alt="AuthorsManagerLogo"
-          width={32}
-          height={32}
-        />
+        <div style={{ marginTop: "-2px" }}>
+          <Image
+            src="/icons/AuthorsManagerLogo.svg"
+            alt="AuthorsManagerLogo"
+            width={32}
+            height={32}
+          />
+        </div>
         <NavLink href="/" title="Home" />
         <NavLink href="/authors" title="Authors" />
         <NavLink href="/books" title="Books" />
