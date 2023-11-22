@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import Image from "next/image";
 import PlusIcon from "../../public/icons/plus.svg";
 import theme from "../../styles/theme";
+import Overlay from "../UI/Overlay";
 
 const AuthorBlock = styled.div`
   display: flex;
@@ -15,13 +16,7 @@ const AuthorBlock = styled.div`
   }
 `;
 
-const hoverStyle = css`
-  &:hover {
-    filter: brightness(0.5);
-  }
-`;
-
-const AuthorContainer = styled.div<{ search: string }>`
+const AuthorContainer = styled.div`
   width: ${({ theme }) => theme.dimensions.base17};
   height: ${({ theme }) => theme.dimensions.base17};
   border-radius: 50%;
@@ -68,7 +63,7 @@ const SingleAuthor = (props: Props) => {
 
   return (
     <AuthorBlock>
-      <AuthorContainer search={searchTheme.toString()}>
+      <AuthorContainer>
         {searchTheme && (
           <IconDiv>
             <PlusIcon
@@ -106,7 +101,7 @@ const NewAuthor = styled(AuthorContainer)`
 export const NewAuthorSection = () => {
   return (
     <AuthorBlock>
-      <NewAuthor search={"false"}>
+      <NewAuthor>
         <PlusIcon
           width={40}
           height={40}

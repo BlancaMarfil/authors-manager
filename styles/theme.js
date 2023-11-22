@@ -46,6 +46,12 @@ const fontTypes = {
   },
 };
 
+const fontWeights = {
+  regular: 100,
+  semiBold: 400,
+  bold: 600,
+};
+
 const breakpoints = {
   small: "768px",
   medium: "992px",
@@ -58,6 +64,7 @@ const theme = {
   colors,
   dimensions,
   fontTypes,
+  fontWeights,
   breakpoints,
 };
 
