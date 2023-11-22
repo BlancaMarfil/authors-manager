@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import Header from "./Header";
+import Footer from "./Footer";
 
 const Container = styled.div`
-  padding: 0 ${({ theme }) => theme.dimensions.base2};
+  padding: 0 ${({ theme }) => theme.dimensions.base2}
+    ${({ theme }) => theme.dimensions.base6};
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     width: 80%;
     margin: auto;
@@ -14,6 +16,7 @@ const Layout = ({ children }: { children: any }) => {
     <>
       <Header />
       <Container>{children}</Container>
+      <Footer />
     </>
   );
 };

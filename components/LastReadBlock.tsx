@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import Image from "next/image";
-import Button from "./UI/Button";
 import PlusIcon from "../public/icons/plus.svg";
 import theme from "../styles/theme";
 import BlockHeader from "./BlockHeader";

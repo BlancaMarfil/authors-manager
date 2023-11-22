@@ -3,7 +3,6 @@ import BlockContainer from "./BlockContainer";
 import BlockHeader from "./BlockHeader";
 import ColoredBlockContainer from "./ColoredBlockContainer";
 import theme from "../styles/theme";
-import Image from "next/image";
 import CoverContainer from "./CoverContainer";
 import Button from "./UI/Button";
 
