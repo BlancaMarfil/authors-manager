@@ -37,6 +37,18 @@ const NavLink = (props: NavLinkProps) => {
   );
 };
 
+// ------------------------ NAV LINK GROUP ------------------------
+const NavLinkGroup = () => {
+  return (
+    <>
+      <NavLink href="/" title="Home" />
+      <NavLink href="/authors" title="Authors" />
+      <NavLink href="/books" title="Books" />
+      <NavLink href="/search" title="Search" />
+    </>
+  );
+};
+
 // ------------------------ WEB ------------------------
 const StyledNav = styled.div`
   display: flex;
@@ -66,9 +78,7 @@ const WebMenu = ({ onClickLogout }: MenuProps) => {
             height={32}
           />
         </div>
-        <NavLink href="/" title="Home" />
-        <NavLink href="/authors" title="Authors" />
-        <NavLink href="/books" title="Books" />
+        <NavLinkGroup />
       </StyledLeftNav>
       <NavLink href="/" title="Log Out" onClick={() => onClickLogout()} />
     </StyledNav>
@@ -179,9 +189,7 @@ const Header = () => {
         )}
       </Container>
       <MobileContent menuvisible={menuVisible.toString()}>
-        <NavLinkMobile href="/" title="Home" />
-        <NavLinkMobile href="/authors" title="Authors" />
-        <NavLinkMobile href="/books" title="Books" />
+        <NavLinkGroup />
       </MobileContent>
     </>
   );
