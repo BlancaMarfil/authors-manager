@@ -40,6 +40,7 @@ const AuthorsSection = (props: Props) => {
         (img, i) =>
           i < numberToShow && (
             <SingleAuthor
+              key={i}
               imgSrc={img}
               name={"J. K. Rowling"}
               color={color}

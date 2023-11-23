@@ -3,12 +3,14 @@ import Image from "next/image";
 import PlusIcon from "../../public/icons/plus.svg";
 import theme from "../../styles/theme";
 import Overlay from "../UI/Overlay";
+import Link from "next/link";
 
 const AuthorBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.dimensions.base};
   margin-bottom: ${({ theme }) => theme.dimensions.base2};
+  cursor: pointer;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     margin-bottom: 0;
@@ -56,34 +58,37 @@ interface Props {
   name: string;
   color: string;
   searchTheme: boolean;
+  showName?: boolean;
 }
 
 const SingleAuthor = (props: Props) => {
-  const { imgSrc, name, color, searchTheme } = props;
+  const { imgSrc, name, color, searchTheme, showName = true } = props;
 
   return (
-    <AuthorBlock>
-      <AuthorContainer>
-        {searchTheme && (
-          <IconDiv>
-            <PlusIcon
-              width={56}
-              height={56}
-              style={{ fill: theme.colors.white }}
-            />
-          </IconDiv>
-        )}
-        <Image
-          src={imgSrc}
-          width={500}
-          height={500}
-          layout="responsive"
-          objectFit="cover"
-          objectPosition="center center"
-        />
-      </AuthorContainer>
-      <AuthorName color={color}>{name}</AuthorName>
-    </AuthorBlock>
+    <Link href="/authors/1234">
+      <AuthorBlock>
+        <AuthorContainer>
+          {searchTheme && (
+            <IconDiv>
+              <PlusIcon
+                width={56}
+                height={56}
+                style={{ fill: theme.colors.white }}
+              />
+            </IconDiv>
+          )}
+          <Image
+            src={imgSrc}
+            width={500}
+            height={500}
+            layout="responsive"
+            objectFit="cover"
+            objectPosition="center center"
+          />
+        </AuthorContainer>
+        {showName && <AuthorName color={color}>{name}</AuthorName>}
+      </AuthorBlock>
+    </Link>
   );
 };
 
