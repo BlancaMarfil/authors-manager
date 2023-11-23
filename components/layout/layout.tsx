@@ -9,12 +9,13 @@ const Parent = styled.div`
 const Container = styled.div`
   padding: 0 ${({ theme }) => theme.dimensions.base2};
   min-height: 100vh;
+  width: 90%;
+  margin: auto;
   
-  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
     padding: 0 ${({ theme }) => theme.dimensions.base2}
       ${({ theme }) => theme.dimensions.base6};
     width: 80%;
-    margin: auto;
   }
 `;
 

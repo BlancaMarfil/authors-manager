@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-top: ${({ theme }) => theme.dimensions.base3};
+  margin: ${({ theme }) => theme.dimensions.base3} 0;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.dimensions.base};
+  gap: ${({ theme }) => theme.dimensions.base2};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     margin-top: ${({ theme }) => theme.dimensions.base7};
+    margin-bottom: 0;
     gap: ${({ theme }) => theme.dimensions.base3};
   }
 `;

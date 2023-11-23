@@ -10,9 +10,13 @@ const Container = styled.div`
 `;
 
 const BookCover = styled.div`
-  height: 380px;
+  height: 200px;
   aspect-ratio: 1/1.5;
   position: relative;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    height: 380px;
+  }
 `;
 
 const TitleAuthorDiv = styled.div`
@@ -35,10 +39,16 @@ const BookAuthor = styled.p`
 `;
 
 const ReadText = styled.p`
-  font-size: ${({ theme }) => theme.dimensions.base5};
-  line-height: ${({ theme }) => theme.dimensions.base5};
+  font-size: 20px;
+  line-height: 22px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    font-size: ${({ theme }) => theme.dimensions.base5};
+    line-height: ${({ theme }) => theme.dimensions.base5};
+  }
 `;
 
 interface Props {
@@ -59,7 +69,7 @@ const SingleBook = (props: Props) => {
       <BookCover>
         {date && (
           <Overlay>
-            <ReadText>{formattedDate}</ReadText>
+            <ReadText>READ {formattedDate}</ReadText>
           </Overlay>
         )}
         <Image src={imgSrc} alt={title} layout="fill" objectFit="cover" />

@@ -3,9 +3,14 @@ import SingleBook from "./SingleBook";
 
 const Container = styled.div<{ wrap: string }>`
   display: flex;
+  justify-content: center;
   column-gap: ${({ theme }) => theme.dimensions.base5};
   row-gap: ${({ theme }) => theme.dimensions.base4};
   flex-wrap: ${({ wrap }) => wrap};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    justify-content: flex-start;
+  }
 `;
 
 interface Props {
