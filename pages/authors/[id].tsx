@@ -11,7 +11,7 @@ const Author = () => {
   return (
     <>
       <AuthorNameBlock />
-      <SeriesBlock />
+      <SeriesBlock title="Series"/>
       <StandAloneBlock />
     </>
   );

@@ -1,6 +1,6 @@
-import BlockContainer from "../components/BlockContainer";
-import BlockHeader from "../components/BlockHeader";
-import BooksSection from "../components/books/BooksSection";
+import BlockContainer from "../../components/BlockContainer";
+import BlockHeader from "../../components/BlockHeader";
+import BooksSection from "../../components/books/BooksSection";
 
 const Books = () => {
   return (

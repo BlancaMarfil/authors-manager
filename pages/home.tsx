@@ -1,6 +1,6 @@
 import AuthorsBlock from "../components/authors/AuthorsBlock";
 import DiscoverBooksBlock from "../components/DiscoverBooksBlock";
-import LastReadBlock from "../components/LastReadBlock";
+import BookBlock from "../components/BookBlock";
 import Loader from "../components/UI/Loader";
 import { useSearchGoogleBooksQuery } from "../graphql/generated";
 import useIsMobile from "../hooks/useIsMobile";
@@ -27,7 +27,7 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          <LastReadBlock isMobile={isMobile} />
+          <BookBlock isMobile={isMobile} isLastRead/>
           <AuthorsBlock isMobile={isMobile} origin="home"/>
           <DiscoverBooksBlock isMobile={isMobile} />
         </>

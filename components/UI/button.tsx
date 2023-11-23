@@ -14,7 +14,17 @@ const secondaryStyles = css`
   color: ${({ theme }) => theme.colors.sunsetRed};
   border: 1px solid ${({ theme }) => theme.colors.sunsetRed};
   &:hover {
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    ${({ theme }) => theme.boxShadows.button};
+  }
+`;
+
+const terciaryStyles = css`
+  background-color: ${({ theme }) => theme.colors.lightGray};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: 12px;
+  padding: ${({ theme }) => theme.dimensions.base} 0;
+  &:hover {
+    opacity: 0.7;
   }
 `;
 
@@ -23,6 +33,8 @@ const getStyles = ({ buttonStyle }: { buttonStyle?: string }) => {
     return primaryStyles;
   } else if (buttonStyle === "secondary") {
     return secondaryStyles;
+  }else if (buttonStyle === "terciary") {
+    return terciaryStyles;
   } else {
     return primaryStyles;
   }

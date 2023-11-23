@@ -59,6 +59,10 @@ const breakpoints = {
   fourK: "2560px",
 };
 
+const boxShadows = {
+  button: "box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3)",
+};
+
 const theme = {
   fontFamily,
   colors,
@@ -66,6 +70,7 @@ const theme = {
   fontTypes,
   fontWeights,
   breakpoints,
+  boxShadows
 };
 
 export default theme;

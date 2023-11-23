@@ -2,11 +2,13 @@ import styled from "styled-components";
 import Image from "next/image";
 import { format } from "date-fns";
 import Overlay from "../UI/Overlay";
+import Link from "next/link";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.dimensions.base2};
+  cursor: pointer;
 `;
 
 const BookCover = styled.div`
@@ -65,21 +67,23 @@ const SingleBook = (props: Props) => {
   const formattedDate = format(date, "dd/MM/yyyy");
 
   return (
-    <Container>
-      <BookCover>
-        {date && (
-          <Overlay>
-            <ReadText>READ {formattedDate}</ReadText>
-          </Overlay>
-        )}
-        <Image src={imgSrc} alt={title} layout="fill" objectFit="cover" />
-      </BookCover>
+    <Link href="/books/3456">
+      <Container>
+        <BookCover>
+          {date && (
+            <Overlay>
+              <ReadText>READ {formattedDate}</ReadText>
+            </Overlay>
+          )}
+          <Image src={imgSrc} alt={title} layout="fill" objectFit="cover" />
+        </BookCover>
 
-      <TitleAuthorDiv>
-        <BookTitle>{title}</BookTitle>
-        <BookAuthor>{author}</BookAuthor>
-      </TitleAuthorDiv>
-    </Container>
+        <TitleAuthorDiv>
+          <BookTitle>{title}</BookTitle>
+          <BookAuthor>{author}</BookAuthor>
+        </TitleAuthorDiv>
+      </Container>
+    </Link>
   );
 };
 
