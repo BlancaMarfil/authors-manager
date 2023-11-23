@@ -15,10 +15,11 @@ const Container = styled.div`
 
 interface Props {
   children: JSX.Element | JSX.Element[];
+  className?: any;
 }
 
-const BlockContainer = ({ children }: Props) => {
-  return <Container>{children}</Container>;
+const BlockContainer = ({ children, className }: Props) => {
+  return <Container className={className}>{children}</Container>;
 };
 
 export default BlockContainer;

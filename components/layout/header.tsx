@@ -36,7 +36,6 @@ const NavLink = (props: NavLinkProps) => {
     </Link>
   );
 };
-// -----------------------------------------------
 
 // ------------------------ WEB ------------------------
 const StyledNav = styled.div`
@@ -75,7 +74,6 @@ const WebMenu = ({ onClickLogout }: MenuProps) => {
     </StyledNav>
   );
 };
-// ------------------------------------------------
 
 // ------------------------ MOBILE ------------------------
 const StyledMobileNav = styled.div`
@@ -111,7 +109,6 @@ const MobileMenu = (props: MobileMenuProps) => {
     </>
   );
 };
-// ------------------------------------------------
 
 // ------------------------ NAV LINK MOBILE ------------------------
 const MobileLinkDiv = styled.div`
@@ -138,8 +135,6 @@ const NavLinkMobile = (props: NavLinkProps) => {
     </Link>
   );
 };
-
-// ------------------------------------------------
 
 // ------------------------ MAIN ------------------------
 const Container = styled.div`

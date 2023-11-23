@@ -7,6 +7,7 @@ const SeriesBlock = () => {
     <BlockContainer>
       <BlockHeader title="Series" lined />
       <SerieSection title={"Muir Harbour"} />
+      <SerieSection title={"Morning Sun"} />
     </BlockContainer>
   );
 };

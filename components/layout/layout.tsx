@@ -9,7 +9,7 @@ const Parent = styled.div`
 const Container = styled.div`
   padding: 0 ${({ theme }) => theme.dimensions.base2};
   min-height: 100vh;
-  width: 90%;
+  width: 100%;
   margin: auto;
   
   @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {

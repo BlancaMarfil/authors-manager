@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import SingleBook from "./SingleBook";
-import { ForwardedRef, forwardRef, useEffect, useRef } from "react";
-import { useIsOverflow } from "../../hooks/useIsOverflow";
+import { useRef } from "react";
 
 const Container = styled.div<{ wrap: string }>`
   display: flex;
@@ -12,30 +11,32 @@ const Container = styled.div<{ wrap: string }>`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
     justify-content: flex-start;
-    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
     position: relative;
-  }
-`;
+    padding-bottom: 10px;
 
-const FadeEffect = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 200px;
-  background: linear-gradient(270deg, #fff -10%, transparent);
-  pointer-events: none;
-  z-index: 1;
+    /* For WebKit (Chrome, Safari) */
+    &::-webkit-scrollbar {
+      height: ${({ theme }) => theme.dimensions.base05};
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: ${({ theme }) => theme.colors.oceanBlue};
+    }
+
+    /* For Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: ${({ theme }) => theme.colors.oceanBlue} transparent;
+
+  }
 `;
 
 interface Props {
   wrap: "wrap" | "no-wrap";
-  sendOverflow?: () => void;
 }
 
-const BooksSection = (props: Props) => {
-  const { wrap, sendOverflow } = props;
-
+const BooksSection = ({ wrap }: Props) => {
   const imgArr = [
     "https://books.google.com/books/content?id=JMd1zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
     "https://books.google.com/books/publisher/content?id=ScxnAgAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE71eXf3Tx4ySZRLcO0e6wQJzm1pXOx9nvQigqz3rYkf1sfmbjGvkyznuK89-wKxw6ePD_88TkDFT5_wzWIt-K3jRVCsXfeZBjra6LNVGe-gtIEWdc1dJDbfv4hpKG47zmOIJsUF7&source=gbs_api",
@@ -46,29 +47,18 @@ const BooksSection = (props: Props) => {
   ];
 
   const ref = useRef();
-  const isOverflow = useIsOverflow(ref, (isOverflowFromCallback: any) => {
-    console.log("OVERFLOW", isOverflowFromCallback);
-  });
-
-  useEffect(() => {
-    console.log("ISOVERFLOW EFFECT", isOverflow);
-    isOverflow && sendOverflow && sendOverflow();
-  }, [isOverflow, sendOverflow]);
 
   return (
-    <>
-      <Container wrap={wrap} ref={ref}>
-        {imgArr.map((img, i) => (
-          <SingleBook
-            key={i}
-            imgSrc={img}
-            title="Wedding at sea"
-            author="Melissa Tagg"
-          />
-        ))}
-        {isOverflow && <FadeEffect />}
-      </Container>
-    </>
+    <Container wrap={wrap} ref={ref}>
+      {imgArr.map((img, i) => (
+        <SingleBook
+          key={i}
+          imgSrc={img}
+          title="Wedding at sea"
+          author="Melissa Tagg"
+        />
+      ))}
+    </Container>
   );
 };
 export default BooksSection;

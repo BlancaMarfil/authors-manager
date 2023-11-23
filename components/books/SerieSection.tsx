@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import BooksSection from "./BooksSection";
-import Button from "../UI/Button";
-import { useRef, useState } from "react";
-import { useIsOverflow } from "../../hooks/useIsOverflow";
+import { useEffect, useRef, useState } from "react";
+import useIsMobile from "../../hooks/useIsMobile";
+import ArrowDown from "../../public/icons/arrow_back.svg";
 
 const Container = styled.div`
   display: flex;
@@ -14,6 +14,11 @@ const TitleHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 ${({ theme }) => theme.dimensions.base};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    padding: 0;
+  }
 `;
 
 const StyledTitle = styled.p`
@@ -22,9 +27,10 @@ const StyledTitle = styled.p`
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
 `;
 
-const ButtonDiv = styled.div`
-  padding: 2px 10px;
-  font-size: 20px;
+const StyledBookSection = styled.div<{ maxheight: string }>`
+  max-height: ${({ maxheight }) => maxheight + "px"};
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 `;
 
 interface Props {
@@ -33,19 +39,46 @@ interface Props {
 
 const SerieSection = (props: Props) => {
   const { title } = props;
-  const [isOverflow, setIsOverflow] = useState(false);
+  const { isMobile } = useIsMobile();
+
+  // Mobile
+  const [showContent, setShowContent] = useState(false);
+  const [contentHeight, setContentHeight] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const typeWrap = isMobile ? "wrap" : "no-wrap";
+
+  useEffect(() => {
+    if (showContent) {
+      if (contentRef.current) {
+        const contentHeight = contentRef.current.scrollHeight;
+        setContentHeight(contentHeight);
+      }
+    } else {
+      setContentHeight(0);
+    }
+  }, [showContent, contentHeight]);
+
+  const booksSectionComponent = (
+    <BooksSection wrap={typeWrap} />
+  );
 
   return (
     <Container>
-      <TitleHeader>
+      <TitleHeader onClick={() => setShowContent(!showContent)}>
         <StyledTitle>{title}</StyledTitle>
-        {isOverflow && (
-          <Button buttonStyle="secondary">
-            <ButtonDiv>See more</ButtonDiv>
-          </Button>
-        )}
+        {isMobile && <ArrowDown />}
       </TitleHeader>
-      <BooksSection wrap="no-wrap" sendOverflow={() => setIsOverflow(true)} />
+      {isMobile ? (
+        <StyledBookSection
+          maxheight={contentHeight.toString()}
+          ref={contentRef}
+        >
+          {booksSectionComponent}
+        </StyledBookSection>
+      ) : (
+        booksSectionComponent
+      )}
     </Container>
   );
 };

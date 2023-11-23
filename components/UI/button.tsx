@@ -40,6 +40,7 @@ const StyledButton = styled.button<{ buttonStyle?: string }>`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     width: revert;
+    height: fit-content;
   }
 `;
 
