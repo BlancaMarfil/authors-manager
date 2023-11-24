@@ -1,6 +1,6 @@
-query GetAllUsers {
-    users {
-      userId
-      email
-    }
+query getUserByToken($token: String!) {
+  userByToken(token: $token) {
+    userId
+    email
   }
+}

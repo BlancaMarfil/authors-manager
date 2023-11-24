@@ -24,6 +24,43 @@ export type AuthUser = {
   userId: Scalars['String']['output'];
 };
 
+export type AuthorToCatalogueInput = {
+  authorId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type BookEntry = {
+  __typename?: 'BookEntry';
+  _id: Scalars['ID']['output'];
+  bookEntryId: Scalars['String']['output'];
+  bookId: Scalars['String']['output'];
+  dateRead: Scalars['String']['output'];
+};
+
+export type BookEntryInput = {
+  bookId: Scalars['String']['input'];
+  dateRead: Scalars['String']['input'];
+};
+
+export type BookFromCatalogueInput = {
+  bookId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type BookToCatalogueInput = {
+  bookId: Scalars['String']['input'];
+  dateRead: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type Catalogue = {
+  __typename?: 'Catalogue';
+  _id: Scalars['ID']['output'];
+  authors: Array<Scalars['String']['output']>;
+  bookEntries: Array<Maybe<BookEntry>>;
+  userId: Scalars['String']['output'];
+};
+
 export type GoogleBook = {
   __typename?: 'GoogleBook';
   id: Scalars['String']['output'];
@@ -39,8 +76,28 @@ export type ImageLinks = {
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']['output']>;
+  addAuthorToUserCatalogue?: Maybe<Catalogue>;
+  addBookToUserCatalogue?: Maybe<Catalogue>;
+  createBookEntry?: Maybe<BookEntry>;
   createUser?: Maybe<AuthUser>;
   loginUser?: Maybe<AuthUser>;
+  removeAuthorFromUserCatalogue?: Maybe<Catalogue>;
+  removeBookFromUserCatalogue?: Maybe<Catalogue>;
+};
+
+
+export type MutationAddAuthorToUserCatalogueArgs = {
+  input?: InputMaybe<AuthorToCatalogueInput>;
+};
+
+
+export type MutationAddBookToUserCatalogueArgs = {
+  input?: InputMaybe<BookToCatalogueInput>;
+};
+
+
+export type MutationCreateBookEntryArgs = {
+  input?: InputMaybe<BookEntryInput>;
 };
 
 
@@ -53,12 +110,41 @@ export type MutationLoginUserArgs = {
   credentials?: InputMaybe<UserInput>;
 };
 
+
+export type MutationRemoveAuthorFromUserCatalogueArgs = {
+  input?: InputMaybe<AuthorToCatalogueInput>;
+};
+
+
+export type MutationRemoveBookFromUserCatalogueArgs = {
+  input?: InputMaybe<BookFromCatalogueInput>;
+};
+
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']['output']>;
+  authorsByUserId?: Maybe<Array<Scalars['String']['output']>>;
+  bookEntriesByUserId: Array<Maybe<BookEntry>>;
+  bookEntryById: BookEntry;
   searchGoogleBooks: SearchBooks;
   userById?: Maybe<User>;
+  userByToken?: Maybe<User>;
   users?: Maybe<Array<User>>;
+};
+
+
+export type QueryAuthorsByUserIdArgs = {
+  userId: Scalars['String']['input'];
+};
+
+
+export type QueryBookEntriesByUserIdArgs = {
+  userId: Scalars['String']['input'];
+};
+
+
+export type QueryBookEntryByIdArgs = {
+  bookEntryId: Scalars['String']['input'];
 };
 
 
@@ -70,6 +156,11 @@ export type QuerySearchGoogleBooksArgs = {
 
 export type QueryUserByIdArgs = {
   userId: Scalars['String']['input'];
+};
+
+
+export type QueryUserByTokenArgs = {
+  token: Scalars['String']['input'];
 };
 
 export type SearchBooks = {
@@ -128,10 +219,12 @@ export type SearchGoogleBooksQueryVariables = Exact<{
 
 export type SearchGoogleBooksQuery = { __typename?: 'Query', searchGoogleBooks: { __typename?: 'SearchBooks', totalItems: number, items?: Array<{ __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string } } }> | null } };
 
-export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetUserByTokenQueryVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
 
 
-export type GetAllUsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', userId: string, email: string }> | null };
+export type GetUserByTokenQuery = { __typename?: 'Query', userByToken?: { __typename?: 'User', userId: string, email: string } | null };
 
 
 export const SignUpDocument = gql`
@@ -261,9 +354,9 @@ export type SearchGoogleBooksQueryHookResult = ReturnType<typeof useSearchGoogle
 export type SearchGoogleBooksLazyQueryHookResult = ReturnType<typeof useSearchGoogleBooksLazyQuery>;
 export type SearchGoogleBooksSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksSuspenseQuery>;
 export type SearchGoogleBooksQueryResult = Apollo.QueryResult<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>;
-export const GetAllUsersDocument = gql`
-    query GetAllUsers {
-  users {
+export const GetUserByTokenDocument = gql`
+    query getUserByToken($token: String!) {
+  userByToken(token: $token) {
     userId
     email
   }
@@ -271,33 +364,34 @@ export const GetAllUsersDocument = gql`
     `;
 
 /**
- * __useGetAllUsersQuery__
+ * __useGetUserByTokenQuery__
  *
- * To run a query within a React component, call `useGetAllUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUserByTokenQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAllUsersQuery({
+ * const { data, loading, error } = useGetUserByTokenQuery({
  *   variables: {
+ *      token: // value for 'token'
  *   },
  * });
  */
-export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+export function useGetUserByTokenQuery(baseOptions: Apollo.QueryHookOptions<GetUserByTokenQuery, GetUserByTokenQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+        return Apollo.useQuery<GetUserByTokenQuery, GetUserByTokenQueryVariables>(GetUserByTokenDocument, options);
       }
-export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+export function useGetUserByTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByTokenQuery, GetUserByTokenQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+          return Apollo.useLazyQuery<GetUserByTokenQuery, GetUserByTokenQueryVariables>(GetUserByTokenDocument, options);
         }
-export function useGetAllUsersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+export function useGetUserByTokenSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserByTokenQuery, GetUserByTokenQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+          return Apollo.useSuspenseQuery<GetUserByTokenQuery, GetUserByTokenQueryVariables>(GetUserByTokenDocument, options);
         }
-export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
-export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
-export type GetAllUsersSuspenseQueryHookResult = ReturnType<typeof useGetAllUsersSuspenseQuery>;
-export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
+export type GetUserByTokenQueryHookResult = ReturnType<typeof useGetUserByTokenQuery>;
+export type GetUserByTokenLazyQueryHookResult = ReturnType<typeof useGetUserByTokenLazyQuery>;
+export type GetUserByTokenSuspenseQueryHookResult = ReturnType<typeof useGetUserByTokenSuspenseQuery>;
+export type GetUserByTokenQueryResult = Apollo.QueryResult<GetUserByTokenQuery, GetUserByTokenQueryVariables>;

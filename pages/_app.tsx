@@ -9,13 +9,13 @@ import { AuthContextProvider } from "../context/AuthContext";
 function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <AuthContextProvider>
-        <Layout>
-          <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <AuthContextProvider>
+          <Layout>
             <Component {...pageProps} />
-          </ApolloProvider>
-        </Layout>
-      </AuthContextProvider>
+          </Layout>
+        </AuthContextProvider>
+      </ApolloProvider>
     </ThemeProvider>
   );
 }

@@ -6,7 +6,11 @@ import { useSearchGoogleBooksQuery } from "../graphql/generated";
 import useIsMobile from "../hooks/useIsMobile";
 import { InferredBooks, InferredVolumeInfo } from "../types/types";
 
-const Home = () => {
+interface Props {
+  userId?: string;
+}
+
+const Home = ({ userId }: Props) => {
   const { isMobile } = useIsMobile();
 
   const { data, loading, fetchMore } = useSearchGoogleBooksQuery({
@@ -27,8 +31,8 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          <BookBlock isMobile={isMobile} isLastRead/>
-          <AuthorsBlock isMobile={isMobile} origin="home"/>
+          <BookBlock isMobile={isMobile} isLastRead />
+          <AuthorsBlock isMobile={isMobile} origin="home" />
           <DiscoverBooksBlock isMobile={isMobile} />
         </>
       )}
