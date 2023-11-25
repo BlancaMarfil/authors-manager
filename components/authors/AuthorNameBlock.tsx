@@ -4,6 +4,13 @@ import ColoredBlockContainer from "../ColoredBlockContainer";
 import theme from "../../styles/theme";
 import SingleAuthor from "./SingleAuthor";
 import Button from "../UI/Button";
+import {
+  useFollowAuthorMutation,
+  useIsAuthorFollowedQuery,
+  useUnFollowAuthorMutation,
+} from "../../graphql/generated";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const StyledBlockContainer = styled(BlockContainer)`
   margin-top: 0;
@@ -37,14 +44,15 @@ const TextButtonDiv = styled.div`
   }
 `;
 
-const NameFollowingDiv = styled.div`
+const NameFollowingDiv = styled.div<{ following: string }>`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.dimensions.base};
   flex: 1;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
-    margin-top: ${({ theme }) => theme.dimensions.base6};
+    margin-top: ${({ following, theme }) =>
+      following === "true" ? theme.dimensions.base6 : 0};
     gap: ${({ theme }) => theme.dimensions.base2};
   }
 `;
@@ -82,9 +90,43 @@ const StyledButton = styled.div`
   }
 `;
 
-const AuthorNameBlock = () => {
-  const img =
-    "https://play-lh.googleusercontent.com/LSKVFRARxJltAbFMAbCOdgycL3p96M7S2IVX_rf7SAxb0JB492DjTW1hCV6nIZRujQ=w7680-h4320-rw";
+interface Props {
+  authorName: string;
+}
+
+const AuthorNameBlock = (props: Props) => {
+  const { authorName } = props;
+  const { userId } = useContext(AuthContext);
+  const [following, setFollowing] = useState<boolean>();
+
+  // Data
+  const [followAuthor] = useFollowAuthorMutation();
+  const [unFollowAuthor] = useUnFollowAuthorMutation();
+
+  const { data, loading } = useIsAuthorFollowedQuery({
+    variables: { userId: userId, authorName: authorName },
+  });
+
+  useEffect(() => {
+    if (data && data.findAuthorbyName) {
+      setFollowing(data.findAuthorbyName);
+    }
+  }, [data]);
+
+  // Actions
+  const handlefollowing = () => {
+    if (following) {
+      unFollowAuthor({ variables: { userId: userId, authorName: authorName } });
+      setFollowing(false);
+    } else {
+      followAuthor({ variables: { userId: userId, authorName: authorName } });
+      setFollowing(true);
+    }
+  };
+
+  // Style
+  const followButton = following ? "Unfollow" : "Follow";
+  const followButtonStyle = following ? "terciary" : "primary";
 
   return (
     <StyledBlockContainer>
@@ -94,21 +136,22 @@ const AuthorNameBlock = () => {
       >
         <Container>
           <SingleAuthor
-            imgSrc={img}
-            name={"J. K. Rowling"}
+            authorName={authorName}
             color={theme.colors.white}
             searchTheme={false}
             showName={false}
           />
-          <TextButtonDiv>
-            <NameFollowingDiv>
-              <StyledAuthorName>J. K. Rowling</StyledAuthorName>
-              <StyledFollow>Following</StyledFollow>
-            </NameFollowingDiv>
-            <Button>
-              <StyledButton>Follow</StyledButton>
-            </Button>
-          </TextButtonDiv>
+          {!loading && following !== undefined && (
+            <TextButtonDiv>
+              <NameFollowingDiv following={following.toString()}>
+                <StyledAuthorName>{authorName}</StyledAuthorName>
+                {following && <StyledFollow>Following</StyledFollow>}
+              </NameFollowingDiv>
+              <Button buttonStyle={followButtonStyle} onClick={handlefollowing}>
+                <StyledButton>{followButton}</StyledButton>
+              </Button>
+            </TextButtonDiv>
+          )}
         </Container>
       </ColoredBlockContainer>
     </StyledBlockContainer>

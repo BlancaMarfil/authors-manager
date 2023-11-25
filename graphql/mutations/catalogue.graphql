@@ -1,0 +1,15 @@
+mutation followAuthor($userId: String!, $authorName: String!) {
+  addAuthorToUserCatalogue(
+    input: { userId: $userId, authorName: $authorName }
+  ) {
+    authors
+  }
+}
+
+mutation unFollowAuthor($userId: String!, $authorName: String!) {
+  removeAuthorFromUserCatalogue(
+    input: { userId: $userId, authorName: $authorName }
+  ) {
+    authors
+  }
+}

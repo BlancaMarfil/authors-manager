@@ -1,11 +1,8 @@
-import styled, { css } from "styled-components";
-import Image from "next/image";
+import styled from "styled-components";
 import PlusIcon from "../../public/icons/plus.svg";
 import theme from "../../styles/theme";
-import Overlay from "../UI/Overlay";
 import Link from "next/link";
 import Avatar from "react-avatar";
-import { useSearchGoogleBooksQuery } from "../../graphql/generated";
 import { generateBackground } from "../../lib/utils/JSFunctions";
 
 const AuthorBlock = styled.div`
@@ -71,24 +68,16 @@ const IconDiv = styled.div`
 
 interface Props {
   authorName: string;
-  name: string;
   color: string;
   searchTheme: boolean;
   showName?: boolean;
 }
 
 const SingleAuthor = (props: Props) => {
-  const { authorName, name, color, searchTheme, showName = true } = props;
-
-  const { data, loading: loadingBooks } = useSearchGoogleBooksQuery({
-    variables: {
-      query: authorName,
-      apiKey: process.env.GOOGLE_API_KEY!,
-    },
-  });
+  const { authorName, color, searchTheme, showName = true } = props;
 
   return (
-    <Link href="/authors/1234">
+    <Link href={`/authors/${authorName}`}>
       <AuthorBlock>
         <AvatarContainer>
           {searchTheme && (
@@ -109,7 +98,7 @@ const SingleAuthor = (props: Props) => {
             style={{ fontFamily: theme.fontFamily }}
           />
         </AvatarContainer>
-        {showName && <AuthorName color={color}>{name}</AuthorName>}
+        {showName && <AuthorName color={color}>{authorName}</AuthorName>}
       </AuthorBlock>
     </Link>
   );

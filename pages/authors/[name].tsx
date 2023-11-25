@@ -6,12 +6,12 @@ import StandAloneBlock from "../../components/books/StandAloneBlock";
 
 const Author = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const name = router.query.name as string;
 
   return (
     <>
-      <AuthorNameBlock />
-      <SeriesBlock title="Series"/>
+      <AuthorNameBlock authorName={name} />
+      <SeriesBlock title="Series" />
       <StandAloneBlock />
     </>
   );

@@ -8,15 +8,19 @@ query getCatalogueUserId($userId: String!) {
   }
 }
 
+query getAuthorsByUserId($userId: String!) {
+  authorsByUserId(userId: $userId)
+}
+
+query isAuthorFollowed($userId: String!, $authorName: String!) {
+  findAuthorbyName(input: { userId: $userId, authorName: $authorName })
+}
+
 query getLastBookRead($userId: String!) {
   lastBookReadByUserId(userId: $userId) {
     bookId
     dateRead
   }
-}
-
-query getAuthorsByUserId($userId: String!) {
-  authorsByUserId(userId: $userId)
 }
 
 query getBooksByUserId($userId: String!) {

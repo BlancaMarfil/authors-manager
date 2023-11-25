@@ -20,7 +20,6 @@ const Home = () => {
   });
 
   const lastBookId = dataLastBook?.lastBookReadByUserId?.bookId;
-  console.log("LAST BOOK ID", lastBookId);
 
   const { data: dataBooks, loading: loadingBooks } = useSearchGoogleBooksQuery({
     variables: {
@@ -33,8 +32,6 @@ const Home = () => {
   const books: InferredBooks[] = dataBooks?.searchGoogleBooks?.items || [];
   const bookLastRead: InferredVolumeInfo = books[0]?.volumeInfo;
 
-  console.log("BOOK", bookLastRead);
-
   return (
     <>
       {loadingBooks ? (
@@ -42,7 +39,7 @@ const Home = () => {
       ) : (
         <>
           {lastBookId && <BookBlock isLastRead />}
-          <AuthorsBlock truncate={true}/>
+          <AuthorsBlock truncate={true} />
           <DiscoverBooksBlock />
         </>
       )}

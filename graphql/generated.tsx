@@ -25,7 +25,7 @@ export type AuthUser = {
 };
 
 export type AuthorToCatalogueInput = {
-  authorId: Scalars['String']['input'];
+  authorName: Scalars['String']['input'];
   userId: Scalars['String']['input'];
 };
 
@@ -127,6 +127,7 @@ export type Query = {
   bookEntriesByUserId: Array<Maybe<BookEntry>>;
   bookEntryById: BookEntry;
   catalogueByUserId?: Maybe<Catalogue>;
+  findAuthorbyName?: Maybe<Scalars['Boolean']['output']>;
   lastBookReadByUserId?: Maybe<BookEntry>;
   searchGoogleBooks: SearchBooks;
   userById?: Maybe<User>;
@@ -152,6 +153,11 @@ export type QueryBookEntryByIdArgs = {
 
 export type QueryCatalogueByUserIdArgs = {
   userId: Scalars['String']['input'];
+};
+
+
+export type QueryFindAuthorbyNameArgs = {
+  input?: InputMaybe<AuthorToCatalogueInput>;
 };
 
 
@@ -207,6 +213,22 @@ export type VolumeInfo = {
   title: Scalars['String']['output'];
 };
 
+export type FollowAuthorMutationVariables = Exact<{
+  userId: Scalars['String']['input'];
+  authorName: Scalars['String']['input'];
+}>;
+
+
+export type FollowAuthorMutation = { __typename?: 'Mutation', addAuthorToUserCatalogue?: { __typename?: 'Catalogue', authors: Array<string> } | null };
+
+export type UnFollowAuthorMutationVariables = Exact<{
+  userId: Scalars['String']['input'];
+  authorName: Scalars['String']['input'];
+}>;
+
+
+export type UnFollowAuthorMutation = { __typename?: 'Mutation', removeAuthorFromUserCatalogue?: { __typename?: 'Catalogue', authors: Array<string> } | null };
+
 export type SignUpMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -230,19 +252,27 @@ export type GetCatalogueUserIdQueryVariables = Exact<{
 
 export type GetCatalogueUserIdQuery = { __typename?: 'Query', catalogueByUserId?: { __typename?: 'Catalogue', authors: Array<string>, bookEntries: Array<{ __typename?: 'BookEntry', bookId: string, dateRead: string } | null> } | null };
 
-export type GetLastBookReadQueryVariables = Exact<{
-  userId: Scalars['String']['input'];
-}>;
-
-
-export type GetLastBookReadQuery = { __typename?: 'Query', lastBookReadByUserId?: { __typename?: 'BookEntry', bookId: string, dateRead: string } | null };
-
 export type GetAuthorsByUserIdQueryVariables = Exact<{
   userId: Scalars['String']['input'];
 }>;
 
 
 export type GetAuthorsByUserIdQuery = { __typename?: 'Query', authorsByUserId?: Array<string> | null };
+
+export type IsAuthorFollowedQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+  authorName: Scalars['String']['input'];
+}>;
+
+
+export type IsAuthorFollowedQuery = { __typename?: 'Query', findAuthorbyName?: boolean | null };
+
+export type GetLastBookReadQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type GetLastBookReadQuery = { __typename?: 'Query', lastBookReadByUserId?: { __typename?: 'BookEntry', bookId: string, dateRead: string } | null };
 
 export type GetBooksByUserIdQueryVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -267,6 +297,74 @@ export type GetUserByTokenQueryVariables = Exact<{
 export type GetUserByTokenQuery = { __typename?: 'Query', userByToken?: { __typename?: 'User', userId: string, email: string } | null };
 
 
+export const FollowAuthorDocument = gql`
+    mutation followAuthor($userId: String!, $authorName: String!) {
+  addAuthorToUserCatalogue(input: {userId: $userId, authorName: $authorName}) {
+    authors
+  }
+}
+    `;
+export type FollowAuthorMutationFn = Apollo.MutationFunction<FollowAuthorMutation, FollowAuthorMutationVariables>;
+
+/**
+ * __useFollowAuthorMutation__
+ *
+ * To run a mutation, you first call `useFollowAuthorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowAuthorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followAuthorMutation, { data, loading, error }] = useFollowAuthorMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      authorName: // value for 'authorName'
+ *   },
+ * });
+ */
+export function useFollowAuthorMutation(baseOptions?: Apollo.MutationHookOptions<FollowAuthorMutation, FollowAuthorMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FollowAuthorMutation, FollowAuthorMutationVariables>(FollowAuthorDocument, options);
+      }
+export type FollowAuthorMutationHookResult = ReturnType<typeof useFollowAuthorMutation>;
+export type FollowAuthorMutationResult = Apollo.MutationResult<FollowAuthorMutation>;
+export type FollowAuthorMutationOptions = Apollo.BaseMutationOptions<FollowAuthorMutation, FollowAuthorMutationVariables>;
+export const UnFollowAuthorDocument = gql`
+    mutation unFollowAuthor($userId: String!, $authorName: String!) {
+  removeAuthorFromUserCatalogue(input: {userId: $userId, authorName: $authorName}) {
+    authors
+  }
+}
+    `;
+export type UnFollowAuthorMutationFn = Apollo.MutationFunction<UnFollowAuthorMutation, UnFollowAuthorMutationVariables>;
+
+/**
+ * __useUnFollowAuthorMutation__
+ *
+ * To run a mutation, you first call `useUnFollowAuthorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnFollowAuthorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unFollowAuthorMutation, { data, loading, error }] = useUnFollowAuthorMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      authorName: // value for 'authorName'
+ *   },
+ * });
+ */
+export function useUnFollowAuthorMutation(baseOptions?: Apollo.MutationHookOptions<UnFollowAuthorMutation, UnFollowAuthorMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UnFollowAuthorMutation, UnFollowAuthorMutationVariables>(UnFollowAuthorDocument, options);
+      }
+export type UnFollowAuthorMutationHookResult = ReturnType<typeof useUnFollowAuthorMutation>;
+export type UnFollowAuthorMutationResult = Apollo.MutationResult<UnFollowAuthorMutation>;
+export type UnFollowAuthorMutationOptions = Apollo.BaseMutationOptions<UnFollowAuthorMutation, UnFollowAuthorMutationVariables>;
 export const SignUpDocument = gql`
     mutation signUp($email: String!, $password: String!) {
   createUser(user: {email: $email, password: $password}) {
@@ -381,6 +479,83 @@ export type GetCatalogueUserIdQueryHookResult = ReturnType<typeof useGetCatalogu
 export type GetCatalogueUserIdLazyQueryHookResult = ReturnType<typeof useGetCatalogueUserIdLazyQuery>;
 export type GetCatalogueUserIdSuspenseQueryHookResult = ReturnType<typeof useGetCatalogueUserIdSuspenseQuery>;
 export type GetCatalogueUserIdQueryResult = Apollo.QueryResult<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>;
+export const GetAuthorsByUserIdDocument = gql`
+    query getAuthorsByUserId($userId: String!) {
+  authorsByUserId(userId: $userId)
+}
+    `;
+
+/**
+ * __useGetAuthorsByUserIdQuery__
+ *
+ * To run a query within a React component, call `useGetAuthorsByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAuthorsByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAuthorsByUserIdQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetAuthorsByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
+      }
+export function useGetAuthorsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
+        }
+export function useGetAuthorsByUserIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
+        }
+export type GetAuthorsByUserIdQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdQuery>;
+export type GetAuthorsByUserIdLazyQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdLazyQuery>;
+export type GetAuthorsByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdSuspenseQuery>;
+export type GetAuthorsByUserIdQueryResult = Apollo.QueryResult<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>;
+export const IsAuthorFollowedDocument = gql`
+    query isAuthorFollowed($userId: String!, $authorName: String!) {
+  findAuthorbyName(input: {userId: $userId, authorName: $authorName})
+}
+    `;
+
+/**
+ * __useIsAuthorFollowedQuery__
+ *
+ * To run a query within a React component, call `useIsAuthorFollowedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsAuthorFollowedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsAuthorFollowedQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      authorName: // value for 'authorName'
+ *   },
+ * });
+ */
+export function useIsAuthorFollowedQuery(baseOptions: Apollo.QueryHookOptions<IsAuthorFollowedQuery, IsAuthorFollowedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IsAuthorFollowedQuery, IsAuthorFollowedQueryVariables>(IsAuthorFollowedDocument, options);
+      }
+export function useIsAuthorFollowedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsAuthorFollowedQuery, IsAuthorFollowedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IsAuthorFollowedQuery, IsAuthorFollowedQueryVariables>(IsAuthorFollowedDocument, options);
+        }
+export function useIsAuthorFollowedSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsAuthorFollowedQuery, IsAuthorFollowedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<IsAuthorFollowedQuery, IsAuthorFollowedQueryVariables>(IsAuthorFollowedDocument, options);
+        }
+export type IsAuthorFollowedQueryHookResult = ReturnType<typeof useIsAuthorFollowedQuery>;
+export type IsAuthorFollowedLazyQueryHookResult = ReturnType<typeof useIsAuthorFollowedLazyQuery>;
+export type IsAuthorFollowedSuspenseQueryHookResult = ReturnType<typeof useIsAuthorFollowedSuspenseQuery>;
+export type IsAuthorFollowedQueryResult = Apollo.QueryResult<IsAuthorFollowedQuery, IsAuthorFollowedQueryVariables>;
 export const GetLastBookReadDocument = gql`
     query getLastBookRead($userId: String!) {
   lastBookReadByUserId(userId: $userId) {
@@ -422,44 +597,6 @@ export type GetLastBookReadQueryHookResult = ReturnType<typeof useGetLastBookRea
 export type GetLastBookReadLazyQueryHookResult = ReturnType<typeof useGetLastBookReadLazyQuery>;
 export type GetLastBookReadSuspenseQueryHookResult = ReturnType<typeof useGetLastBookReadSuspenseQuery>;
 export type GetLastBookReadQueryResult = Apollo.QueryResult<GetLastBookReadQuery, GetLastBookReadQueryVariables>;
-export const GetAuthorsByUserIdDocument = gql`
-    query getAuthorsByUserId($userId: String!) {
-  authorsByUserId(userId: $userId)
-}
-    `;
-
-/**
- * __useGetAuthorsByUserIdQuery__
- *
- * To run a query within a React component, call `useGetAuthorsByUserIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAuthorsByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAuthorsByUserIdQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useGetAuthorsByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
-      }
-export function useGetAuthorsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
-        }
-export function useGetAuthorsByUserIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
-        }
-export type GetAuthorsByUserIdQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdQuery>;
-export type GetAuthorsByUserIdLazyQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdLazyQuery>;
-export type GetAuthorsByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdSuspenseQuery>;
-export type GetAuthorsByUserIdQueryResult = Apollo.QueryResult<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>;
 export const GetBooksByUserIdDocument = gql`
     query getBooksByUserId($userId: String!) {
   bookEntriesByUserId(userId: $userId) {

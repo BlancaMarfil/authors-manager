@@ -59,7 +59,6 @@ const AuthorsSection = (props: Props) => {
             <SingleAuthor
               key={i}
               authorName={authorName}
-              name={authorName}
               color={color}
               searchTheme={searchTheme}
             />
