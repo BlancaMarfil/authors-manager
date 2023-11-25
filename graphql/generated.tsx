@@ -126,6 +126,8 @@ export type Query = {
   authorsByUserId?: Maybe<Array<Scalars['String']['output']>>;
   bookEntriesByUserId: Array<Maybe<BookEntry>>;
   bookEntryById: BookEntry;
+  catalogueByUserId?: Maybe<Catalogue>;
+  lastBookReadByUserId?: Maybe<BookEntry>;
   searchGoogleBooks: SearchBooks;
   userById?: Maybe<User>;
   userByToken?: Maybe<User>;
@@ -145,6 +147,16 @@ export type QueryBookEntriesByUserIdArgs = {
 
 export type QueryBookEntryByIdArgs = {
   bookEntryId: Scalars['String']['input'];
+};
+
+
+export type QueryCatalogueByUserIdArgs = {
+  userId: Scalars['String']['input'];
+};
+
+
+export type QueryLastBookReadByUserIdArgs = {
+  userId: Scalars['String']['input'];
 };
 
 
@@ -210,6 +222,34 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'AuthUser', userId: string, token: string } | null };
+
+export type GetCatalogueUserIdQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type GetCatalogueUserIdQuery = { __typename?: 'Query', catalogueByUserId?: { __typename?: 'Catalogue', authors: Array<string>, bookEntries: Array<{ __typename?: 'BookEntry', bookId: string, dateRead: string } | null> } | null };
+
+export type GetLastBookReadQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type GetLastBookReadQuery = { __typename?: 'Query', lastBookReadByUserId?: { __typename?: 'BookEntry', bookId: string, dateRead: string } | null };
+
+export type GetAuthorsByUserIdQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type GetAuthorsByUserIdQuery = { __typename?: 'Query', authorsByUserId?: Array<string> | null };
+
+export type GetBooksByUserIdQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type GetBooksByUserIdQuery = { __typename?: 'Query', bookEntriesByUserId: Array<{ __typename?: 'BookEntry', bookId: string, dateRead: string } | null> };
 
 export type SearchGoogleBooksQueryVariables = Exact<{
   query: Scalars['String']['input'];
@@ -297,6 +337,170 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const GetCatalogueUserIdDocument = gql`
+    query getCatalogueUserId($userId: String!) {
+  catalogueByUserId(userId: $userId) {
+    authors
+    bookEntries {
+      bookId
+      dateRead
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCatalogueUserIdQuery__
+ *
+ * To run a query within a React component, call `useGetCatalogueUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCatalogueUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCatalogueUserIdQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetCatalogueUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>(GetCatalogueUserIdDocument, options);
+      }
+export function useGetCatalogueUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>(GetCatalogueUserIdDocument, options);
+        }
+export function useGetCatalogueUserIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>(GetCatalogueUserIdDocument, options);
+        }
+export type GetCatalogueUserIdQueryHookResult = ReturnType<typeof useGetCatalogueUserIdQuery>;
+export type GetCatalogueUserIdLazyQueryHookResult = ReturnType<typeof useGetCatalogueUserIdLazyQuery>;
+export type GetCatalogueUserIdSuspenseQueryHookResult = ReturnType<typeof useGetCatalogueUserIdSuspenseQuery>;
+export type GetCatalogueUserIdQueryResult = Apollo.QueryResult<GetCatalogueUserIdQuery, GetCatalogueUserIdQueryVariables>;
+export const GetLastBookReadDocument = gql`
+    query getLastBookRead($userId: String!) {
+  lastBookReadByUserId(userId: $userId) {
+    bookId
+    dateRead
+  }
+}
+    `;
+
+/**
+ * __useGetLastBookReadQuery__
+ *
+ * To run a query within a React component, call `useGetLastBookReadQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLastBookReadQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLastBookReadQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetLastBookReadQuery(baseOptions: Apollo.QueryHookOptions<GetLastBookReadQuery, GetLastBookReadQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLastBookReadQuery, GetLastBookReadQueryVariables>(GetLastBookReadDocument, options);
+      }
+export function useGetLastBookReadLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLastBookReadQuery, GetLastBookReadQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLastBookReadQuery, GetLastBookReadQueryVariables>(GetLastBookReadDocument, options);
+        }
+export function useGetLastBookReadSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetLastBookReadQuery, GetLastBookReadQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLastBookReadQuery, GetLastBookReadQueryVariables>(GetLastBookReadDocument, options);
+        }
+export type GetLastBookReadQueryHookResult = ReturnType<typeof useGetLastBookReadQuery>;
+export type GetLastBookReadLazyQueryHookResult = ReturnType<typeof useGetLastBookReadLazyQuery>;
+export type GetLastBookReadSuspenseQueryHookResult = ReturnType<typeof useGetLastBookReadSuspenseQuery>;
+export type GetLastBookReadQueryResult = Apollo.QueryResult<GetLastBookReadQuery, GetLastBookReadQueryVariables>;
+export const GetAuthorsByUserIdDocument = gql`
+    query getAuthorsByUserId($userId: String!) {
+  authorsByUserId(userId: $userId)
+}
+    `;
+
+/**
+ * __useGetAuthorsByUserIdQuery__
+ *
+ * To run a query within a React component, call `useGetAuthorsByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAuthorsByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAuthorsByUserIdQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetAuthorsByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
+      }
+export function useGetAuthorsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
+        }
+export function useGetAuthorsByUserIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>(GetAuthorsByUserIdDocument, options);
+        }
+export type GetAuthorsByUserIdQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdQuery>;
+export type GetAuthorsByUserIdLazyQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdLazyQuery>;
+export type GetAuthorsByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetAuthorsByUserIdSuspenseQuery>;
+export type GetAuthorsByUserIdQueryResult = Apollo.QueryResult<GetAuthorsByUserIdQuery, GetAuthorsByUserIdQueryVariables>;
+export const GetBooksByUserIdDocument = gql`
+    query getBooksByUserId($userId: String!) {
+  bookEntriesByUserId(userId: $userId) {
+    bookId
+    dateRead
+  }
+}
+    `;
+
+/**
+ * __useGetBooksByUserIdQuery__
+ *
+ * To run a query within a React component, call `useGetBooksByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBooksByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBooksByUserIdQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetBooksByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>(GetBooksByUserIdDocument, options);
+      }
+export function useGetBooksByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>(GetBooksByUserIdDocument, options);
+        }
+export function useGetBooksByUserIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>(GetBooksByUserIdDocument, options);
+        }
+export type GetBooksByUserIdQueryHookResult = ReturnType<typeof useGetBooksByUserIdQuery>;
+export type GetBooksByUserIdLazyQueryHookResult = ReturnType<typeof useGetBooksByUserIdLazyQuery>;
+export type GetBooksByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetBooksByUserIdSuspenseQuery>;
+export type GetBooksByUserIdQueryResult = Apollo.QueryResult<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>;
 export const SearchGoogleBooksDocument = gql`
     query SearchGoogleBooks($query: String!, $apiKey: String!) {
   searchGoogleBooks(query: $query, apiKey: $apiKey) @rest(type: "SearchBooks", path: "?q={args.query}&key={args.apiKey}") {

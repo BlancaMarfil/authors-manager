@@ -1,8 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import SingleAuthor, { NewAuthorSection } from "./SingleAuthor";
 import theme from "../../styles/theme";
+import { useGetAuthorsByUserIdQuery } from "../../graphql/generated";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
+import useIsMobile from "../../hooks/useIsMobile";
 
-const BlockContent = styled.div`
+const BlockContent = styled.div<{ truncate: string }>`
   display: flex;
   flex-wrap: wrap;
   padding: ${({ theme }) => theme.dimensions.base}
@@ -14,12 +18,17 @@ const BlockContent = styled.div`
     justify-content: flex-start;
     column-gap: ${({ theme }) => theme.dimensions.base7};
     row-gap: ${({ theme }) => theme.dimensions.base3};
+    ${({ truncate }) =>
+      truncate === "true" &&
+      css`
+        flex-wrap: nowrap;
+        overflow: hidden;
+      `}
   }
 `;
 
 interface Props {
-  images: string[];
-  numberToShow: number;
+  truncate: boolean;
   color?: string;
   showNewAuthor?: boolean;
   searchTheme?: boolean;
@@ -27,22 +36,30 @@ interface Props {
 
 const AuthorsSection = (props: Props) => {
   const {
-    images,
-    numberToShow,
+    truncate = false,
     color = theme.colors.white,
     showNewAuthor = false,
     searchTheme = false,
   } = props;
 
+  const { isMobile } = useIsMobile();
+  const { userId } = useContext(AuthContext);
+
+  const { data: dataAuthors, loading: loadingAuthors } =
+    useGetAuthorsByUserIdQuery({ variables: { userId: userId } });
+  const authorNames: string[] = dataAuthors?.authorsByUserId;
+
+  const numberToShow = isMobile ? 6 : authorNames?.length;
+
   return (
-    <BlockContent>
-      {images.map(
-        (img, i) =>
+    <BlockContent truncate={(truncate && !isMobile).toString()}>
+      {authorNames?.map(
+        (authorName, i) =>
           i < numberToShow && (
             <SingleAuthor
               key={i}
-              imgSrc={img}
-              name={"J. K. Rowling"}
+              authorName={authorName}
+              name={authorName}
               color={color}
               searchTheme={searchTheme}
             />

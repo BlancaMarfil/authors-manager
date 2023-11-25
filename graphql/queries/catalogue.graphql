@@ -1,0 +1,27 @@
+query getCatalogueUserId($userId: String!) {
+  catalogueByUserId(userId: $userId) {
+    authors
+    bookEntries {
+      bookId
+      dateRead
+    }
+  }
+}
+
+query getLastBookRead($userId: String!) {
+  lastBookReadByUserId(userId: $userId) {
+    bookId
+    dateRead
+  }
+}
+
+query getAuthorsByUserId($userId: String!) {
+  authorsByUserId(userId: $userId)
+}
+
+query getBooksByUserId($userId: String!) {
+  bookEntriesByUserId(userId: $userId) {
+    bookId
+    dateRead
+  }
+}

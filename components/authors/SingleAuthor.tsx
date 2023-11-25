@@ -4,6 +4,9 @@ import PlusIcon from "../../public/icons/plus.svg";
 import theme from "../../styles/theme";
 import Overlay from "../UI/Overlay";
 import Link from "next/link";
+import Avatar from "react-avatar";
+import { useSearchGoogleBooksQuery } from "../../graphql/generated";
+import { generateBackground } from "../../lib/utils/JSFunctions";
 
 const AuthorBlock = styled.div`
   display: flex;
@@ -31,6 +34,19 @@ const AuthorContainer = styled.div`
   }
 `;
 
+const AvatarContainer = styled.div`
+  width: ${({ theme }) => theme.dimensions.base17};
+  height: ${({ theme }) => theme.dimensions.base17};
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    width: ${({ theme }) => theme.dimensions.base20};
+    height: ${({ theme }) => theme.dimensions.base20};
+  }
+`;
+
 const AuthorName = styled.p<{ color: string }>`
   font-size: 18px;
   line-height: 18px;
@@ -46,15 +62,15 @@ const IconDiv = styled.div`
   height: 100%;
   width: 100%;
   z-index: 1;
-  background: black;
+  background-color: rgba(0, 0, 0, 0.7);
   opacity: 0;
   &:hover {
-    opacity: 0.5;
+    opacity: 1;
   }
 `;
 
 interface Props {
-  imgSrc: string;
+  authorName: string;
   name: string;
   color: string;
   searchTheme: boolean;
@@ -62,12 +78,19 @@ interface Props {
 }
 
 const SingleAuthor = (props: Props) => {
-  const { imgSrc, name, color, searchTheme, showName = true } = props;
+  const { authorName, name, color, searchTheme, showName = true } = props;
+
+  const { data, loading: loadingBooks } = useSearchGoogleBooksQuery({
+    variables: {
+      query: authorName,
+      apiKey: process.env.GOOGLE_API_KEY!,
+    },
+  });
 
   return (
     <Link href="/authors/1234">
       <AuthorBlock>
-        <AuthorContainer>
+        <AvatarContainer>
           {searchTheme && (
             <IconDiv>
               <PlusIcon
@@ -77,15 +100,15 @@ const SingleAuthor = (props: Props) => {
               />
             </IconDiv>
           )}
-          <Image
-            src={imgSrc}
-            width={500}
-            height={500}
-            layout="responsive"
-            objectFit="cover"
-            objectPosition="center center"
+
+          <Avatar
+            name={authorName}
+            size={"160px"}
+            round={true}
+            color={generateBackground(authorName)}
+            style={{ fontFamily: theme.fontFamily }}
           />
-        </AuthorContainer>
+        </AvatarContainer>
         {showName && <AuthorName color={color}>{name}</AuthorName>}
       </AuthorBlock>
     </Link>

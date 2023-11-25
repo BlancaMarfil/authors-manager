@@ -5,6 +5,7 @@ import ColoredBlockContainer from "./ColoredBlockContainer";
 import theme from "../styles/theme";
 import CoverContainer from "./CoverContainer";
 import Button from "./UI/Button";
+import useIsMobile from "../hooks/useIsMobile";
 
 const BlockContent = styled.div`
   display: flex;
@@ -66,11 +67,8 @@ const ButtonDiv = styled.div`
   padding: 0px 20vw;
 `;
 
-interface Props {
-  isMobile: boolean;
-}
-
-const DiscoverBooksBlock = ({ isMobile }: Props) => {
+const DiscoverBooksBlock = () => {
+  const { isMobile } = useIsMobile();
   const imgArr = [
     "https://books.google.com/books/content?id=JMd1zgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
     "https://books.google.com/books/publisher/content?id=ScxnAgAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE71eXf3Tx4ySZRLcO0e6wQJzm1pXOx9nvQigqz3rYkf1sfmbjGvkyznuK89-wKxw6ePD_88TkDFT5_wzWIt-K3jRVCsXfeZBjra6LNVGe-gtIEWdc1dJDbfv4hpKG47zmOIJsUF7&source=gbs_api",

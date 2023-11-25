@@ -7,7 +7,7 @@ const Authors = () => {
 
   return (
     <>
-      <AuthorsBlock isMobile={isMobile} origin="authors" />
+      <AuthorsBlock />
       <AddAuthor />
     </>
   );

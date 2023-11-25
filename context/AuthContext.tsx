@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useGetUserByTokenQuery } from "../graphql/generated";
 
 const AuthContext = React.createContext({
+  userId: null,
   token: null,
   isLoggedIn: false,
   onLogout: () => {},
   onLogin: (token: string) => {},
+  setUserIdValue: (userId: string) => {},
 });
 
 export const AuthContextProvider = ({
@@ -15,6 +17,7 @@ export const AuthContextProvider = ({
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState<string>();
+  const [userId, setUserId] = useState<string>();
 
   useEffect(() => {
     const storedUserLoggedInInformation = localStorage.getItem("loggedInToken");
@@ -37,13 +40,19 @@ export const AuthContextProvider = ({
     setToken(token);
   };
 
+  const setUserIdValue = (userId: string) => {
+    setUserId(userId);
+  };
+
   return (
     <AuthContext.Provider
       value={{
+        userId: userId,
         token: token,
         isLoggedIn: isLoggedIn,
         onLogout: logoutHandler,
         onLogin: loginHandler,
+        setUserIdValue: setUserIdValue,
       }}
     >
       {children}

@@ -12,16 +12,11 @@ export default function Base() {
   });
 
   const userId = data?.userByToken?.userId;
+  authCtx.setUserIdValue(userId);
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : authCtx.isLoggedIn ? (
-        <Home userId={userId} />
-      ) : (
-        <Registration />
-      )}
+      {loading ? <Loader /> : authCtx.isLoggedIn ? <Home /> : <Registration />}
     </>
   );
 }

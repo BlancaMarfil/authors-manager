@@ -2,38 +2,48 @@ import AuthorsBlock from "../components/authors/AuthorsBlock";
 import DiscoverBooksBlock from "../components/DiscoverBooksBlock";
 import BookBlock from "../components/BookBlock";
 import Loader from "../components/UI/Loader";
-import { useSearchGoogleBooksQuery } from "../graphql/generated";
-import useIsMobile from "../hooks/useIsMobile";
+import {
+  useGetAuthorsByUserIdQuery,
+  useGetLastBookReadQuery,
+  useSearchGoogleBooksQuery,
+} from "../graphql/generated";
 import { InferredBooks, InferredVolumeInfo } from "../types/types";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
-interface Props {
-  userId?: string;
-}
+const Home = () => {
+  const { userId } = useContext(AuthContext);
 
-const Home = ({ userId }: Props) => {
-  const { isMobile } = useIsMobile();
-
-  const { data, loading, fetchMore } = useSearchGoogleBooksQuery({
-    variables: {
-      query: "melissa%20tagg",
-      apiKey: process.env.GOOGLE_API_KEY!,
-    },
+  // DATA Last Book
+  const { data: dataLastBook } = useGetLastBookReadQuery({
+    variables: { userId: userId },
   });
 
-  const books: InferredBooks[] = data?.searchGoogleBooks?.items || [];
+  const lastBookId = dataLastBook?.lastBookReadByUserId?.bookId;
+  console.log("LAST BOOK ID", lastBookId);
+
+  const { data: dataBooks, loading: loadingBooks } = useSearchGoogleBooksQuery({
+    variables: {
+      query: lastBookId,
+      apiKey: process.env.GOOGLE_API_KEY!,
+    },
+    skip: lastBookId === undefined,
+  });
+
+  const books: InferredBooks[] = dataBooks?.searchGoogleBooks?.items || [];
   const bookLastRead: InferredVolumeInfo = books[0]?.volumeInfo;
 
   console.log("BOOK", bookLastRead);
 
   return (
     <>
-      {loading ? (
+      {loadingBooks ? (
         <Loader />
       ) : (
         <>
-          <BookBlock isMobile={isMobile} isLastRead />
-          <AuthorsBlock isMobile={isMobile} origin="home" />
-          <DiscoverBooksBlock isMobile={isMobile} />
+          {lastBookId && <BookBlock isLastRead />}
+          <AuthorsBlock truncate={true}/>
+          <DiscoverBooksBlock />
         </>
       )}
     </>

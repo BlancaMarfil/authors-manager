@@ -5,6 +5,7 @@ import BlockHeader from "./BlockHeader";
 import BlockContainer from "./BlockContainer";
 import ColoredBlockContainer from "./ColoredBlockContainer";
 import CoverContainer from "./CoverContainer";
+import useIsMobile from "../hooks/useIsMobile";
 
 const PlusDiv = styled.div`
   display: flex;
@@ -59,12 +60,12 @@ const BookDescription = styled.p`
 `;
 
 interface Props {
-  isMobile: boolean;
   isLastRead?: boolean;
 }
 
 const BookBlock = (props: Props) => {
-  const { isMobile, isLastRead = false } = props;
+  const { isLastRead = false } = props;
+  const { isMobile } = useIsMobile();
 
   const bookDesc =
     "Two enemies. One wedding. And a seaside mystery decades in the making.Lilian doesn't remember anything about her life before the day Maggie Muir found her on her front porch-a toddler, abandoned and alone. And maybe that's okay. She has a beautiful life at Muir Farm, including an adopted family she adores and a successful career as a lawyer. But she also has a secret . . . one that raises just as many questions about her future as it does her unknown past.And, of course, it would be private investigator Wilder Monroe, her brother's best friend and the bane of her existence, who sniffs out her secret before anyone else.Wilder has spent the past three years trying to close the one case his father couldn't-the mystery of Maggie Muir's long-lost granddaughter. But the decades-long search has become more tangled than ever. It's become more personal, too. Not only are the Muirs the closest thing to family he has left, but if he can solve this mystery, maybe he'll keep himself from drowning in the one he can't . . . the truth about his father's death.In the midst of secrets and swirling questions, Maggie asks a favor of both Lilian and Wilder: put aside their bickering and work together to plan her summer wedding. It's a big ask, made all the more difficult when danger comes calling at Muir Farm. But if the two enemies can stand each other long enough to pull off the event of the year, they just might solve a mystery in the process.And the biggest discovery of all? That sometimes the one your heart longs for is the last person you ever would've expected.Wedding at Sea is the breathtaking finale in bestselling, award-winning author Melissa Tagg's Muir Harbor series.";
