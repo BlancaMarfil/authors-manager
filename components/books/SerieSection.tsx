@@ -3,6 +3,8 @@ import BooksSection from "./BooksSection";
 import { useEffect, useRef, useState } from "react";
 import useIsMobile from "../../hooks/useIsMobile";
 import ArrowDown from "../../public/icons/arrow_back.svg";
+import { InferredBook, SeriesBook } from "../../types/types";
+import { useSearchGoogleBooksByBookIdQuery } from "../../graphql/generated";
 
 const Container = styled.div`
   display: flex;
@@ -35,10 +37,11 @@ const StyledBookSection = styled.div<{ maxheight: string }>`
 
 interface Props {
   title: string;
+  seriesBooks: SeriesBook[];
 }
 
 const SerieSection = (props: Props) => {
-  const { title } = props;
+  const { title, seriesBooks } = props;
   const { isMobile } = useIsMobile();
 
   // Mobile
@@ -59,9 +62,7 @@ const SerieSection = (props: Props) => {
     }
   }, [showContent, contentHeight]);
 
-  const booksSectionComponent = (
-    <BooksSection wrap={typeWrap} />
-  );
+  const books: InferredBook[] = seriesBooks.map((serie) => serie.book);
 
   return (
     <Container>
@@ -74,10 +75,10 @@ const SerieSection = (props: Props) => {
           maxheight={contentHeight.toString()}
           ref={contentRef}
         >
-          {booksSectionComponent}
+          <BooksSection wrap={typeWrap} books={books} />
         </StyledBookSection>
       ) : (
-        booksSectionComponent
+        <BooksSection wrap={typeWrap} books={books} />
       )}
     </Container>
   );

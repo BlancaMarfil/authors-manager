@@ -1,6 +1,9 @@
-query SearchGoogleBooks($query: String!, $apiKey: String!) {
-  searchGoogleBooks(query: $query, apiKey: $apiKey)
-    @rest(type: "SearchBooks", path: "?q={args.query}&key={args.apiKey}") {
+query SearchGoogleBooks($query: String!, $apiKey: String!, $startIndex: Int) {
+  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex)
+    @rest(
+      type: "SearchBooks"
+      path: "?q={args.query}&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40"
+    ) {
     totalItems
     items @type(name: "GoogleBook") {
       id
@@ -13,10 +16,63 @@ query SearchGoogleBooks($query: String!, $apiKey: String!) {
         imageLinks @type(name: "GoogleBookImageLinks") {
           smallThumbnail
           thumbnail
+          medium
         }
         infoLink
         previewLink
       }
+    }
+  }
+}
+
+query SearchGoogleBooksByAuthor(
+  $query: String!
+  $apiKey: String!
+  $startIndex: Int
+) {
+  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex)
+    @rest(
+      type: "SearchBooks"
+      path: "?q=inauthor%3A\"{args.query}\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40"
+    ) {
+    totalItems
+    items @type(name: "GoogleBook") {
+      id
+      volumeInfo @type(name: "GoogleBookVolumeInfo") {
+        title
+        authors
+        description
+        publisher
+        publishedDate
+        imageLinks @type(name: "GoogleBookImageLinks") {
+          smallThumbnail
+          thumbnail
+          medium
+        }
+        infoLink
+        previewLink
+      }
+    }
+  }
+}
+
+query SearchGoogleBooksByBookId($query: String!) {
+  searchSingleGoogleBook(query: $query)
+    @rest(type: "GoogleBook", path: "/{args.query}") {
+    id
+    volumeInfo @type(name: "GoogleBookVolumeInfo") {
+      title
+      authors
+      description
+      publisher
+      publishedDate
+      imageLinks @type(name: "GoogleBookImageLinks") {
+        smallThumbnail
+        thumbnail
+        medium
+      }
+      infoLink
+      previewLink
     }
   }
 }

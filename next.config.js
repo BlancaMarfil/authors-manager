@@ -10,6 +10,7 @@ const nextConfig = {
     GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,
     GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
     GOOGLE_BOOKS_API_URL: process.env.GOOGLE_BOOKS_API_URL,
+    DEFAULT_IMAGE_URL: process.env.DEFAULT_IMAGE_URL,
   },
   async rewrites() {
     return [
@@ -46,6 +47,7 @@ const nextConfig = {
     domains: [
       "www.google.com",
       "books.google.com",
+      "picsum.photos",
       "play-lh.googleusercontent.com",
       "i0.wp.com",
       "images.ctfassets.net",

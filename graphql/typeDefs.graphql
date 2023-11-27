@@ -18,6 +18,7 @@ type VolumeInfo {
 type ImageLinks {
   smallThumbnail: String!
   thumbnail: String!
+  medium: String!
 }
 
 type SearchBooks {
@@ -30,5 +31,10 @@ extend type Query {
   searchGoogleBooks(
     query: String!
     apiKey: String!
+    startIndex: Int
   ): SearchBooks!
+}
+
+extend type Query {
+  searchSingleGoogleBook(query: String!): GoogleBook!
 }

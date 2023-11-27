@@ -7,7 +7,7 @@ import {
   useGetLastBookReadQuery,
   useSearchGoogleBooksQuery,
 } from "../graphql/generated";
-import { InferredBooks, InferredVolumeInfo } from "../types/types";
+import { InferredBook, InferredVolumeInfo } from "../types/types";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
@@ -29,7 +29,7 @@ const Home = () => {
     skip: lastBookId === undefined,
   });
 
-  const books: InferredBooks[] = dataBooks?.searchGoogleBooks?.items || [];
+  const books: InferredBook[] = dataBooks?.searchGoogleBooks?.items || [];
   const bookLastRead: InferredVolumeInfo = books[0]?.volumeInfo;
 
   return (

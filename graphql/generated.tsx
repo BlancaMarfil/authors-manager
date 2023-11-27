@@ -69,6 +69,7 @@ export type GoogleBook = {
 
 export type ImageLinks = {
   __typename?: 'ImageLinks';
+  medium: Scalars['String']['output'];
   smallThumbnail: Scalars['String']['output'];
   thumbnail: Scalars['String']['output'];
 };
@@ -130,6 +131,7 @@ export type Query = {
   findAuthorbyName?: Maybe<Scalars['Boolean']['output']>;
   lastBookReadByUserId?: Maybe<BookEntry>;
   searchGoogleBooks: SearchBooks;
+  searchSingleGoogleBook: GoogleBook;
   userById?: Maybe<User>;
   userByToken?: Maybe<User>;
   users?: Maybe<Array<User>>;
@@ -168,6 +170,12 @@ export type QueryLastBookReadByUserIdArgs = {
 
 export type QuerySearchGoogleBooksArgs = {
   apiKey: Scalars['String']['input'];
+  query: Scalars['String']['input'];
+  startIndex?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QuerySearchSingleGoogleBookArgs = {
   query: Scalars['String']['input'];
 };
 
@@ -284,10 +292,27 @@ export type GetBooksByUserIdQuery = { __typename?: 'Query', bookEntriesByUserId:
 export type SearchGoogleBooksQueryVariables = Exact<{
   query: Scalars['String']['input'];
   apiKey: Scalars['String']['input'];
+  startIndex?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type SearchGoogleBooksQuery = { __typename?: 'Query', searchGoogleBooks: { __typename?: 'SearchBooks', totalItems: number, items?: Array<{ __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string } } }> | null } };
+export type SearchGoogleBooksQuery = { __typename?: 'Query', searchGoogleBooks: { __typename?: 'SearchBooks', totalItems: number, items?: Array<{ __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string, medium: string } } }> | null } };
+
+export type SearchGoogleBooksByAuthorQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+  apiKey: Scalars['String']['input'];
+  startIndex?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type SearchGoogleBooksByAuthorQuery = { __typename?: 'Query', searchGoogleBooks: { __typename?: 'SearchBooks', totalItems: number, items?: Array<{ __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string, medium: string } } }> | null } };
+
+export type SearchGoogleBooksByBookIdQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+}>;
+
+
+export type SearchGoogleBooksByBookIdQuery = { __typename?: 'Query', searchSingleGoogleBook: { __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string, medium: string } } } };
 
 export type GetUserByTokenQueryVariables = Exact<{
   token: Scalars['String']['input'];
@@ -639,8 +664,8 @@ export type GetBooksByUserIdLazyQueryHookResult = ReturnType<typeof useGetBooksB
 export type GetBooksByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetBooksByUserIdSuspenseQuery>;
 export type GetBooksByUserIdQueryResult = Apollo.QueryResult<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>;
 export const SearchGoogleBooksDocument = gql`
-    query SearchGoogleBooks($query: String!, $apiKey: String!) {
-  searchGoogleBooks(query: $query, apiKey: $apiKey) @rest(type: "SearchBooks", path: "?q={args.query}&key={args.apiKey}") {
+    query SearchGoogleBooks($query: String!, $apiKey: String!, $startIndex: Int) {
+  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex) @rest(type: "SearchBooks", path: "?q={args.query}&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40") {
     totalItems
     items @type(name: "GoogleBook") {
       id
@@ -653,6 +678,7 @@ export const SearchGoogleBooksDocument = gql`
         imageLinks @type(name: "GoogleBookImageLinks") {
           smallThumbnail
           thumbnail
+          medium
         }
         infoLink
         previewLink
@@ -676,6 +702,7 @@ export const SearchGoogleBooksDocument = gql`
  *   variables: {
  *      query: // value for 'query'
  *      apiKey: // value for 'apiKey'
+ *      startIndex: // value for 'startIndex'
  *   },
  * });
  */
@@ -695,6 +722,119 @@ export type SearchGoogleBooksQueryHookResult = ReturnType<typeof useSearchGoogle
 export type SearchGoogleBooksLazyQueryHookResult = ReturnType<typeof useSearchGoogleBooksLazyQuery>;
 export type SearchGoogleBooksSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksSuspenseQuery>;
 export type SearchGoogleBooksQueryResult = Apollo.QueryResult<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>;
+export const SearchGoogleBooksByAuthorDocument = gql`
+    query SearchGoogleBooksByAuthor($query: String!, $apiKey: String!, $startIndex: Int) {
+  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex) @rest(type: "SearchBooks", path: "?q=inauthor%3A\\"{args.query}\\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40") {
+    totalItems
+    items @type(name: "GoogleBook") {
+      id
+      volumeInfo @type(name: "GoogleBookVolumeInfo") {
+        title
+        authors
+        description
+        publisher
+        publishedDate
+        imageLinks @type(name: "GoogleBookImageLinks") {
+          smallThumbnail
+          thumbnail
+          medium
+        }
+        infoLink
+        previewLink
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchGoogleBooksByAuthorQuery__
+ *
+ * To run a query within a React component, call `useSearchGoogleBooksByAuthorQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchGoogleBooksByAuthorQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchGoogleBooksByAuthorQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *      apiKey: // value for 'apiKey'
+ *      startIndex: // value for 'startIndex'
+ *   },
+ * });
+ */
+export function useSearchGoogleBooksByAuthorQuery(baseOptions: Apollo.QueryHookOptions<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>(SearchGoogleBooksByAuthorDocument, options);
+      }
+export function useSearchGoogleBooksByAuthorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>(SearchGoogleBooksByAuthorDocument, options);
+        }
+export function useSearchGoogleBooksByAuthorSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>(SearchGoogleBooksByAuthorDocument, options);
+        }
+export type SearchGoogleBooksByAuthorQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorQuery>;
+export type SearchGoogleBooksByAuthorLazyQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorLazyQuery>;
+export type SearchGoogleBooksByAuthorSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorSuspenseQuery>;
+export type SearchGoogleBooksByAuthorQueryResult = Apollo.QueryResult<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>;
+export const SearchGoogleBooksByBookIdDocument = gql`
+    query SearchGoogleBooksByBookId($query: String!) {
+  searchSingleGoogleBook(query: $query) @rest(type: "GoogleBook", path: "/{args.query}") {
+    id
+    volumeInfo @type(name: "GoogleBookVolumeInfo") {
+      title
+      authors
+      description
+      publisher
+      publishedDate
+      imageLinks @type(name: "GoogleBookImageLinks") {
+        smallThumbnail
+        thumbnail
+        medium
+      }
+      infoLink
+      previewLink
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchGoogleBooksByBookIdQuery__
+ *
+ * To run a query within a React component, call `useSearchGoogleBooksByBookIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchGoogleBooksByBookIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchGoogleBooksByBookIdQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchGoogleBooksByBookIdQuery(baseOptions: Apollo.QueryHookOptions<SearchGoogleBooksByBookIdQuery, SearchGoogleBooksByBookIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchGoogleBooksByBookIdQuery, SearchGoogleBooksByBookIdQueryVariables>(SearchGoogleBooksByBookIdDocument, options);
+      }
+export function useSearchGoogleBooksByBookIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchGoogleBooksByBookIdQuery, SearchGoogleBooksByBookIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchGoogleBooksByBookIdQuery, SearchGoogleBooksByBookIdQueryVariables>(SearchGoogleBooksByBookIdDocument, options);
+        }
+export function useSearchGoogleBooksByBookIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchGoogleBooksByBookIdQuery, SearchGoogleBooksByBookIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchGoogleBooksByBookIdQuery, SearchGoogleBooksByBookIdQueryVariables>(SearchGoogleBooksByBookIdDocument, options);
+        }
+export type SearchGoogleBooksByBookIdQueryHookResult = ReturnType<typeof useSearchGoogleBooksByBookIdQuery>;
+export type SearchGoogleBooksByBookIdLazyQueryHookResult = ReturnType<typeof useSearchGoogleBooksByBookIdLazyQuery>;
+export type SearchGoogleBooksByBookIdSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksByBookIdSuspenseQuery>;
+export type SearchGoogleBooksByBookIdQueryResult = Apollo.QueryResult<SearchGoogleBooksByBookIdQuery, SearchGoogleBooksByBookIdQueryVariables>;
 export const GetUserByTokenDocument = gql`
     query getUserByToken($token: String!) {
   userByToken(token: $token) {

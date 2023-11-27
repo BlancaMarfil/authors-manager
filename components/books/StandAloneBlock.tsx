@@ -1,12 +1,19 @@
 import BlockHeader from "../BlockHeader";
 import BlockContainer from "../BlockContainer";
 import BooksSection from "./BooksSection";
+import { InferredBook } from "../../types/types";
 
-const StandAloneBlock = () => {
+interface Props {
+  books: InferredBook[];
+}
+
+const StandAloneBlock = (props: Props) => {
+  const { books } = props;
+
   return (
     <BlockContainer>
       <BlockHeader title="Stand-alone works" lined />
-      <BooksSection wrap="wrap" />
+      <BooksSection wrap="wrap" books={books} />
     </BlockContainer>
   );
 };
