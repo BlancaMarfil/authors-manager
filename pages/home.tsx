@@ -5,6 +5,7 @@ import Loader from "../components/UI/Loader";
 import {
   useGetAuthorsByUserIdQuery,
   useGetLastBookReadQuery,
+  useSearchGoogleBooksByBookIdQuery,
   useSearchGoogleBooksQuery,
 } from "../graphql/generated";
 import { InferredBook, InferredVolumeInfo } from "../types/types";
@@ -21,16 +22,15 @@ const Home = () => {
 
   const lastBookId = dataLastBook?.lastBookReadByUserId?.bookId;
 
-  const { data: dataBooks, loading: loadingBooks } = useSearchGoogleBooksQuery({
-    variables: {
-      query: lastBookId,
-      apiKey: process.env.GOOGLE_API_KEY!,
-    },
-    skip: lastBookId === undefined,
-  });
+  const { data: dataBooks, loading: loadingBooks } =
+    useSearchGoogleBooksByBookIdQuery({
+      variables: {
+        query: lastBookId,
+      },
+      skip: lastBookId === undefined,
+    });
 
-  const books: InferredBook[] = dataBooks?.searchGoogleBooks?.items || [];
-  const bookLastRead: InferredVolumeInfo = books[0]?.volumeInfo;
+  const lastReadBook: InferredBook = dataBooks?.searchSingleGoogleBook;
 
   return (
     <>
@@ -38,7 +38,7 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          {lastBookId && <BookBlock isLastRead />}
+          {lastReadBook && <BookBlock book={lastReadBook} isLastRead />}
           <AuthorsBlock truncate={true} />
           <DiscoverBooksBlock />
         </>

@@ -6,6 +6,8 @@ import BlockContainer from "./BlockContainer";
 import ColoredBlockContainer from "./ColoredBlockContainer";
 import CoverContainer from "./CoverContainer";
 import useIsMobile from "../hooks/useIsMobile";
+import { InferredBook } from "../types/types";
+import parse from "html-react-parser";
 
 const PlusDiv = styled.div`
   display: flex;
@@ -60,17 +62,26 @@ const BookDescription = styled.p`
 `;
 
 interface Props {
+  book: InferredBook;
+  serieName?: string;
   isLastRead?: boolean;
 }
 
 const BookBlock = (props: Props) => {
-  const { isLastRead = false } = props;
+  const { book, serieName, isLastRead = false } = props;
   const { isMobile } = useIsMobile();
 
-  const bookDesc =
-    "Two enemies. One wedding. And a seaside mystery decades in the making.Lilian doesn't remember anything about her life before the day Maggie Muir found her on her front porch-a toddler, abandoned and alone. And maybe that's okay. She has a beautiful life at Muir Farm, including an adopted family she adores and a successful career as a lawyer. But she also has a secret . . . one that raises just as many questions about her future as it does her unknown past.And, of course, it would be private investigator Wilder Monroe, her brother's best friend and the bane of her existence, who sniffs out her secret before anyone else.Wilder has spent the past three years trying to close the one case his father couldn't-the mystery of Maggie Muir's long-lost granddaughter. But the decades-long search has become more tangled than ever. It's become more personal, too. Not only are the Muirs the closest thing to family he has left, but if he can solve this mystery, maybe he'll keep himself from drowning in the one he can't . . . the truth about his father's death.In the midst of secrets and swirling questions, Maggie asks a favor of both Lilian and Wilder: put aside their bickering and work together to plan her summer wedding. It's a big ask, made all the more difficult when danger comes calling at Muir Farm. But if the two enemies can stand each other long enough to pull off the event of the year, they just might solve a mystery in the process.And the biggest discovery of all? That sometimes the one your heart longs for is the last person you ever would've expected.Wedding at Sea is the breathtaking finale in bestselling, award-winning author Melissa Tagg's Muir Harbor series.";
+  const bookTitle = serieName
+    ? book?.volumeInfo.title.split(" (")[0]
+    : book?.volumeInfo.title;
+  const bookOrder =
+    serieName && book?.volumeInfo.title.split("#")[1].split(")")[0];
+  const bookSeries = serieName && serieName + " #" + bookOrder;
+  const bookDesc = book?.volumeInfo.description;
   const descLength = isLastRead ? (isMobile ? 500 : 700) : bookDesc.length;
-  const shortDesc = bookDesc.slice(0, descLength) + "...";
+  const shortDesc = parse(
+    bookDesc.slice(0, descLength) + (descLength < bookDesc.length ? "..." : "")
+  );
 
   const rightHeaderElement = isMobile ? (
     <PlusDiv>
@@ -87,11 +98,11 @@ const BookBlock = (props: Props) => {
 
       <ColoredBlockContainer color={theme.colors.limeGreen}>
         <BlockContent>
-          <CoverContainer imgSrc="https://books.google.com/books/publisher/content?id=be-ZAAAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE73U6ZL0097zOd0J7lKAIpFa6ztqwFyIQhcHickZXrti1F0Hg5U4y7NhKWiSy29mQYEu8dAlYBs-mBraEWHvElx60silnDwh81GP0KNnjiZpQcTSX23jtwOKtcZKJLFFgqh1vemr&source=gbs_api" />
+          <CoverContainer imgSrc={book?.volumeInfo.imageLinks.medium} />
           <InfoBlock>
-            <BookSeries>Muir Harbour #3</BookSeries>
-            <BookTitle>Wedding at Sea</BookTitle>
-            <BookAuthor>Melissa Tagg</BookAuthor>
+            {serieName && <BookSeries>{bookSeries}</BookSeries>}
+            <BookTitle>{bookTitle}</BookTitle>
+            <BookAuthor>{book?.volumeInfo.authors[0]}</BookAuthor>
             <BookDescription>{shortDesc}</BookDescription>
           </InfoBlock>
         </BlockContent>

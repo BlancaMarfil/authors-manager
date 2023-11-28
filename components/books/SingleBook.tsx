@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import Overlay from "../UI/Overlay";
 import Link from "next/link";
 import {
+  useGetBookReadByUserQuery,
   useGetBooksByUserIdQuery,
   useSearchGoogleBooksByBookIdQuery,
 } from "../../graphql/generated";
@@ -14,6 +15,7 @@ import {
 } from "../../types/types";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   display: flex;
@@ -76,15 +78,13 @@ interface Props {
 const SingleBook = (props: Props) => {
   const { book } = props;
   const { userId } = useContext(AuthContext);
+  const router = useRouter();
 
   //DATA
   const { data: dataBook, loading: loadingBook } =
     useSearchGoogleBooksByBookIdQuery({
       variables: { query: book.id },
     });
-
-  const { data: dataEntries, loading: loadingEntries } =
-    useGetBooksByUserIdQuery({ variables: { userId: userId } });
 
   const bookInfo: InferredVolumeInfo =
     dataBook?.searchSingleGoogleBook?.volumeInfo;
@@ -94,13 +94,11 @@ const SingleBook = (props: Props) => {
     bookInfo?.imageLinks?.smallThumbnail ||
     process.env.DEFAULT_IMAGE_URL;
 
-  const bookRead =
-    dataEntries?.bookEntriesByUserId &&
-    dataEntries.bookEntriesByUserId.find(
-      (bookEntry) => bookEntry.bookId === book.id
-    );
-
-  const date = bookRead && bookRead.dateRead;
+  const { data: dataBookRead, loading: loadingBookRead } =
+    useGetBookReadByUserQuery({
+      variables: { userId: userId, bookId: book.id },
+    });
+  const date = dataBookRead?.bookReadByUser?.dateRead;
 
   return (
     <>

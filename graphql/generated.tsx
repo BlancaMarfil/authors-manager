@@ -127,9 +127,11 @@ export type Query = {
   authorsByUserId?: Maybe<Array<Scalars['String']['output']>>;
   bookEntriesByUserId: Array<Maybe<BookEntry>>;
   bookEntryById: BookEntry;
+  bookReadByUser?: Maybe<BookEntry>;
   catalogueByUserId?: Maybe<Catalogue>;
   findAuthorbyName?: Maybe<Scalars['Boolean']['output']>;
   lastBookReadByUserId?: Maybe<BookEntry>;
+  searchGoogleBookAuthorSeries: SearchBooks;
   searchGoogleBooks: SearchBooks;
   searchSingleGoogleBook: GoogleBook;
   userById?: Maybe<User>;
@@ -153,6 +155,11 @@ export type QueryBookEntryByIdArgs = {
 };
 
 
+export type QueryBookReadByUserArgs = {
+  input?: InputMaybe<BookFromCatalogueInput>;
+};
+
+
 export type QueryCatalogueByUserIdArgs = {
   userId: Scalars['String']['input'];
 };
@@ -165,6 +172,13 @@ export type QueryFindAuthorbyNameArgs = {
 
 export type QueryLastBookReadByUserIdArgs = {
   userId: Scalars['String']['input'];
+};
+
+
+export type QuerySearchGoogleBookAuthorSeriesArgs = {
+  apiKey: Scalars['String']['input'];
+  author: Scalars['String']['input'];
+  query: Scalars['String']['input'];
 };
 
 
@@ -237,6 +251,23 @@ export type UnFollowAuthorMutationVariables = Exact<{
 
 export type UnFollowAuthorMutation = { __typename?: 'Mutation', removeAuthorFromUserCatalogue?: { __typename?: 'Catalogue', authors: Array<string> } | null };
 
+export type AddBookMutationVariables = Exact<{
+  userId: Scalars['String']['input'];
+  bookId: Scalars['String']['input'];
+  dateRead: Scalars['String']['input'];
+}>;
+
+
+export type AddBookMutation = { __typename?: 'Mutation', addBookToUserCatalogue?: { __typename?: 'Catalogue', bookEntries: Array<{ __typename?: 'BookEntry', bookId: string, dateRead: string } | null> } | null };
+
+export type RemoveBookMutationVariables = Exact<{
+  userId: Scalars['String']['input'];
+  bookId: Scalars['String']['input'];
+}>;
+
+
+export type RemoveBookMutation = { __typename?: 'Mutation', removeBookFromUserCatalogue?: { __typename?: 'Catalogue', bookEntries: Array<{ __typename?: 'BookEntry', bookId: string, dateRead: string } | null> } | null };
+
 export type SignUpMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -289,6 +320,14 @@ export type GetBooksByUserIdQueryVariables = Exact<{
 
 export type GetBooksByUserIdQuery = { __typename?: 'Query', bookEntriesByUserId: Array<{ __typename?: 'BookEntry', bookId: string, dateRead: string } | null> };
 
+export type GetBookReadByUserQueryVariables = Exact<{
+  userId: Scalars['String']['input'];
+  bookId: Scalars['String']['input'];
+}>;
+
+
+export type GetBookReadByUserQuery = { __typename?: 'Query', bookReadByUser?: { __typename?: 'BookEntry', bookId: string, dateRead: string } | null };
+
 export type SearchGoogleBooksQueryVariables = Exact<{
   query: Scalars['String']['input'];
   apiKey: Scalars['String']['input'];
@@ -306,6 +345,16 @@ export type SearchGoogleBooksByAuthorQueryVariables = Exact<{
 
 
 export type SearchGoogleBooksByAuthorQuery = { __typename?: 'Query', searchGoogleBooks: { __typename?: 'SearchBooks', totalItems: number, items?: Array<{ __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string, medium: string } } }> | null } };
+
+export type SearchGoogleBooksByAuthorSeriesQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+  author: Scalars['String']['input'];
+  apiKey: Scalars['String']['input'];
+  startIndex?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type SearchGoogleBooksByAuthorSeriesQuery = { __typename?: 'Query', searchGoogleBookAuthorSeries: { __typename?: 'SearchBooks', totalItems: number, items?: Array<{ __typename?: 'GoogleBook', id: string, volumeInfo: { __typename?: 'VolumeInfo', title: string, authors?: Array<string> | null, description: string, publisher: string, publishedDate: string, infoLink: string, previewLink: string, imageLinks: { __typename?: 'ImageLinks', smallThumbnail: string, thumbnail: string, medium: string } } }> | null } };
 
 export type SearchGoogleBooksByBookIdQueryVariables = Exact<{
   query: Scalars['String']['input'];
@@ -390,6 +439,83 @@ export function useUnFollowAuthorMutation(baseOptions?: Apollo.MutationHookOptio
 export type UnFollowAuthorMutationHookResult = ReturnType<typeof useUnFollowAuthorMutation>;
 export type UnFollowAuthorMutationResult = Apollo.MutationResult<UnFollowAuthorMutation>;
 export type UnFollowAuthorMutationOptions = Apollo.BaseMutationOptions<UnFollowAuthorMutation, UnFollowAuthorMutationVariables>;
+export const AddBookDocument = gql`
+    mutation addBook($userId: String!, $bookId: String!, $dateRead: String!) {
+  addBookToUserCatalogue(
+    input: {userId: $userId, bookId: $bookId, dateRead: $dateRead}
+  ) {
+    bookEntries {
+      bookId
+      dateRead
+    }
+  }
+}
+    `;
+export type AddBookMutationFn = Apollo.MutationFunction<AddBookMutation, AddBookMutationVariables>;
+
+/**
+ * __useAddBookMutation__
+ *
+ * To run a mutation, you first call `useAddBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addBookMutation, { data, loading, error }] = useAddBookMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      bookId: // value for 'bookId'
+ *      dateRead: // value for 'dateRead'
+ *   },
+ * });
+ */
+export function useAddBookMutation(baseOptions?: Apollo.MutationHookOptions<AddBookMutation, AddBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddBookMutation, AddBookMutationVariables>(AddBookDocument, options);
+      }
+export type AddBookMutationHookResult = ReturnType<typeof useAddBookMutation>;
+export type AddBookMutationResult = Apollo.MutationResult<AddBookMutation>;
+export type AddBookMutationOptions = Apollo.BaseMutationOptions<AddBookMutation, AddBookMutationVariables>;
+export const RemoveBookDocument = gql`
+    mutation removeBook($userId: String!, $bookId: String!) {
+  removeBookFromUserCatalogue(input: {userId: $userId, bookId: $bookId}) {
+    bookEntries {
+      bookId
+      dateRead
+    }
+  }
+}
+    `;
+export type RemoveBookMutationFn = Apollo.MutationFunction<RemoveBookMutation, RemoveBookMutationVariables>;
+
+/**
+ * __useRemoveBookMutation__
+ *
+ * To run a mutation, you first call `useRemoveBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeBookMutation, { data, loading, error }] = useRemoveBookMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      bookId: // value for 'bookId'
+ *   },
+ * });
+ */
+export function useRemoveBookMutation(baseOptions?: Apollo.MutationHookOptions<RemoveBookMutation, RemoveBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveBookMutation, RemoveBookMutationVariables>(RemoveBookDocument, options);
+      }
+export type RemoveBookMutationHookResult = ReturnType<typeof useRemoveBookMutation>;
+export type RemoveBookMutationResult = Apollo.MutationResult<RemoveBookMutation>;
+export type RemoveBookMutationOptions = Apollo.BaseMutationOptions<RemoveBookMutation, RemoveBookMutationVariables>;
 export const SignUpDocument = gql`
     mutation signUp($email: String!, $password: String!) {
   createUser(user: {email: $email, password: $password}) {
@@ -663,6 +789,48 @@ export type GetBooksByUserIdQueryHookResult = ReturnType<typeof useGetBooksByUse
 export type GetBooksByUserIdLazyQueryHookResult = ReturnType<typeof useGetBooksByUserIdLazyQuery>;
 export type GetBooksByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetBooksByUserIdSuspenseQuery>;
 export type GetBooksByUserIdQueryResult = Apollo.QueryResult<GetBooksByUserIdQuery, GetBooksByUserIdQueryVariables>;
+export const GetBookReadByUserDocument = gql`
+    query getBookReadByUser($userId: String!, $bookId: String!) {
+  bookReadByUser(input: {userId: $userId, bookId: $bookId}) {
+    bookId
+    dateRead
+  }
+}
+    `;
+
+/**
+ * __useGetBookReadByUserQuery__
+ *
+ * To run a query within a React component, call `useGetBookReadByUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBookReadByUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBookReadByUserQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      bookId: // value for 'bookId'
+ *   },
+ * });
+ */
+export function useGetBookReadByUserQuery(baseOptions: Apollo.QueryHookOptions<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>(GetBookReadByUserDocument, options);
+      }
+export function useGetBookReadByUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>(GetBookReadByUserDocument, options);
+        }
+export function useGetBookReadByUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>(GetBookReadByUserDocument, options);
+        }
+export type GetBookReadByUserQueryHookResult = ReturnType<typeof useGetBookReadByUserQuery>;
+export type GetBookReadByUserLazyQueryHookResult = ReturnType<typeof useGetBookReadByUserLazyQuery>;
+export type GetBookReadByUserSuspenseQueryHookResult = ReturnType<typeof useGetBookReadByUserSuspenseQuery>;
+export type GetBookReadByUserQueryResult = Apollo.QueryResult<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>;
 export const SearchGoogleBooksDocument = gql`
     query SearchGoogleBooks($query: String!, $apiKey: String!, $startIndex: Int) {
   searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex) @rest(type: "SearchBooks", path: "?q={args.query}&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40") {
@@ -781,6 +949,66 @@ export type SearchGoogleBooksByAuthorQueryHookResult = ReturnType<typeof useSear
 export type SearchGoogleBooksByAuthorLazyQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorLazyQuery>;
 export type SearchGoogleBooksByAuthorSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorSuspenseQuery>;
 export type SearchGoogleBooksByAuthorQueryResult = Apollo.QueryResult<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>;
+export const SearchGoogleBooksByAuthorSeriesDocument = gql`
+    query SearchGoogleBooksByAuthorSeries($query: String!, $author: String!, $apiKey: String!, $startIndex: Int) {
+  searchGoogleBookAuthorSeries(query: $query, author: $author, apiKey: $apiKey) @rest(type: "SearchBooks", path: "?q=\\"{args.query}\\"+inauthor%3A\\"{args.author}\\"&langRestrict=en&key={args.apiKey}&maxResults=40") {
+    totalItems
+    items @type(name: "GoogleBook") {
+      id
+      volumeInfo @type(name: "GoogleBookVolumeInfo") {
+        title
+        authors
+        description
+        publisher
+        publishedDate
+        imageLinks @type(name: "GoogleBookImageLinks") {
+          smallThumbnail
+          thumbnail
+          medium
+        }
+        infoLink
+        previewLink
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchGoogleBooksByAuthorSeriesQuery__
+ *
+ * To run a query within a React component, call `useSearchGoogleBooksByAuthorSeriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchGoogleBooksByAuthorSeriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchGoogleBooksByAuthorSeriesQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *      author: // value for 'author'
+ *      apiKey: // value for 'apiKey'
+ *      startIndex: // value for 'startIndex'
+ *   },
+ * });
+ */
+export function useSearchGoogleBooksByAuthorSeriesQuery(baseOptions: Apollo.QueryHookOptions<SearchGoogleBooksByAuthorSeriesQuery, SearchGoogleBooksByAuthorSeriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchGoogleBooksByAuthorSeriesQuery, SearchGoogleBooksByAuthorSeriesQueryVariables>(SearchGoogleBooksByAuthorSeriesDocument, options);
+      }
+export function useSearchGoogleBooksByAuthorSeriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchGoogleBooksByAuthorSeriesQuery, SearchGoogleBooksByAuthorSeriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchGoogleBooksByAuthorSeriesQuery, SearchGoogleBooksByAuthorSeriesQueryVariables>(SearchGoogleBooksByAuthorSeriesDocument, options);
+        }
+export function useSearchGoogleBooksByAuthorSeriesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchGoogleBooksByAuthorSeriesQuery, SearchGoogleBooksByAuthorSeriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchGoogleBooksByAuthorSeriesQuery, SearchGoogleBooksByAuthorSeriesQueryVariables>(SearchGoogleBooksByAuthorSeriesDocument, options);
+        }
+export type SearchGoogleBooksByAuthorSeriesQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorSeriesQuery>;
+export type SearchGoogleBooksByAuthorSeriesLazyQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorSeriesLazyQuery>;
+export type SearchGoogleBooksByAuthorSeriesSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorSeriesSuspenseQuery>;
+export type SearchGoogleBooksByAuthorSeriesQueryResult = Apollo.QueryResult<SearchGoogleBooksByAuthorSeriesQuery, SearchGoogleBooksByAuthorSeriesQueryVariables>;
 export const SearchGoogleBooksByBookIdDocument = gql`
     query SearchGoogleBooksByBookId($query: String!) {
   searchSingleGoogleBook(query: $query) @rest(type: "GoogleBook", path: "/{args.query}") {

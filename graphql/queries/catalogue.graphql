@@ -29,3 +29,10 @@ query getBooksByUserId($userId: String!) {
     dateRead
   }
 }
+
+query getBookReadByUser($userId: String!, $bookId: String!) {
+  bookReadByUser(input: { userId: $userId, bookId: $bookId }) {
+    bookId
+    dateRead
+  }
+}

@@ -38,3 +38,11 @@ extend type Query {
 extend type Query {
   searchSingleGoogleBook(query: String!): GoogleBook!
 }
+
+extend type Query {
+  searchGoogleBookAuthorSeries(
+    query: String!
+    author: String!
+    apiKey: String!
+  ): SearchBooks!
+}

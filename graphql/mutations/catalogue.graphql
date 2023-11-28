@@ -13,3 +13,23 @@ mutation unFollowAuthor($userId: String!, $authorName: String!) {
     authors
   }
 }
+
+mutation addBook($userId: String!, $bookId: String!, $dateRead: String!) {
+  addBookToUserCatalogue(
+    input: { userId: $userId, bookId: $bookId, dateRead: $dateRead }
+  ) {
+    bookEntries {
+      bookId
+      dateRead
+    }
+  }
+}
+
+mutation removeBook($userId: String!, $bookId: String!) {
+  removeBookFromUserCatalogue(input: { userId: $userId, bookId: $bookId }) {
+    bookEntries {
+      bookId
+      dateRead
+    }
+  }
+}

@@ -7,6 +7,9 @@ import { useState } from "react";
 import { InferredBook, Series } from "../../types/types";
 import { useSearchGoogleBooksByAuthorQuery } from "../../graphql/generated";
 import { getSeriesFromBooks } from "../../lib/utils/bookFunctions";
+import BookShelfBlock from "../../components/books/BookShelfBlock";
+import SerieSection from "../../components/books/SerieSection";
+import BooksSection from "../../components/books/BooksSection";
 
 const Author = () => {
   const router = useRouter();
@@ -55,8 +58,16 @@ const Author = () => {
   return (
     <>
       <AuthorNameBlock authorName={authorName} />
-      <SeriesBlock title="Series" series={series} />
-      <StandAloneBlock books={standAloneWorks}/>
+
+      <BookShelfBlock blockTitle="Series">
+        {series.map((serie, i) => (
+          <SerieSection key={i} title={serie.name} seriesBooks={serie.books} />
+        ))}
+      </BookShelfBlock>
+
+      <BookShelfBlock blockTitle="Stand-alone works">
+        <BooksSection wrap="wrap" books={standAloneWorks} />
+      </BookShelfBlock>
     </>
   );
 };

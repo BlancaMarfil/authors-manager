@@ -10,16 +10,16 @@ import { getSeriesFromBooks } from "../../lib/utils/bookFunctions";
 import { Series } from "../../types/types";
 
 interface Props {
-  title: string;
+  blockTitle: string;
   series: Series[];
 }
 
 const SeriesBlock = (props: Props) => {
-  const { title, series } = props;
+  const { blockTitle, series } = props;
 
   return (
     <BlockContainer>
-      <BlockHeader title={title} lined />
+      <BlockHeader title={blockTitle} lined />
       <>
         {series.map((serie, i) => (
           <SerieSection key={i} title={serie.name} seriesBooks={serie.books} />
