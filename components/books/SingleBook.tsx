@@ -58,6 +58,13 @@ const BookAuthor = styled.p`
   color: ${({ theme }) => theme.colors.gray};
 `;
 
+const BookRead = styled.p`
+  color: ${({ theme }) => theme.colors.oceanBlue};
+  font-size: 18px;
+  line-height: 18px;
+  font-style: italic;
+`;
+
 const ReadText = styled.p`
   font-size: 20px;
   line-height: 22px;
@@ -72,18 +79,21 @@ const ReadText = styled.p`
 `;
 
 interface Props {
-  book: InferredBook;
+  bookId: string;
+  conservative?: boolean;
 }
 
 const SingleBook = (props: Props) => {
-  const { book } = props;
+  const { bookId, conservative = false } = props;
   const { userId } = useContext(AuthContext);
   const router = useRouter();
 
   //DATA
+  /* We need to query the real url of the book,
+  not the one provided by a general search */
   const { data: dataBook, loading: loadingBook } =
     useSearchGoogleBooksByBookIdQuery({
-      variables: { query: book.id },
+      variables: { query: bookId },
     });
 
   const bookInfo: InferredVolumeInfo =
@@ -96,16 +106,16 @@ const SingleBook = (props: Props) => {
 
   const { data: dataBookRead, loading: loadingBookRead } =
     useGetBookReadByUserQuery({
-      variables: { userId: userId, bookId: book.id },
+      variables: { userId: userId, bookId: bookId },
     });
   const date = dataBookRead?.bookReadByUser?.dateRead;
 
   return (
     <>
-      <Link href={`/books/${book.id}`}>
+      <Link href={`/books/${bookId}`}>
         <Container>
           <BookCover>
-            {date && (
+            {date && !conservative && (
               <Overlay>
                 <ReadText>READ {date}</ReadText>
               </Overlay>
@@ -121,6 +131,7 @@ const SingleBook = (props: Props) => {
           <TitleAuthorDiv>
             <BookTitle>{bookInfo?.title}</BookTitle>
             <BookAuthor>{bookInfo?.authors[0]}</BookAuthor>
+            {conservative && <BookRead>Read on {date}</BookRead>}
           </TitleAuthorDiv>
         </Container>
       </Link>

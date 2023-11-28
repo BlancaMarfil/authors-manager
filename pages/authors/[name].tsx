@@ -51,9 +51,9 @@ const Author = () => {
     .flatMap((series) => series.books || [])
     .map((seriesBook) => seriesBook.book.id);
 
-  const standAloneWorks = books.filter(
+  const standAloneWorksIds = books.filter(
     (book) => !seriesBookIds.includes(book.id)
-  );
+  ).map(book => book.id);
 
   return (
     <>
@@ -66,7 +66,7 @@ const Author = () => {
       </BookShelfBlock>
 
       <BookShelfBlock blockTitle="Stand-alone works">
-        <BooksSection wrap="wrap" books={standAloneWorks} />
+        <BooksSection wrap="wrap" bookIds={standAloneWorksIds} />
       </BookShelfBlock>
     </>
   );

@@ -34,19 +34,20 @@ const Container = styled.div<{ wrap: string }>`
 
 interface Props {
   wrap: "wrap" | "no-wrap";
-  books: InferredBook[];
+  bookIds: string[];
+  conservative?: boolean;
 }
 
 const BooksSection = (props: Props) => {
-  const { wrap, books } = props;
+  const { wrap, bookIds, conservative = false } = props;
 
   const ref = useRef();
 
   return (
     <Container wrap={wrap} ref={ref}>
-      {books &&
-        books.map((book, i) => {
-          return <SingleBook key={i} book={book} />;
+      {bookIds &&
+        bookIds.map((id, i) => {
+          return <SingleBook key={i} bookId={id} conservative={conservative} />;
         })}
     </Container>
   );

@@ -62,7 +62,7 @@ const SerieSection = (props: Props) => {
     }
   }, [showContent, contentHeight]);
 
-  const books: InferredBook[] = seriesBooks.map((serie) => serie.book);
+  const bookIds = seriesBooks.map((serie) => serie.book.id);
 
   return (
     <Container>
@@ -75,10 +75,10 @@ const SerieSection = (props: Props) => {
           maxheight={contentHeight.toString()}
           ref={contentRef}
         >
-          <BooksSection wrap={typeWrap} books={books} />
+          <BooksSection wrap={typeWrap} bookIds={bookIds} />
         </StyledBookSection>
       ) : (
-        <BooksSection wrap={typeWrap} books={books} />
+        <BooksSection wrap={typeWrap} bookIds={bookIds} />
       )}
     </Container>
   );
