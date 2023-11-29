@@ -59,7 +59,7 @@ const BookAuthor = styled.p`
 `;
 
 const BookRead = styled.p`
-  color: ${({ theme }) => theme.colors.oceanBlue};
+  color: ${({ theme }) => theme.colors.sunsetRed};
   font-size: 18px;
   line-height: 18px;
   font-style: italic;
@@ -108,7 +108,9 @@ const SingleBook = (props: Props) => {
     useGetBookReadByUserQuery({
       variables: { userId: userId, bookId: bookId },
     });
+
   const date = dataBookRead?.bookReadByUser?.dateRead;
+  const authorName = bookInfo?.authors?.length > 0 ? bookInfo?.authors[0] : "";
 
   return (
     <>
@@ -130,8 +132,8 @@ const SingleBook = (props: Props) => {
 
           <TitleAuthorDiv>
             <BookTitle>{bookInfo?.title}</BookTitle>
-            <BookAuthor>{bookInfo?.authors[0]}</BookAuthor>
-            {conservative && <BookRead>Read on {date}</BookRead>}
+            <BookAuthor>{authorName}</BookAuthor>
+            {date && conservative && <BookRead>Read on {date}</BookRead>}
           </TitleAuthorDiv>
         </Container>
       </Link>

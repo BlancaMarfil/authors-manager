@@ -45,10 +45,15 @@ const AvatarContainer = styled.div`
 `;
 
 const AuthorName = styled.p<{ color: string }>`
+  width: ${({ theme }) => theme.dimensions.base17};
   font-size: 18px;
   line-height: 18px;
   color: ${({ color }) => color};
   text-align: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    width: ${({ theme }) => theme.dimensions.base20};
+  }
 `;
 
 const IconDiv = styled.div`
@@ -74,7 +79,7 @@ interface Props {
 }
 
 const SingleAuthor = (props: Props) => {
-  const { authorName, color, searchTheme, showName = true } = props;
+  const { authorName = "", color, searchTheme, showName = true } = props;
 
   return (
     <Link href={`/authors/${authorName}`}>
@@ -94,7 +99,7 @@ const SingleAuthor = (props: Props) => {
             name={authorName}
             size={"160px"}
             round={true}
-            color={generateBackground(authorName)}
+            color={generateBackground(authorName || "")}
             style={{ fontFamily: theme.fontFamily }}
           />
         </AvatarContainer>

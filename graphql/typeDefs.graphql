@@ -32,6 +32,7 @@ extend type Query {
     query: String!
     apiKey: String!
     startIndex: Int
+    maxResults: Int
   ): SearchBooks!
 }
 
@@ -44,5 +45,6 @@ extend type Query {
     query: String!
     author: String!
     apiKey: String!
+    maxResults: Int
   ): SearchBooks!
 }

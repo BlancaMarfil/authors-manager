@@ -1,8 +1,18 @@
-query SearchGoogleBooks($query: String!, $apiKey: String!, $startIndex: Int) {
-  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex)
+query SearchGoogleBooks(
+  $query: String!
+  $apiKey: String!
+  $startIndex: Int
+  $maxResults: Int = 40
+) {
+  searchGoogleBooks(
+    query: $query
+    apiKey: $apiKey
+    startIndex: $startIndex
+    maxResults: $maxResults
+  )
     @rest(
       type: "SearchBooks"
-      path: "?q={args.query}&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40"
+      path: "?q=\"{args.query}\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults={args.maxResults}"
     ) {
     totalItems
     items @type(name: "GoogleBook") {
@@ -29,11 +39,17 @@ query SearchGoogleBooksByAuthor(
   $query: String!
   $apiKey: String!
   $startIndex: Int
+  $maxResults: Int = 40
 ) {
-  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex)
+  searchGoogleBooks(
+    query: $query
+    apiKey: $apiKey
+    startIndex: $startIndex
+    maxResults: $maxResults
+  )
     @rest(
       type: "SearchBooks"
-      path: "?q=inauthor%3A\"{args.query}\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40"
+      path: "?q=inauthor%3A\"{args.query}\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults={args.maxResults}"
     ) {
     totalItems
     items @type(name: "GoogleBook") {
@@ -60,12 +76,17 @@ query SearchGoogleBooksByAuthorSeries(
   $query: String!
   $author: String!
   $apiKey: String!
-  $startIndex: Int
+  $maxResults: Int = 40
 ) {
-  searchGoogleBookAuthorSeries(query: $query, author: $author, apiKey: $apiKey)
+  searchGoogleBookAuthorSeries(
+    query: $query
+    author: $author
+    apiKey: $apiKey
+    maxResults: $maxResults
+  )
     @rest(
       type: "SearchBooks"
-      path: "?q=\"{args.query}\"+inauthor%3A\"{args.author}\"&langRestrict=en&key={args.apiKey}&maxResults=40"
+      path: "?q=\"{args.query}\"+inauthor%3A\"{args.author}\"&langRestrict=en&key={args.apiKey}&maxResults={args.maxResults}"
     ) {
     totalItems
     items @type(name: "GoogleBook") {

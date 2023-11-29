@@ -1,6 +1,5 @@
 import BookBlock from "../../components/BookBlock";
 import ReadHeader from "../../components/books/ReadHeader";
-import SeriesBlock from "../../components/books/SeriesBlock";
 import {
   SearchGoogleBooksByBookIdQuery,
   useGetBookReadByUserQuery,
@@ -27,7 +26,7 @@ interface Props {
 
 const Book = (props: Props) => {
   const { id, data: dataSearch } = props;
-  const { isMobile } = useIsMobile();
+  
   const { userId } = useContext(AuthContext);
   const [dateRead, setDateRead] = useState("");
 
@@ -73,7 +72,6 @@ const Book = (props: Props) => {
         bookId={id}
         dateReadInput={dateRead}
         onChangeDateRead={(newDate) => setDateRead(newDate)}
-        isMobile={isMobile}
       />
       <BookBlock book={book} serieName={seriesName} />
       {series.length > 0 && (

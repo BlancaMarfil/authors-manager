@@ -178,12 +178,14 @@ export type QueryLastBookReadByUserIdArgs = {
 export type QuerySearchGoogleBookAuthorSeriesArgs = {
   apiKey: Scalars['String']['input'];
   author: Scalars['String']['input'];
+  maxResults?: InputMaybe<Scalars['Int']['input']>;
   query: Scalars['String']['input'];
 };
 
 
 export type QuerySearchGoogleBooksArgs = {
   apiKey: Scalars['String']['input'];
+  maxResults?: InputMaybe<Scalars['Int']['input']>;
   query: Scalars['String']['input'];
   startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -332,6 +334,7 @@ export type SearchGoogleBooksQueryVariables = Exact<{
   query: Scalars['String']['input'];
   apiKey: Scalars['String']['input'];
   startIndex?: InputMaybe<Scalars['Int']['input']>;
+  maxResults?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -341,6 +344,7 @@ export type SearchGoogleBooksByAuthorQueryVariables = Exact<{
   query: Scalars['String']['input'];
   apiKey: Scalars['String']['input'];
   startIndex?: InputMaybe<Scalars['Int']['input']>;
+  maxResults?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -350,7 +354,7 @@ export type SearchGoogleBooksByAuthorSeriesQueryVariables = Exact<{
   query: Scalars['String']['input'];
   author: Scalars['String']['input'];
   apiKey: Scalars['String']['input'];
-  startIndex?: InputMaybe<Scalars['Int']['input']>;
+  maxResults?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -832,8 +836,13 @@ export type GetBookReadByUserLazyQueryHookResult = ReturnType<typeof useGetBookR
 export type GetBookReadByUserSuspenseQueryHookResult = ReturnType<typeof useGetBookReadByUserSuspenseQuery>;
 export type GetBookReadByUserQueryResult = Apollo.QueryResult<GetBookReadByUserQuery, GetBookReadByUserQueryVariables>;
 export const SearchGoogleBooksDocument = gql`
-    query SearchGoogleBooks($query: String!, $apiKey: String!, $startIndex: Int) {
-  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex) @rest(type: "SearchBooks", path: "?q={args.query}&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40") {
+    query SearchGoogleBooks($query: String!, $apiKey: String!, $startIndex: Int, $maxResults: Int = 40) {
+  searchGoogleBooks(
+    query: $query
+    apiKey: $apiKey
+    startIndex: $startIndex
+    maxResults: $maxResults
+  ) @rest(type: "SearchBooks", path: "?q=\\"{args.query}\\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults={args.maxResults}") {
     totalItems
     items @type(name: "GoogleBook") {
       id
@@ -871,6 +880,7 @@ export const SearchGoogleBooksDocument = gql`
  *      query: // value for 'query'
  *      apiKey: // value for 'apiKey'
  *      startIndex: // value for 'startIndex'
+ *      maxResults: // value for 'maxResults'
  *   },
  * });
  */
@@ -891,8 +901,13 @@ export type SearchGoogleBooksLazyQueryHookResult = ReturnType<typeof useSearchGo
 export type SearchGoogleBooksSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksSuspenseQuery>;
 export type SearchGoogleBooksQueryResult = Apollo.QueryResult<SearchGoogleBooksQuery, SearchGoogleBooksQueryVariables>;
 export const SearchGoogleBooksByAuthorDocument = gql`
-    query SearchGoogleBooksByAuthor($query: String!, $apiKey: String!, $startIndex: Int) {
-  searchGoogleBooks(query: $query, apiKey: $apiKey, startIndex: $startIndex) @rest(type: "SearchBooks", path: "?q=inauthor%3A\\"{args.query}\\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults=40") {
+    query SearchGoogleBooksByAuthor($query: String!, $apiKey: String!, $startIndex: Int, $maxResults: Int = 40) {
+  searchGoogleBooks(
+    query: $query
+    apiKey: $apiKey
+    startIndex: $startIndex
+    maxResults: $maxResults
+  ) @rest(type: "SearchBooks", path: "?q=inauthor%3A\\"{args.query}\\"&langRestrict=en&key={args.apiKey}&startIndex={args.startIndex}&maxResults={args.maxResults}") {
     totalItems
     items @type(name: "GoogleBook") {
       id
@@ -930,6 +945,7 @@ export const SearchGoogleBooksByAuthorDocument = gql`
  *      query: // value for 'query'
  *      apiKey: // value for 'apiKey'
  *      startIndex: // value for 'startIndex'
+ *      maxResults: // value for 'maxResults'
  *   },
  * });
  */
@@ -950,8 +966,13 @@ export type SearchGoogleBooksByAuthorLazyQueryHookResult = ReturnType<typeof use
 export type SearchGoogleBooksByAuthorSuspenseQueryHookResult = ReturnType<typeof useSearchGoogleBooksByAuthorSuspenseQuery>;
 export type SearchGoogleBooksByAuthorQueryResult = Apollo.QueryResult<SearchGoogleBooksByAuthorQuery, SearchGoogleBooksByAuthorQueryVariables>;
 export const SearchGoogleBooksByAuthorSeriesDocument = gql`
-    query SearchGoogleBooksByAuthorSeries($query: String!, $author: String!, $apiKey: String!, $startIndex: Int) {
-  searchGoogleBookAuthorSeries(query: $query, author: $author, apiKey: $apiKey) @rest(type: "SearchBooks", path: "?q=\\"{args.query}\\"+inauthor%3A\\"{args.author}\\"&langRestrict=en&key={args.apiKey}&maxResults=40") {
+    query SearchGoogleBooksByAuthorSeries($query: String!, $author: String!, $apiKey: String!, $maxResults: Int = 40) {
+  searchGoogleBookAuthorSeries(
+    query: $query
+    author: $author
+    apiKey: $apiKey
+    maxResults: $maxResults
+  ) @rest(type: "SearchBooks", path: "?q=\\"{args.query}\\"+inauthor%3A\\"{args.author}\\"&langRestrict=en&key={args.apiKey}&maxResults={args.maxResults}") {
     totalItems
     items @type(name: "GoogleBook") {
       id
@@ -989,7 +1010,7 @@ export const SearchGoogleBooksByAuthorSeriesDocument = gql`
  *      query: // value for 'query'
  *      author: // value for 'author'
  *      apiKey: // value for 'apiKey'
- *      startIndex: // value for 'startIndex'
+ *      maxResults: // value for 'maxResults'
  *   },
  * });
  */

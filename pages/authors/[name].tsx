@@ -1,8 +1,5 @@
-import styled from "styled-components";
 import AuthorNameBlock from "../../components/authors/AuthorNameBlock";
 import { useRouter } from "next/router";
-import SeriesBlock from "../../components/books/SeriesBlock";
-import StandAloneBlock from "../../components/books/StandAloneBlock";
 import { useState } from "react";
 import { InferredBook, Series } from "../../types/types";
 import { useSearchGoogleBooksByAuthorQuery } from "../../graphql/generated";
@@ -51,9 +48,9 @@ const Author = () => {
     .flatMap((series) => series.books || [])
     .map((seriesBook) => seriesBook.book.id);
 
-  const standAloneWorksIds = books.filter(
-    (book) => !seriesBookIds.includes(book.id)
-  ).map(book => book.id);
+  const standAloneWorksIds = books
+    .filter((book) => !seriesBookIds.includes(book.id))
+    .map((book) => book.id);
 
   return (
     <>

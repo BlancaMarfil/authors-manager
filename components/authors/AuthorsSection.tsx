@@ -28,7 +28,8 @@ const BlockContent = styled.div<{ truncate: string }>`
 `;
 
 interface Props {
-  truncate: boolean;
+  authorNames: string[];
+  truncate?: boolean;
   color?: string;
   showNewAuthor?: boolean;
   searchTheme?: boolean;
@@ -36,6 +37,7 @@ interface Props {
 
 const AuthorsSection = (props: Props) => {
   const {
+    authorNames,
     truncate = false,
     color = theme.colors.white,
     showNewAuthor = false,
@@ -43,11 +45,6 @@ const AuthorsSection = (props: Props) => {
   } = props;
 
   const { isMobile } = useIsMobile();
-  const { userId } = useContext(AuthContext);
-
-  const { data: dataAuthors, loading: loadingAuthors } =
-    useGetAuthorsByUserIdQuery({ variables: { userId: userId } });
-  const authorNames: string[] = dataAuthors?.authorsByUserId;
 
   const numberToShow = isMobile ? 6 : authorNames?.length;
 

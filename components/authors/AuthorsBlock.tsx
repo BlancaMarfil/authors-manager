@@ -7,6 +7,9 @@ import Button from "../UI/Button";
 import { useRouter } from "next/router";
 import AuthorsSection from "./AuthorsSection";
 import useIsMobile from "../../hooks/useIsMobile";
+import { useGetAuthorsByUserIdQuery } from "../../graphql/generated";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 interface Props {
   truncate?: boolean;
@@ -15,8 +18,13 @@ interface Props {
 const AuthorsBlock = (props: Props) => {
   const { truncate = false } = props;
   const { isMobile } = useIsMobile();
+  const { userId } = useContext(AuthContext);
 
   const router = useRouter();
+
+  const { data: dataAuthors, loading: loadingAuthors } =
+    useGetAuthorsByUserIdQuery({ variables: { userId: userId } });
+  const authorNames: string[] = dataAuthors?.authorsByUserId;
 
   // Actions
   const onViewAllPressed = () => {
@@ -35,7 +43,11 @@ const AuthorsBlock = (props: Props) => {
         color={theme.colors.oceanBlue}
         mobileColor={theme.colors.oceanBlue}
       >
-        <AuthorsSection truncate={truncate} showNewAuthor />
+        <AuthorsSection
+          authorNames={authorNames}
+          truncate={truncate}
+          showNewAuthor
+        />
         {isMobile && <Button>See all</Button>}
       </ColoredBlockContainer>
     </BlockContainer>

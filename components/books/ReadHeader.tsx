@@ -14,6 +14,7 @@ import AuthContext from "../../context/AuthContext";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, parse, parseISO } from "date-fns";
+import useIsMobile from "../../hooks/useIsMobile";
 const {
   getBookReadByUser,
 } = require("../../graphql/queries/catalogue.graphql");
@@ -110,11 +111,11 @@ interface Props {
   bookId: string;
   dateReadInput?: string;
   onChangeDateRead?: (newValue: string) => void;
-  isMobile: boolean;
 }
 
 const ReadHeader = (props: Props) => {
-  const { bookId, dateReadInput = "", onChangeDateRead, isMobile } = props;
+  const { isMobile } = useIsMobile();
+  const { bookId, dateReadInput = "", onChangeDateRead } = props;
 
   const { userId } = useContext(AuthContext);
   const [showCalendarInput, setShowCalendarInput] = useState(false);
