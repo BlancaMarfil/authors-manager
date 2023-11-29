@@ -4,6 +4,9 @@ import theme from "../../styles/theme";
 import Link from "next/link";
 import Avatar from "react-avatar";
 import { generateBackground } from "../../lib/utils/JSFunctions";
+import { useIsAuthorFollowedQuery } from "../../graphql/generated";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const AuthorBlock = styled.div`
   display: flex;
@@ -14,7 +17,6 @@ const AuthorBlock = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     margin-bottom: 0;
-    gap: ${({ theme }) => theme.dimensions.base2};
   }
 `;
 
@@ -42,6 +44,10 @@ const AvatarContainer = styled.div`
     width: ${({ theme }) => theme.dimensions.base20};
     height: ${({ theme }) => theme.dimensions.base20};
   }
+
+  &:hover {
+    ${({ theme }) => theme.boxShadows.button};
+  }
 `;
 
 const AuthorName = styled.p<{ color: string }>`
@@ -52,23 +58,16 @@ const AuthorName = styled.p<{ color: string }>`
   text-align: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    margin-top: ${({ theme }) => theme.dimensions.base};
     width: ${({ theme }) => theme.dimensions.base20};
   }
 `;
 
-const IconDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  &:hover {
-    opacity: 1;
-  }
+const FollowedText = styled.p`
+  font-size: 18px;
+  line-height: 18px;
+  color: ${({ theme }) => theme.colors.sunsetRed};
+  text-align: center;
 `;
 
 interface Props {
@@ -80,21 +79,17 @@ interface Props {
 
 const SingleAuthor = (props: Props) => {
   const { authorName = "", color, searchTheme, showName = true } = props;
+  const { userId } = useContext(AuthContext);
+
+  const { data } = useIsAuthorFollowedQuery({
+    variables: { userId: userId, authorName: authorName },
+  });
+  const following = data?.findAuthorbyName || false;
 
   return (
     <Link href={`/authors/${authorName}`}>
       <AuthorBlock>
         <AvatarContainer>
-          {searchTheme && (
-            <IconDiv>
-              <PlusIcon
-                width={56}
-                height={56}
-                style={{ fill: theme.colors.white }}
-              />
-            </IconDiv>
-          )}
-
           <Avatar
             name={authorName}
             size={"160px"}
@@ -104,6 +99,7 @@ const SingleAuthor = (props: Props) => {
           />
         </AvatarContainer>
         {showName && <AuthorName color={color}>{authorName}</AuthorName>}
+        {searchTheme && following && <FollowedText>Following</FollowedText>}
       </AuthorBlock>
     </Link>
   );
@@ -122,16 +118,20 @@ const NewAuthor = styled(AuthorContainer)`
 
 export const NewAuthorSection = () => {
   return (
-    <AuthorBlock>
-      <NewAuthor>
-        <PlusIcon
-          width={40}
-          height={40}
-          style={{ fill: theme.colors.limeGreen }}
-        />
-      </NewAuthor>
-      <NewAuthorName color={theme.colors.white}>Add a new author</NewAuthorName>
-    </AuthorBlock>
+    <Link href="/search">
+      <AuthorBlock>
+        <NewAuthor>
+          <PlusIcon
+            width={40}
+            height={40}
+            style={{ fill: theme.colors.limeGreen }}
+          />
+        </NewAuthor>
+        <NewAuthorName color={theme.colors.white}>
+          Add a new author
+        </NewAuthorName>
+      </AuthorBlock>
+    </Link>
   );
 };
 

@@ -8,15 +8,7 @@ import CoverContainer from "./CoverContainer";
 import useIsMobile from "../hooks/useIsMobile";
 import { InferredBook } from "../types/types";
 import parse from "html-react-parser";
-
-const PlusDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid ${({ theme }) => theme.colors.sunsetRed};
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.sunsetRed};
-`;
+import Link from "next/link";
 
 const BlockContent = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
@@ -45,12 +37,22 @@ const BookTitle = styled.p`
   font-size: ${({ theme }) => theme.dimensions.base4};
   line-height: ${({ theme }) => theme.dimensions.base4};
   font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
 const BookAuthor = styled.p`
   font-size: ${({ theme }) => theme.dimensions.base3};
   line-height: ${({ theme }) => theme.dimensions.base3};
   font-weight: 400;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
 const BookDescription = styled.p`
@@ -59,6 +61,16 @@ const BookDescription = styled.p`
   line-height: 28px;
   text-align: justify;
   color: ${({ theme }) => theme.colors.gray};
+`;
+
+const ReadMoreText = styled.p`
+  display: inline;
+  color: ${({ theme }) => theme.colors.oceanBlue};
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
 interface Props {
@@ -82,28 +94,31 @@ const BookBlock = (props: Props) => {
   const shortDesc = parse(
     bookDesc.slice(0, descLength) + (descLength < bookDesc.length ? "..." : "")
   );
+  const bookAuthor = book?.volumeInfo.authors[0];
 
-  const rightHeaderElement = isMobile ? (
-    <PlusDiv>
-      <PlusIcon width={28} height={28} style={{ fill: theme.colors.white }} />
-    </PlusDiv>
-  ) : (
-    "Add"
-  );
   return (
     <BlockContainer>
-      {isLastRead && (
-        <BlockHeader title={"Last Read"} rightElement={rightHeaderElement} />
-      )}
+      {isLastRead && <BlockHeader title={"Last Read"} />}
 
       <ColoredBlockContainer color={theme.colors.limeGreen}>
         <BlockContent>
-          <CoverContainer imgSrc={book?.volumeInfo.imageLinks.medium} />
+          <CoverContainer imgSrc={book?.volumeInfo?.imageLinks?.medium} />
           <InfoBlock>
             {serieName && <BookSeries>{bookSeries}</BookSeries>}
-            <BookTitle>{bookTitle}</BookTitle>
-            <BookAuthor>{book?.volumeInfo.authors[0]}</BookAuthor>
-            <BookDescription>{shortDesc}</BookDescription>
+            <Link href={`/books/${book.id}`}>
+              <BookTitle>{bookTitle}</BookTitle>
+            </Link>
+            <Link href={`/authors/${bookAuthor}`}>
+              <BookAuthor>{bookAuthor}</BookAuthor>
+            </Link>
+            <BookDescription>
+              {shortDesc}{" "}
+              {descLength !== bookDesc.length && (
+                <Link href={`/books/${book.id}`}>
+                  <ReadMoreText>Read more</ReadMoreText>
+                </Link>
+              )}
+            </BookDescription>
           </InfoBlock>
         </BlockContent>
       </ColoredBlockContainer>

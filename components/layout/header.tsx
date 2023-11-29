@@ -41,7 +41,7 @@ const NavLink = (props: NavLinkProps) => {
 const NavLinkGroup = () => {
   return (
     <>
-      <NavLink href="/" title="Home" />
+      <NavLink href="/home" title="Home" />
       <NavLink href="/authors" title="Authors" />
       <NavLink href="/books" title="Books" />
       <NavLink href="/search" title="Search" />
@@ -80,7 +80,7 @@ const WebMenu = ({ onClickLogout }: MenuProps) => {
         </div>
         <NavLinkGroup />
       </StyledLeftNav>
-      <NavLink href="/" title="Log Out" onClick={() => onClickLogout()} />
+      <NavLink href="/home" title="Log Out" onClick={() => onClickLogout()} />
     </StyledNav>
   );
 };
