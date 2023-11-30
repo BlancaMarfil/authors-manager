@@ -61,7 +61,7 @@ const NameFollowingDiv = styled.div<{ following: string }>`
   }
 `;
 
-const StyledAuthorName = styled.p`
+const StyledAuthorName = styled.h1`
   font-size: ${({ theme }) => theme.dimensions.base3};
   line-height: ${({ theme }) => theme.dimensions.base3};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -77,7 +77,7 @@ const StyledAuthorName = styled.p`
   }
 `;
 
-const StyledFollow = styled.p`
+const StyledFollow = styled.h2`
   font-size: ${({ theme }) => theme.dimensions.base2};
   line-height: ${({ theme }) => theme.dimensions.base2};
   font-style: italic;

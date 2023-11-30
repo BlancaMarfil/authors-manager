@@ -38,21 +38,21 @@ const primaryRoundStyles = css`
   }
 `;
 
-const getStyles = ({ buttonStyle }: { buttonStyle?: string }) => {
-  if (buttonStyle === "primary") {
+const getStyles = ({ $buttonstyle }: { $buttonstyle?: string }) => {
+  if ($buttonstyle === "primary") {
     return primaryStyles;
-  } else if (buttonStyle === "secondary") {
+  } else if ($buttonstyle === "secondary") {
     return secondaryStyles;
-  } else if (buttonStyle === "terciary") {
+  } else if ($buttonstyle === "terciary") {
     return terciaryStyles;
-  } else if (buttonStyle === "round") {
+  } else if ($buttonstyle === "round") {
     return primaryRoundStyles;
   } else {
     return primaryStyles;
   }
 };
 
-const StyledButton = styled.button<{ buttonStyle?: string }>`
+const StyledButton = styled.button<{ $buttonstyle?: string }>`
   border-radius: ${({ theme }) => theme.dimensions.base3};
   cursor: pointer;
   border: 0;
@@ -82,7 +82,7 @@ const Button = (props: Props) => {
     <StyledButton
       type={buttonType || "button"}
       onClick={onClick}
-      buttonStyle={buttonStyle}
+      $buttonstyle={buttonStyle}
     >
       {children}
     </StyledButton>

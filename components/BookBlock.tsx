@@ -27,14 +27,14 @@ const InfoBlock = styled.div`
   gap: ${({ theme }) => theme.dimensions.base};
 `;
 
-const BookSeries = styled.p`
+const BookSeries = styled.h3`
   font-size: 20px;
   line-height: 20px;
   color: ${({ theme }) => theme.colors.gray};
   font-style: italic;
 `;
 
-const BookTitle = styled.p`
+const BookTitle = styled.h1`
   font-size: ${({ theme }) => theme.dimensions.base4};
   line-height: ${({ theme }) => theme.dimensions.base4};
   font-weight: 600;
@@ -45,7 +45,7 @@ const BookTitle = styled.p`
   }
 `;
 
-const BookAuthor = styled.p`
+const BookAuthor = styled.h2`
   font-size: ${({ theme }) => theme.dimensions.base3};
   line-height: ${({ theme }) => theme.dimensions.base3};
   font-weight: 400;
@@ -65,6 +65,8 @@ const BookDescription = styled.p`
 `;
 
 const ReadMoreText = styled.p`
+  font-size: 20px;
+  line-height: 28px;
   display: inline;
   color: ${({ theme }) => theme.colors.oceanBlue};
 
@@ -115,14 +117,12 @@ const BookBlock = (props: Props) => {
             <Link href={`/authors/${bookAuthor}`}>
               <BookAuthor>{bookAuthor}</BookAuthor>
             </Link>
-            <BookDescription>
-              {shortDesc}{" "}
-              {descLength !== bookDesc.length && (
-                <Link href={`/books/${book.id}`}>
-                  <ReadMoreText>Read more</ReadMoreText>
-                </Link>
-              )}
-            </BookDescription>
+            <BookDescription>{shortDesc} </BookDescription>
+            {descLength !== bookDesc.length && (
+              <Link href={`/books/${book.id}`}>
+                <ReadMoreText>Read more</ReadMoreText>
+              </Link>
+            )}
           </InfoBlock>
         </BlockContent>
       </ColoredBlockContainer>

@@ -23,7 +23,7 @@ const TitleHeader = styled.div`
   }
 `;
 
-const StyledTitle = styled.p`
+const StyledTitle = styled.h2`
   font-size: 28px;
   line-height: 28px;
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};

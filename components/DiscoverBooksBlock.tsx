@@ -41,28 +41,28 @@ const BlockContent = styled.div`
 `;
 
 interface StyledProps {
-  top: string;
-  leftweb: string;
-  lefttablet: string;
-  leftmobile: string;
-  zindex: number;
+  $top: string;
+  $leftweb: string;
+  $lefttablet: string;
+  $leftmobile: string;
+  $zindex: number;
 }
 
 const BookContainer = styled.div<StyledProps>`
   position: absolute;
   width: 133px;
   aspect-ratio: 1/1.5;
-  top: ${({ top }) => top};
-  left: ${({ leftmobile }) => leftmobile};
-  z-index: ${({ zindex }) => zindex};
+  top: ${({ $top }) => $top};
+  left: ${({ $leftmobile }) => $leftmobile};
+  z-index: ${({ $zindex }) => $zindex};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     width: 160px;
-    left: ${({ lefttablet }) => lefttablet};
+    left: ${({ $lefttablet }) => $lefttablet};
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
-    left: ${({ leftweb }) => leftweb};
+    left: ${({ $leftweb }) => $leftweb};
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.fourK}) {
@@ -120,11 +120,12 @@ const DiscoverBooksBlock = () => {
           <div>
             {imgArr.map((img, i) => (
               <BookContainer
-                top={topArr[i]}
-                leftweb={leftArrWeb[i]}
-                lefttablet={leftArrTablet[i]}
-                leftmobile={leftArrMobile[i]}
-                zindex={zIndexArr[i]}
+                key={i}
+                $top={topArr[i]}
+                $leftweb={leftArrWeb[i]}
+                $lefttablet={leftArrTablet[i]}
+                $leftmobile={leftArrMobile[i]}
+                $zindex={zIndexArr[i]}
               >
                 <BookCover>
                   <Image

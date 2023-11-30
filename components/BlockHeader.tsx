@@ -6,12 +6,12 @@ const linedStyle = css`
   border-bottom: 1px solid;
 `;
 
-const StyledTitleDiv = styled.div<{ lined: string }>`
+const StyledTitleDiv = styled.div<{ $lined: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  ${({ lined }) => lined === "true" && linedStyle}
+  ${({ $lined }) => $lined === "true" && linedStyle}
 `;
 
 const StyledBlockTitle = styled.h2`
@@ -46,7 +46,7 @@ const BlockHeader = (props: Props) => {
     );
 
   return (
-    <StyledTitleDiv lined={lined.toString()}>
+    <StyledTitleDiv $lined={lined.toString()}>
       <StyledBlockTitle>{title}</StyledBlockTitle>
       {component}
     </StyledTitleDiv>

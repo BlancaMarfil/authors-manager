@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 interface StyledProps {
   color?: string;
-  mobilecolor?: string;
+  $mobilecolor?: string;
 }
 
 const ColoredBlock = styled.div<StyledProps>`
   margin: 0 -${({ theme }) => theme.dimensions.base2};
   padding: ${({ theme }) => theme.dimensions.base4};
-  background-color: ${({ mobilecolor }) => mobilecolor};
+  background-color: ${({ $mobilecolor }) => $mobilecolor};
   height: fit-content;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
@@ -31,7 +31,7 @@ const ColoredBlockContainer = (props: Props) => {
   const { color, mobileColor, children } = props;
 
   return (
-    <ColoredBlock color={color} mobilecolor={mobileColor}>
+    <ColoredBlock color={color} $mobilecolor={mobileColor}>
       {children}
     </ColoredBlock>
   );

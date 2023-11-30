@@ -144,7 +144,7 @@ const Container = styled.div`
   }
 `;
 
-const MobileContent = styled.div<{ menuvisible?: string }>`
+const MobileContent = styled.div<{ $menuvisible?: string }>`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
@@ -152,7 +152,7 @@ const MobileContent = styled.div<{ menuvisible?: string }>`
   position: absolute;
   width: 100%;
   z-index: 1;
-  max-height: ${({ menuvisible }) => (menuvisible === "true" ? "200px" : "0")};
+  max-height: ${({ $menuvisible }) => ($menuvisible === "true" ? "200px" : "0")};
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
 `;
@@ -180,7 +180,7 @@ const Header = () => {
         )}
       </Container>
       <>
-        <MobileContent menuvisible={menuVisible.toString()} ref={wrapperRef}>
+        <MobileContent $menuvisible={menuVisible.toString()} ref={wrapperRef}>
           <NavLinkGroup onClick={() => setMenuVisible(false)} />
         </MobileContent>
       </>

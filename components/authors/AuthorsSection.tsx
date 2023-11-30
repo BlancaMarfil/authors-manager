@@ -6,7 +6,7 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import useIsMobile from "../../hooks/useIsMobile";
 
-const BlockContent = styled.div<{ truncate: string }>`
+const BlockContent = styled.div<{ $truncate: string }>`
   display: flex;
   flex-wrap: wrap;
   padding: ${({ theme }) => theme.dimensions.base}
@@ -18,8 +18,8 @@ const BlockContent = styled.div<{ truncate: string }>`
     justify-content: flex-start;
     column-gap: ${({ theme }) => theme.dimensions.base7};
     row-gap: ${({ theme }) => theme.dimensions.base3};
-    ${({ truncate }) =>
-      truncate === "true" &&
+    ${({ $truncate }) =>
+      $truncate === "true" &&
       css`
         flex-wrap: nowrap;
         overflow: hidden;
@@ -49,7 +49,7 @@ const AuthorsSection = (props: Props) => {
   const numberToShow = isMobile ? 6 : authorNames?.length;
 
   return (
-    <BlockContent truncate={(truncate && !isMobile).toString()}>
+    <BlockContent $truncate={(truncate && !isMobile).toString()}>
       {authorNames?.map(
         (authorName, i) =>
           i < numberToShow && (
