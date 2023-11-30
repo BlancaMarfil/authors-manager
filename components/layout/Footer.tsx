@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import InstagramLogo from "../../public/icons/instagram.svg";
-import Facebooklogo from "../../public/icons/facebook.svg";
+import FacebookLogo from "../../public/icons/facebook.svg";
 import XTwitterLogo from "../../public/icons/x-twitter.svg";
 import theme from "../../styles/theme";
 
@@ -48,7 +48,7 @@ const Footer = () => {
           height={28}
           style={{ fill: theme.colors.white }}
         />
-        <Facebooklogo
+        <FacebookLogo
           width={28}
           height={28}
           style={{ fill: theme.colors.oceanBlue }}

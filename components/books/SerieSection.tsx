@@ -2,7 +2,7 @@ import styled from "styled-components";
 import BooksSection from "./BooksSection";
 import { useEffect, useRef, useState } from "react";
 import useIsMobile from "../../hooks/useIsMobile";
-import ArrowDown from "../../public/icons/arrow_back.svg";
+import ArrowDownIcon from "../../public/icons/arrow_back.svg";
 import { SeriesBook } from "../../types/types";
 
 const Container = styled.div`
@@ -67,7 +67,7 @@ const SerieSection = (props: Props) => {
     <Container>
       <TitleHeader onClick={() => setShowContent(!showContent)}>
         <StyledTitle>{title}</StyledTitle>
-        {isMobile && <ArrowDown />}
+        {isMobile && <ArrowDownIcon />}
       </TitleHeader>
       {isMobile ? (
         <StyledBookSection

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import BlockContainer from "../containers/BlockContainer";
-import Bookmark from "../../public/icons/bookmark.svg";
-import Calendar from "../../public/icons/edit_calendar.svg";
-import Close from "../../public/icons/close.svg";
+import BookmarkIcon from "../../public/icons/bookmark.svg";
+import CalendarIcon from "../../public/icons/edit_calendar.svg";
+import CloseIcon from "../../public/icons/close.svg";
 import theme from "../../styles/theme";
 import Button from "../UI/Button";
 import {
@@ -225,7 +225,7 @@ const ReadHeader = (props: Props) => {
             {!isMobile && (
               <GroupDiv>
                 <ReadIconDiv color={readColor} onClick={handleBookmark}>
-                  <Bookmark
+                  <BookmarkIcon
                     width={40}
                     height={40}
                     style={{ fill: theme.colors.white }}
@@ -249,7 +249,7 @@ const ReadHeader = (props: Props) => {
                       color={theme.colors.lightGray}
                       onClick={() => setShowCalendarInput(false)}
                     >
-                      <Close style={{ fill: theme.colors.white }} />
+                      <CloseIcon style={{ fill: theme.colors.white }} />
                     </CloseIconDiv>
                   </>
                 ) : (
@@ -260,7 +260,7 @@ const ReadHeader = (props: Props) => {
                       {isMobile && "Read on"} {format(dateRead, "dd/MM/yyyy")}
                     </DateText>
                     {isMobile && (
-                      <Calendar style={{ fill: theme.colors.lightGray }} />
+                      <CalendarIcon style={{ fill: theme.colors.lightGray }} />
                     )}
                   </DateDiv>
                 )}
