@@ -8,6 +8,7 @@ import AuthContext from "../../context/AuthContext";
 import ResultsBooks from "../../components/search/ResultsBooks";
 import Button from "../../components/UI/Button";
 import { useRouter } from "next/router";
+import Loader from "../../components/UI/Loader";
 
 const NoBooksContainer = styled.div`
   display: flex;
@@ -46,7 +47,9 @@ const Books = () => {
 
   return (
     <>
-      {bookIds.length === 0 ? (
+      {loading ? (
+        <Loader />
+      ) : bookIds.length === 0 ? (
         <NoBooksContainer>
           <NoBooksText>You haven't added any books yet</NoBooksText>
           <Button onClick={handleExploreClick}>

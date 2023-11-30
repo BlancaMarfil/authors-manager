@@ -9,6 +9,7 @@ import useIsMobile from "../hooks/useIsMobile";
 import { InferredBook } from "../types/types";
 import parse from "html-react-parser";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const BlockContent = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
@@ -95,6 +96,9 @@ const BookBlock = (props: Props) => {
     bookDesc.slice(0, descLength) + (descLength < bookDesc.length ? "..." : "")
   );
   const bookAuthor = book?.volumeInfo.authors[0];
+  const bookImg =
+    book?.volumeInfo?.imageLinks?.medium ||
+    book?.volumeInfo?.imageLinks?.thumbnail;
 
   return (
     <BlockContainer>
@@ -102,7 +106,7 @@ const BookBlock = (props: Props) => {
 
       <ColoredBlockContainer color={theme.colors.limeGreen}>
         <BlockContent>
-          <CoverContainer imgSrc={book?.volumeInfo?.imageLinks?.medium} />
+          <CoverContainer imgSrc={bookImg} />
           <InfoBlock>
             {serieName && <BookSeries>{bookSeries}</BookSeries>}
             <Link href={`/books/${book.id}`}>

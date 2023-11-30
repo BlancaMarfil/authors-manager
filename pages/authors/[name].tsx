@@ -7,6 +7,7 @@ import { getSeriesFromBooks } from "../../lib/utils/bookFunctions";
 import BookShelfBlock from "../../components/books/BookShelfBlock";
 import SerieSection from "../../components/books/SerieSection";
 import BooksSection from "../../components/books/BooksSection";
+import Loader from "../../components/UI/Loader";
 
 const Author = () => {
   const router = useRouter();
@@ -55,16 +56,28 @@ const Author = () => {
   return (
     <>
       <AuthorNameBlock authorName={authorName} />
-
-      <BookShelfBlock blockTitle="Series">
-        {series.map((serie, i) => (
-          <SerieSection key={i} title={serie.name} seriesBooks={serie.books} />
-        ))}
-      </BookShelfBlock>
-
-      <BookShelfBlock blockTitle="Stand-alone works">
-        <BooksSection wrap="wrap" bookIds={standAloneWorksIds} />
-      </BookShelfBlock>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {series.length > 0 && (
+            <BookShelfBlock blockTitle="Series">
+              {series.map((serie, i) => (
+                <SerieSection
+                  key={i}
+                  title={serie.name}
+                  seriesBooks={serie.books}
+                />
+              ))}
+            </BookShelfBlock>
+          )}
+          {standAloneWorksIds.length > 0 && (
+            <BookShelfBlock blockTitle="Stand-alone works">
+              <BooksSection wrap="wrap" bookIds={standAloneWorksIds} />
+            </BookShelfBlock>
+          )}
+        </>
+      )}
     </>
   );
 };

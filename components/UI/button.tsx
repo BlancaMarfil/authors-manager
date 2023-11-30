@@ -28,13 +28,25 @@ const terciaryStyles = css`
   }
 `;
 
+const primaryRoundStyles = css`
+  background: ${({ theme }) => theme.colors.sunsetRed};
+  padding: 0;
+  border-radius: 50%;
+  color: white;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 const getStyles = ({ buttonStyle }: { buttonStyle?: string }) => {
   if (buttonStyle === "primary") {
     return primaryStyles;
   } else if (buttonStyle === "secondary") {
     return secondaryStyles;
-  }else if (buttonStyle === "terciary") {
+  } else if (buttonStyle === "terciary") {
     return terciaryStyles;
+  } else if (buttonStyle === "round") {
+    return primaryRoundStyles;
   } else {
     return primaryStyles;
   }

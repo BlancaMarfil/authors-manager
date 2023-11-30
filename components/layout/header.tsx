@@ -1,32 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
-import Menu from "../../public/icons/menu.svg";
-import Logout from "../../public/icons/logout.svg";
+import MenuIcon from "../../public/icons/menu.svg";
+import LogoutIcon from "../../public/icons/logout.svg";
 import styled from "styled-components";
 import { MouseEvent, useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import useIsMobile from "../../hooks/useIsMobile";
 import theme from "../../styles/theme";
 
-// ------------------------ NAV LINK WEB------------------------
+// ------------------------ NAV LINK ------------------------
 const StyledLink = styled.a`
-  font-size: ${({ theme }) => theme.dimensions.base3};
-  line-height: ${({ theme }) => theme.dimensions.base3};
-  color: ${({ theme }) => theme.colors.white};
-  cursor: pointer;
+  font-size: 20px;
+  line-height: 20px;
+  color: ${({ theme }) => theme.colors.oceanBlue};
+  padding: 12px ${({ theme }) => theme.dimensions.base2};
+  border-top: 1px solid ${({ theme }) => theme.colors.oceanBlue};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    font-size: ${({ theme }) => theme.dimensions.base3};
+    line-height: ${({ theme }) => theme.dimensions.base3};
+    color: ${({ theme }) => theme.colors.white};
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+  }
 `;
 
 interface NavLinkProps {
   href: string;
   title: string;
-  onClick?: any;
+  onClick?: () => void;
 }
 
 const NavLink = (props: NavLinkProps) => {
   const { href, title, onClick } = props;
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
     onClick();
   };
 
@@ -38,13 +47,13 @@ const NavLink = (props: NavLinkProps) => {
 };
 
 // ------------------------ NAV LINK GROUP ------------------------
-const NavLinkGroup = () => {
+const NavLinkGroup = ({ onClick }: { onClick?: () => void }) => {
   return (
     <>
-      <NavLink href="/home" title="Home" />
-      <NavLink href="/authors" title="Authors" />
-      <NavLink href="/books" title="Books" />
-      <NavLink href="/search" title="Search" />
+      <NavLink href="/" title="Home" onClick={onClick} />
+      <NavLink href="/authors" title="Authors" onClick={onClick} />
+      <NavLink href="/books" title="Books" onClick={onClick} />
+      <NavLink href="/search" title="Search" onClick={onClick} />
     </>
   );
 };
@@ -80,7 +89,7 @@ const WebMenu = ({ onClickLogout }: MenuProps) => {
         </div>
         <NavLinkGroup />
       </StyledLeftNav>
-      <NavLink href="/home" title="Log Out" onClick={() => onClickLogout()} />
+      <NavLink href="/" title="Log Out" onClick={() => onClickLogout()} />
     </StyledNav>
   );
 };
@@ -103,13 +112,13 @@ const MobileMenu = (props: MobileMenuProps) => {
   return (
     <>
       <StyledMobileNav>
-        <Menu
+        <MenuIcon
           width={32}
           height={32}
           style={{ fill: theme.colors.white }}
           onClick={() => onClickMenu()}
         />
-        <Logout
+        <LogoutIcon
           width={32}
           height={32}
           style={{ fill: theme.colors.white }}
@@ -189,7 +198,7 @@ const Header = () => {
         )}
       </Container>
       <MobileContent menuvisible={menuVisible.toString()}>
-        <NavLinkGroup />
+        <NavLinkGroup onClick={() => setMenuVisible(false)}/>
       </MobileContent>
     </>
   );

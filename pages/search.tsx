@@ -9,6 +9,14 @@ import ResultsAuthor from "../components/search/ResultsAuthor";
 import ResultsBooks from "../components/search/ResultsBooks";
 
 const Container = styled.div`
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    margin-top: ${({ theme }) => theme.dimensions.base4};
+  }
+`;
+
+const NoResults = styled.h1`
+  color: ${({ theme }) => theme.colors.gray};
+  text-align: center;
   margin-top: ${({ theme }) => theme.dimensions.base4};
 `;
 
@@ -17,6 +25,7 @@ const Search = () => {
   const maxResultsAuthors = 15;
 
   const [inputValue, setInputValue] = useState("");
+  const [firstSearch, setFirstSearch] = useState(true);
 
   const [bookIds, setBookIds] = useState<string[]>([]);
   const [startBooks, setStartBooks] = useState(0);
@@ -36,6 +45,7 @@ const Search = () => {
     newSearch: boolean,
     type?: "books" | "authors"
   ) => {
+    setFirstSearch(false);
     if (!type || type === "books") {
       newSearch && setBookIds([]);
       searchBooks({
@@ -102,13 +112,17 @@ const Search = () => {
     }
   }, [dataAuthors]);
 
+  useEffect(() => {
+    setFirstSearch(true);
+  }, []);
+
   return (
     <Container>
       <SearchBox
         placeholder="Type a book title, author name, series..."
         onSearch={handleOnClick}
       />
-      {bookIds.length > 0 && (
+      {!loadingBooks && bookIds.length > 0 && (
         <ResultsBooks
           title={"Books"}
           bookIds={bookIds}
@@ -116,13 +130,18 @@ const Search = () => {
           showLoadButton={showLoadButtonBooks}
         />
       )}
-      {authorNames.length > 0 && (
+      {!loadingAuthors && authorNames.length > 0 && (
         <ResultsAuthor
           authorNames={authorNames}
           onLoadMore={() => handleSearch(inputValue, false, "authors")}
           showLoadButton={showLoadButtonAuthors}
         />
       )}
+      {!firstSearch &&
+        !loadingBooks &&
+        !loadingAuthors &&
+        bookIds.length === 0 &&
+        authorNames.length === 0 && <NoResults>No results found</NoResults>}
     </Container>
   );
 };

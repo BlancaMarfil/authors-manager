@@ -11,6 +11,25 @@ import { useGetAuthorsByUserIdQuery } from "../../graphql/generated";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
+const StyledBlockContainer = styled(BlockContainer)`
+  margin-bottom: 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+    margin-bottom: ${({ theme }) => theme.dimensions.base3};
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: ${({ theme }) => theme.dimensions.base3};
+`;
+
+const ButtonDiv = styled.div`
+  padding: 0 ${({ theme }) => theme.dimensions.base10};
+`;
+
 interface Props {
   truncate?: boolean;
 }
@@ -32,25 +51,35 @@ const AuthorsBlock = (props: Props) => {
   };
 
   return (
-    <BlockContainer>
-      <BlockHeader
-        title={"Your Authors"}
-        rightElement={!isMobile && truncate && "View all"}
-        onPressed={onViewAllPressed}
-      />
+    <StyledBlockContainer>
+      {!loadingAuthors && (
+        <>
+          <BlockHeader
+            title={"Your Authors"}
+            rightElement={!isMobile && truncate && "View all"}
+            onPressed={onViewAllPressed}
+          />
 
-      <ColoredBlockContainer
-        color={theme.colors.oceanBlue}
-        mobileColor={theme.colors.oceanBlue}
-      >
-        <AuthorsSection
-          authorNames={authorNames}
-          truncate={truncate}
-          showNewAuthor
-        />
-        {isMobile && <Button>See all</Button>}
-      </ColoredBlockContainer>
-    </BlockContainer>
+          <ColoredBlockContainer
+            color={theme.colors.oceanBlue}
+            mobileColor={theme.colors.oceanBlue}
+          >
+            <AuthorsSection
+              authorNames={authorNames}
+              truncate={truncate}
+              showNewAuthor
+            />
+            {isMobile && (
+              <ButtonContainer>
+                <Button onClick={onViewAllPressed}>
+                  <ButtonDiv>View all</ButtonDiv>
+                </Button>
+              </ButtonContainer>
+            )}
+          </ColoredBlockContainer>
+        </>
+      )}
+    </StyledBlockContainer>
   );
 };
 

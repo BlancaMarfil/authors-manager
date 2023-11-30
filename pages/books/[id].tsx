@@ -26,7 +26,7 @@ interface Props {
 
 const Book = (props: Props) => {
   const { id, data: dataSearch } = props;
-  
+
   const { userId } = useContext(AuthContext);
   const [dateRead, setDateRead] = useState("");
 
@@ -68,16 +68,23 @@ const Book = (props: Props) => {
 
   return (
     <>
-      <ReadHeader
-        bookId={id}
-        dateReadInput={dateRead}
-        onChangeDateRead={(newDate) => setDateRead(newDate)}
-      />
-      <BookBlock book={book} serieName={seriesName} />
-      {series.length > 0 && (
-        <BookShelfBlock blockTitle="Other books in this series">
-          <SerieSection title={series[0].name} seriesBooks={series[0].books} />
-        </BookShelfBlock>
+      {!loadingBookRead && (
+        <>
+          <ReadHeader
+            bookId={id}
+            dateReadInput={dateRead}
+            onChangeDateRead={(newDate) => setDateRead(newDate)}
+          />
+          <BookBlock book={book} serieName={seriesName} />
+          {series.length > 0 && (
+            <BookShelfBlock blockTitle="Other books in this series">
+              <SerieSection
+                title={series[0].name}
+                seriesBooks={series[0].books}
+              />
+            </BookShelfBlock>
+          )}
+        </>
       )}
     </>
   );

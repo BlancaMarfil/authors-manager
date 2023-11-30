@@ -11,6 +11,10 @@ import {
 } from "../../graphql/generated";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
+const {
+  isAuthorFollowed,
+  getAuthorsByUserId,
+} = require("../../graphql/queries/catalogue.graphql");
 
 const StyledBlockContainer = styled(BlockContainer)`
   margin-top: 0;
@@ -77,6 +81,7 @@ const StyledFollow = styled.p`
   font-size: ${({ theme }) => theme.dimensions.base2};
   line-height: ${({ theme }) => theme.dimensions.base2};
   font-style: italic;
+  color: ${({ theme }) => theme.colors.sunsetRed};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
     font-size: ${({ theme }) => theme.dimensions.base4};
@@ -97,7 +102,7 @@ interface Props {
 const AuthorNameBlock = (props: Props) => {
   const { authorName } = props;
   const { userId } = useContext(AuthContext);
-  const [following, setFollowing] = useState<boolean>();
+  // const [following, setFollowing] = useState<boolean>();
 
   // Data
   const [followAuthor] = useFollowAuthorMutation();
@@ -107,20 +112,42 @@ const AuthorNameBlock = (props: Props) => {
     variables: { userId: userId, authorName: authorName },
   });
 
-  useEffect(() => {
-    if (data && data.findAuthorbyName) {
-      setFollowing(data.findAuthorbyName);
-    }
-  }, [data]);
+  let following = false;
+
+  if (data?.findAuthorbyName) {
+    following = data.findAuthorbyName;
+  }
+
+  // useEffect(() => {
+  //   if (data && data.findAuthorbyName) {
+  //     setFollowing(data.findAuthorbyName);
+  //   }
+  // }, [data]);
 
   // Actions
+  const queriesToRefetch = [
+    {
+      query: isAuthorFollowed,
+      variables: { userId: userId, authorName: authorName },
+    },
+    {
+      query: getAuthorsByUserId,
+      variables: { userId: userId },
+    },
+  ];
   const handlefollowing = () => {
     if (following) {
-      unFollowAuthor({ variables: { userId: userId, authorName: authorName } });
-      setFollowing(false);
+      unFollowAuthor({
+        variables: { userId: userId, authorName: authorName },
+        refetchQueries: queriesToRefetch,
+      });
+      // setFollowing(false);
     } else {
-      followAuthor({ variables: { userId: userId, authorName: authorName } });
-      setFollowing(true);
+      followAuthor({
+        variables: { userId: userId, authorName: authorName },
+        refetchQueries: queriesToRefetch,
+      });
+      // setFollowing(true);
     }
   };
 

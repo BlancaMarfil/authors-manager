@@ -16,9 +16,10 @@ const Home = () => {
   const { userId } = useContext(AuthContext);
 
   // DATA Last Book
-  const { data: dataLastBook } = useGetLastBookReadQuery({
-    variables: { userId: userId },
-  });
+  const { data: dataLastBook, loading: loadingLastBook } =
+    useGetLastBookReadQuery({
+      variables: { userId: userId },
+    });
 
   const lastBookId = dataLastBook?.lastBookReadByUserId?.bookId;
 
@@ -34,7 +35,7 @@ const Home = () => {
 
   return (
     <>
-      {loadingBooks ? (
+      {loadingBooks || loadingLastBook ? (
         <Loader />
       ) : (
         <>

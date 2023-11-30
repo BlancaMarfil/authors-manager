@@ -1,5 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Image from "next/image";
+import CustomImage from "./UI/CustomImage";
+import theme from "../styles/theme";
+import useIsMobile from "../hooks/useIsMobile";
 
 const BookCover = styled.div`
   flex: 1;
@@ -35,12 +38,7 @@ const CoverContainer = (props: Props) => {
 
   return (
     <BookCover>
-      <Image
-        src={imgSrc}
-        alt="Last Read Cover"
-        layout="fill"
-        objectFit="cover"
-      />
+      <CustomImage imgSrc={imgSrc || ""} alt="Last Read Cover" />
     </BookCover>
   );
 };

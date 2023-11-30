@@ -16,6 +16,7 @@ import {
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useRouter } from "next/router";
+import CustomImage from "../UI/CustomImage";
 
 const Container = styled.div`
   display: flex;
@@ -122,12 +123,13 @@ const SingleBook = (props: Props) => {
                 <ReadText>READ {date}</ReadText>
               </Overlay>
             )}
-            <Image
+            {/* <Image
               src={imgSrc}
               alt={bookInfo?.title}
               layout="fill"
               objectFit="cover"
-            />
+            /> */}
+            <CustomImage imgSrc={imgSrc} alt={bookInfo?.title} />
           </BookCover>
 
           <TitleAuthorDiv>

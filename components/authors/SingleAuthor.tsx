@@ -7,6 +7,7 @@ import { generateBackground } from "../../lib/utils/JSFunctions";
 import { useIsAuthorFollowedQuery } from "../../graphql/generated";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
+import useIsMobile from "../../hooks/useIsMobile";
 
 const AuthorBlock = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const AuthorContainer = styled.div`
   overflow: hidden;
   position: relative;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
     width: ${({ theme }) => theme.dimensions.base20};
     height: ${({ theme }) => theme.dimensions.base20};
   }
@@ -40,7 +41,7 @@ const AvatarContainer = styled.div`
   overflow: hidden;
   position: relative;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
     width: ${({ theme }) => theme.dimensions.base20};
     height: ${({ theme }) => theme.dimensions.base20};
   }
@@ -80,19 +81,23 @@ interface Props {
 const SingleAuthor = (props: Props) => {
   const { authorName = "", color, searchTheme, showName = true } = props;
   const { userId } = useContext(AuthContext);
+  const { isMobile } = useIsMobile();
 
   const { data } = useIsAuthorFollowedQuery({
     variables: { userId: userId, authorName: authorName },
   });
   const following = data?.findAuthorbyName || false;
 
+  const avatarSize = isMobile
+    ? theme.dimensions.base17
+    : theme.dimensions.base20;
   return (
     <Link href={`/authors/${authorName}`}>
       <AuthorBlock>
         <AvatarContainer>
           <Avatar
             name={authorName}
-            size={"160px"}
+            size={avatarSize}
             round={true}
             color={generateBackground(authorName || "")}
             style={{ fontFamily: theme.fontFamily }}
