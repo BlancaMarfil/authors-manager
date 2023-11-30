@@ -3,10 +3,11 @@ import Image from "next/image";
 import MenuIcon from "../../public/icons/menu.svg";
 import LogoutIcon from "../../public/icons/logout.svg";
 import styled from "styled-components";
-import { MouseEvent, useContext, useState } from "react";
+import { MouseEvent, useContext, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import useIsMobile from "../../hooks/useIsMobile";
 import theme from "../../styles/theme";
+import useClickOutside from "../../hooks/useClickOutside";
 
 // ------------------------ NAV LINK ------------------------
 const StyledLink = styled.a`
@@ -79,14 +80,16 @@ const WebMenu = ({ onClickLogout }: MenuProps) => {
   return (
     <StyledNav>
       <StyledLeftNav>
-        <div style={{ marginTop: "-2px" }}>
-          <Image
-            src="/icons/AuthorsManagerLogo.svg"
-            alt="AuthorsManagerLogo"
-            width={32}
-            height={32}
-          />
-        </div>
+        <Link href={"/"} style={{ marginTop: "-2px" }}>
+          <StyledLink>
+            <Image
+              src="/icons/AuthorsManagerLogo.svg"
+              alt="AuthorsManagerLogo"
+              width={32}
+              height={32}
+            />
+          </StyledLink>
+        </Link>
         <NavLinkGroup />
       </StyledLeftNav>
       <NavLink href="/" title="Log Out" onClick={() => onClickLogout()} />
@@ -129,32 +132,6 @@ const MobileMenu = (props: MobileMenuProps) => {
   );
 };
 
-// ------------------------ NAV LINK MOBILE ------------------------
-const MobileLinkDiv = styled.div`
-  border-top: 1px solid ${({ theme }) => theme.colors.oceanBlue};
-  display: flex;
-  align-items: center;
-`;
-
-const MobileLink = styled.a`
-  padding: ${({ theme }) => theme.dimensions.base2}
-    ${({ theme }) => theme.dimensions.base3};
-  font-size: 20px;
-  color: ${({ theme }) => theme.colors.oceanBlue};
-`;
-
-const NavLinkMobile = (props: NavLinkProps) => {
-  const { href, title } = props;
-
-  return (
-    <Link href={href}>
-      <MobileLinkDiv>
-        <MobileLink>{title}</MobileLink>
-      </MobileLinkDiv>
-    </Link>
-  );
-};
-
 // ------------------------ MAIN ------------------------
 const Container = styled.div`
   width: 100%;
@@ -185,6 +162,11 @@ const Header = () => {
   const { isMobile } = useIsMobile();
   const [menuVisible, setMenuVisible] = useState(false);
 
+  const wrapperRef = useRef();
+  useClickOutside(wrapperRef, () => {
+    setMenuVisible(false);
+  });
+
   return (
     <>
       <Container>
@@ -197,9 +179,11 @@ const Header = () => {
           <WebMenu onClickLogout={authCtx.onLogout} />
         )}
       </Container>
-      <MobileContent menuvisible={menuVisible.toString()}>
-        <NavLinkGroup onClick={() => setMenuVisible(false)}/>
-      </MobileContent>
+      <>
+        <MobileContent menuvisible={menuVisible.toString()} ref={wrapperRef}>
+          <NavLinkGroup onClick={() => setMenuVisible(false)} />
+        </MobileContent>
+      </>
     </>
   );
 };

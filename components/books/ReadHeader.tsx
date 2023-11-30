@@ -56,6 +56,7 @@ const GroupDiv = styled.div`
     justify-content: flex-start;
     width: fit-content;
     position: relative;
+    top: 0;
     border: 0;
     padding: 0;
     margin: 0;

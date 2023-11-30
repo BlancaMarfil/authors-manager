@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import RegistrationBlock from "./RegistrationBlock";
 import Button from "../UI/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegistrationType } from "../../types/types";
 import { useLoginMutation, useSignUpMutation } from "../../graphql/generated";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
 const StyledRowBlock = styled.div`
@@ -47,11 +47,18 @@ const StyledField = styled(Field)`
   outline: none;
 `;
 
-const StyledError = styled(ErrorMessage)`
+const errorStyles = css`
   color: ${({ theme }) => theme.colors.sunsetRed};
   width: 100%;
   text-align: end;
   font-style: italic;
+`;
+
+const StyledErrorForm = styled(ErrorMessage)`
+  ${errorStyles}
+`;
+const StyledError = styled.div`
+  ${errorStyles}
 `;
 
 interface InitialValues {
@@ -65,6 +72,7 @@ interface Props {
 }
 
 const RegistrationForm = ({ origin }: Props) => {
+  const [errorSubmit, setErrorSbmit] = useState("");
   const initialValues: InitialValues = {
     email: "",
     password: "",
@@ -88,6 +96,11 @@ const RegistrationForm = ({ origin }: Props) => {
           variables: { email: values.email, password: values.password },
         }).then((dataSignup) => (token = dataSignup.data.createUser.token));
       } catch (error) {
+        if (error.message.includes("duplicate key error")) {
+          setErrorSbmit("This email already exists");
+        } else {
+          setErrorSbmit("An error ocurred");
+        }
         return console.error(error);
       }
     } else if (origin === "login") {
@@ -98,6 +111,7 @@ const RegistrationForm = ({ origin }: Props) => {
           token = dataLogin.data.loginUser.token;
         });
       } catch (error) {
+        setErrorSbmit(error.message);
         return console.error(error);
       }
     }
@@ -120,19 +134,21 @@ const RegistrationForm = ({ origin }: Props) => {
 
     if (!values.password) {
       errors["password"] = "Password is required";
-    } else if (values.password.length < 8) {
-      errors["password"] = "Password must be at least 8 characters long";
-    } else if (!/(?=.*[a-z])/.test(values.password)) {
-      errors["password"] =
-        "Password must contain at least one lowercase letter";
-    } else if (!/(?=.*[A-Z])/.test(values.password)) {
-      errors["password"] =
-        "Password must contain at least one uppercase letter";
-    } else if (!/(?=.*\d)/.test(values.password)) {
-      errors["password"] = "Password must contain at least one number";
-    } else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
-      errors["password"] =
-        "Password must contain at least one special character (!@#$%^&*)";
+    } else if (origin === "signup") {
+      if (values.password.length < 8) {
+        errors["password"] = "Password must be at least 8 characters long";
+      } else if (!/(?=.*[a-z])/.test(values.password)) {
+        errors["password"] =
+          "Password must contain at least one lowercase letter";
+      } else if (!/(?=.*[A-Z])/.test(values.password)) {
+        errors["password"] =
+          "Password must contain at least one uppercase letter";
+      } else if (!/(?=.*\d)/.test(values.password)) {
+        errors["password"] = "Password must contain at least one number";
+      } else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
+        errors["password"] =
+          "Password must contain at least one special character (!@#$%^&*)";
+      }
     }
 
     if (origin === "signup") {
@@ -162,7 +178,7 @@ const RegistrationForm = ({ origin }: Props) => {
               </StyledDivLabel>
               <StyledField type="email" id="email" name="email" />
             </StyledRow>
-            <StyledError name="email" component="div" />
+            <StyledErrorForm name="email" component="div" />
           </StyledRowBlock>
 
           <StyledRowBlock>
@@ -172,7 +188,7 @@ const RegistrationForm = ({ origin }: Props) => {
               </StyledDivLabel>
               <StyledField type="password" id="password" name="password" />
             </StyledRow>
-            <StyledError name="password" component="div" />
+            <StyledErrorForm name="password" component="div" />
           </StyledRowBlock>
 
           {origin === "signup" && (
@@ -189,10 +205,11 @@ const RegistrationForm = ({ origin }: Props) => {
                   name="confirmPassword"
                 />
               </StyledRow>
-              <StyledError name="confirmPassword" component="div" />
+              <StyledErrorForm name="confirmPassword" component="div" />
             </StyledRowBlock>
           )}
 
+          <StyledError>{errorSubmit}</StyledError>
           <Button buttonType="submit">{buttonTitle}</Button>
         </RegistrationBlock>
       </Form>
