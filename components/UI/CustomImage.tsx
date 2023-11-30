@@ -1,8 +1,6 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useState } from "react";
 import Image from "next/image";
-import Loader from "./Loader";
-import theme from "../../styles/theme";
 
 const StyledImage = styled(Image)`
   opacity: 0;

@@ -3,12 +3,10 @@ import DiscoverBooksBlock from "../components/blocks/DiscoverBooksBlock";
 import BookBlock from "../components/blocks/BookBlock";
 import Loader from "../components/UI/Loader";
 import {
-  useGetAuthorsByUserIdQuery,
   useGetLastBookReadQuery,
   useSearchGoogleBooksByBookIdQuery,
-  useSearchGoogleBooksQuery,
 } from "../graphql/generated";
-import { InferredBook, InferredVolumeInfo } from "../types/types";
+import { InferredBook } from "../types/types";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 

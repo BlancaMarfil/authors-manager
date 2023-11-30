@@ -3,9 +3,7 @@ import BlockContainer from "../containers/BlockContainer";
 import BlockHeader from "./BlockHeader";
 import ColoredBlockContainer from "../containers/ColoredBlockContainer";
 import theme from "../../styles/theme";
-import CoverContainer from "../containers/CoverContainer";
 import Button from "../UI/Button";
-import useIsMobile from "../../hooks/useIsMobile";
 import Image from "next/image";
 import { useRouter } from "next/router";
 

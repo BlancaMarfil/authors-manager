@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useGetUserByTokenQuery } from "../graphql/generated";
 
 const AuthContext = React.createContext({
   userId: null,

@@ -4,7 +4,6 @@ import Button from "../UI/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { RegistrationType } from "../../types/types";
 import { useLoginMutation, useSignUpMutation } from "../../graphql/generated";
-import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
@@ -85,7 +84,6 @@ const RegistrationForm = ({ origin }: Props) => {
   // Hooks
   const [signUpUser] = useSignUpMutation();
   const [loginUser] = useLoginMutation();
-  const router = useRouter();
   const authCtx = useContext(AuthContext);
 
   // Actions

@@ -9,7 +9,7 @@ import {
   useIsAuthorFollowedQuery,
   useUnFollowAuthorMutation,
 } from "../../graphql/generated";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 const {
   isAuthorFollowed,
@@ -102,7 +102,6 @@ interface Props {
 const AuthorNameBlock = (props: Props) => {
   const { authorName } = props;
   const { userId } = useContext(AuthContext);
-  // const [following, setFollowing] = useState<boolean>();
 
   // Data
   const [followAuthor] = useFollowAuthorMutation();
@@ -117,12 +116,6 @@ const AuthorNameBlock = (props: Props) => {
   if (data?.findAuthorbyName) {
     following = data.findAuthorbyName;
   }
-
-  // useEffect(() => {
-  //   if (data && data.findAuthorbyName) {
-  //     setFollowing(data.findAuthorbyName);
-  //   }
-  // }, [data]);
 
   // Actions
   const queriesToRefetch = [

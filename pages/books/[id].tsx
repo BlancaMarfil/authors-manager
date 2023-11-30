@@ -5,14 +5,11 @@ import {
   useGetBookReadByUserQuery,
   useSearchGoogleBooksByAuthorSeriesQuery,
 } from "../../graphql/generated";
-import useIsMobile from "../../hooks/useIsMobile";
 import apolloClient from "../../lib/apolloClient";
-import { gql } from "@apollo/client";
 import { InferredBook, Series } from "../../types/types";
 import { getSeriesFromBooks } from "../../lib/utils/bookFunctions";
 import BookShelfBlock from "../../components/books/BookShelfBlock";
 import SerieSection from "../../components/books/SerieSection";
-import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 const {

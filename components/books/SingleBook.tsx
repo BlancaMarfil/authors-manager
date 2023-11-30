@@ -1,18 +1,11 @@
 import styled from "styled-components";
-import Image from "next/image";
-import { format } from "date-fns";
 import Overlay from "../UI/Overlay";
 import Link from "next/link";
 import {
   useGetBookReadByUserQuery,
-  useGetBooksByUserIdQuery,
   useSearchGoogleBooksByBookIdQuery,
 } from "../../graphql/generated";
-import {
-  InferredBook,
-  InferredVolumeInfo,
-  SeriesBook,
-} from "../../types/types";
+import { InferredVolumeInfo } from "../../types/types";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useRouter } from "next/router";
@@ -123,12 +116,6 @@ const SingleBook = (props: Props) => {
                 <ReadText>READ {date}</ReadText>
               </Overlay>
             )}
-            {/* <Image
-              src={imgSrc}
-              alt={bookInfo?.title}
-              layout="fill"
-              objectFit="cover"
-            /> */}
             <CustomImage imgSrc={imgSrc} alt={bookInfo?.title} />
           </BookCover>
 

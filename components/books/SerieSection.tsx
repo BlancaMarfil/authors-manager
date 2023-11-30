@@ -3,8 +3,7 @@ import BooksSection from "./BooksSection";
 import { useEffect, useRef, useState } from "react";
 import useIsMobile from "../../hooks/useIsMobile";
 import ArrowDown from "../../public/icons/arrow_back.svg";
-import { InferredBook, SeriesBook } from "../../types/types";
-import { useSearchGoogleBooksByBookIdQuery } from "../../graphql/generated";
+import { SeriesBook } from "../../types/types";
 
 const Container = styled.div`
   display: flex;

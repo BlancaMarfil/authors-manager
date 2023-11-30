@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import SingleBook from "./SingleBook";
 import { useRef } from "react";
-import { InferredBook, SeriesBook } from "../../types/types";
 
 const Container = styled.div<{ wrap: string }>`
   display: flex;

@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import BlockContainer from "../containers/BlockContainer";
 import BlockHeader from "../blocks/BlockHeader";
 import ColoredBlockContainer from "../containers/ColoredBlockContainer";

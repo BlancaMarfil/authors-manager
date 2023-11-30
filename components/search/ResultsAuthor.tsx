@@ -1,7 +1,5 @@
-import styled from "styled-components";
 import AuthorsSection from "../authors/AuthorsSection";
 import theme from "../../styles/theme";
-import Button from "../UI/Button";
 import BlockHeader from "../blocks/BlockHeader";
 import BlockContainer from "../containers/BlockContainer";
 import LoadMoreButton from "./LoadMoreButton";

@@ -1,4 +1,3 @@
-import { useSearchGoogleBooksLazyQuery } from "../../graphql/generated";
 import BlockContainer from "../containers/BlockContainer";
 import BlockHeader from "../blocks/BlockHeader";
 import BooksSection from "../books/BooksSection";
@@ -18,9 +17,7 @@ const ResultsBooks = (props: Props) => {
     <BlockContainer>
       <BlockHeader title={title} lined />
       <BooksSection wrap="wrap" bookIds={bookIds} conservative />
-      {showLoadButton && (
-        <LoadMoreButton onClick={onLoadMore} />
-      )}
+      {showLoadButton && <LoadMoreButton onClick={onLoadMore} />}
     </BlockContainer>
   );
 };

@@ -20,7 +20,7 @@ const StyledBox = styled.div<{ origin?: RegistrationType }>`
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
-    width: ${(props) => props.origin === "login" ? "38vw" : "56vw"};
+    width: ${(props) => (props.origin === "login" ? "38vw" : "56vw")};
     margin: auto;
     margin-top: ${({ theme }) => theme.dimensions.base13};
     padding: ${({ theme }) => theme.dimensions.base6}

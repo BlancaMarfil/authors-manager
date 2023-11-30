@@ -70,7 +70,7 @@ const theme = {
   fontTypes,
   fontWeights,
   breakpoints,
-  boxShadows
+  boxShadows,
 };
 
 export default theme;

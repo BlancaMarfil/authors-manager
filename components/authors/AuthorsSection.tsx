@@ -1,9 +1,6 @@
 import styled, { css } from "styled-components";
 import SingleAuthor, { NewAuthorSection } from "./SingleAuthor";
 import theme from "../../styles/theme";
-import { useGetAuthorsByUserIdQuery } from "../../graphql/generated";
-import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
 import useIsMobile from "../../hooks/useIsMobile";
 
 const BlockContent = styled.div<{ $truncate: string }>`

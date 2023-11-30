@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import BlockContainer from "../containers/BlockContainer";
 import Bookmark from "../../public/icons/bookmark.svg";
 import Calendar from "../../public/icons/edit_calendar.svg";
@@ -9,11 +9,11 @@ import {
   useAddBookMutation,
   useRemoveBookMutation,
 } from "../../graphql/generated";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format, parse, parseISO } from "date-fns";
+import { format, parse } from "date-fns";
 import useIsMobile from "../../hooks/useIsMobile";
 const {
   getBookReadByUser,

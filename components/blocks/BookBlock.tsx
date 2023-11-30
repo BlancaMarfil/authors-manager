@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import PlusIcon from "../public/icons/plus.svg";
 import theme from "../../styles/theme";
 import BlockHeader from "./BlockHeader";
 import BlockContainer from "../containers/BlockContainer";
@@ -9,7 +8,6 @@ import useIsMobile from "../../hooks/useIsMobile";
 import { InferredBook } from "../../types/types";
 import parse from "html-react-parser";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const BlockContent = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
