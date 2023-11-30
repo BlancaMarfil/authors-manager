@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 import Image from "next/image";
-import CustomImage from "./UI/CustomImage";
-import theme from "../styles/theme";
-import useIsMobile from "../hooks/useIsMobile";
+import CustomImage from "../UI/CustomImage";
+import theme from "../../styles/theme";
+import useIsMobile from "../../hooks/useIsMobile";
 
 const BookCover = styled.div`
   flex: 1;

@@ -1,5 +1,5 @@
-import BlockContainer from "../BlockContainer";
-import BlockHeader from "../BlockHeader";
+import BlockContainer from "../containers/BlockContainer";
+import BlockHeader from "../blocks/BlockHeader";
 
 interface Props {
   blockTitle: string;

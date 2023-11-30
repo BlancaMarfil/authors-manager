@@ -1,6 +1,6 @@
 import { useSearchGoogleBooksLazyQuery } from "../../graphql/generated";
-import BlockContainer from "../BlockContainer";
-import BlockHeader from "../BlockHeader";
+import BlockContainer from "../containers/BlockContainer";
+import BlockHeader from "../blocks/BlockHeader";
 import BooksSection from "../books/BooksSection";
 import LoadMoreButton from "./LoadMoreButton";
 

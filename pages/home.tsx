@@ -1,6 +1,6 @@
 import AuthorsBlock from "../components/authors/AuthorsBlock";
-import DiscoverBooksBlock from "../components/DiscoverBooksBlock";
-import BookBlock from "../components/BookBlock";
+import DiscoverBooksBlock from "../components/blocks/DiscoverBooksBlock";
+import BookBlock from "../components/blocks/BookBlock";
 import Loader from "../components/UI/Loader";
 import {
   useGetAuthorsByUserIdQuery,

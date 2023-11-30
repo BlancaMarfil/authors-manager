@@ -1,4 +1,4 @@
-import BookBlock from "../../components/BookBlock";
+import BookBlock from "../../components/blocks/BookBlock";
 import ReadHeader from "../../components/books/ReadHeader";
 import {
   SearchGoogleBooksByBookIdQuery,

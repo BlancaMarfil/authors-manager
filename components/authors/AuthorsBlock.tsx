@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
-import BlockContainer from "../BlockContainer";
-import BlockHeader from "../BlockHeader";
-import ColoredBlockContainer from "../ColoredBlockContainer";
+import BlockContainer from "../containers/BlockContainer";
+import BlockHeader from "../blocks/BlockHeader";
+import ColoredBlockContainer from "../containers/ColoredBlockContainer";
 import theme from "../../styles/theme";
 import Button from "../UI/Button";
 import { useRouter } from "next/router";

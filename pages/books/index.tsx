@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useContext } from "react";
-import BlockContainer from "../../components/BlockContainer";
-import BlockHeader from "../../components/BlockHeader";
+import BlockContainer from "../../components/containers/BlockContainer";
+import BlockHeader from "../../components/blocks/BlockHeader";
 import BooksSection from "../../components/books/BooksSection";
 import { useGetBooksByUserIdQuery } from "../../graphql/generated";
 import AuthContext from "../../context/AuthContext";

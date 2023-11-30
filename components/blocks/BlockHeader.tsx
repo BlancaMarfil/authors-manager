@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import Button from "./UI/Button";
+import Button from "../UI/Button";
 
 const linedStyle = css`
   padding-bottom: ${({ theme }) => theme.dimensions.base};

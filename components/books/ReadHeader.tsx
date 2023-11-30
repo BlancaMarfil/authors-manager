@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import BlockContainer from "../BlockContainer";
+import BlockContainer from "../containers/BlockContainer";
 import Bookmark from "../../public/icons/bookmark.svg";
 import Calendar from "../../public/icons/edit_calendar.svg";
 import Close from "../../public/icons/close.svg";

@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import BlockContainer from "./BlockContainer";
+import BlockContainer from "../containers/BlockContainer";
 import BlockHeader from "./BlockHeader";
-import ColoredBlockContainer from "./ColoredBlockContainer";
-import theme from "../styles/theme";
-import CoverContainer from "./CoverContainer";
-import Button from "./UI/Button";
-import useIsMobile from "../hooks/useIsMobile";
+import ColoredBlockContainer from "../containers/ColoredBlockContainer";
+import theme from "../../styles/theme";
+import CoverContainer from "../containers/CoverContainer";
+import Button from "../UI/Button";
+import useIsMobile from "../../hooks/useIsMobile";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
