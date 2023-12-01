@@ -25,7 +25,7 @@ const StyledBlockContainer = styled(BlockContainer)`
   margin: 0;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.small}) {
-    margin: ${({ theme }) => theme.dimensions.base3} 0;
+    margin: ${({ theme }) => theme.dimensions.base4} 0;
   }
 `;
 

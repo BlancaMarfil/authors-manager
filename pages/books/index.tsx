@@ -6,6 +6,7 @@ import ResultsBooks from "../../components/search/ResultsBooks";
 import Button from "../../components/UI/Button";
 import { useRouter } from "next/router";
 import Loader from "../../components/UI/Loader";
+import { parse } from "date-fns";
 
 const NoBooksContainer = styled.div`
   display: flex;
@@ -25,6 +26,10 @@ const ExploreButton = styled.div`
   padding: 0 ${({ theme }) => theme.dimensions.base5};
 `;
 
+const getTimestamp = (dateString: string) => {
+  return parse(dateString, "dd/MM/yyyy", new Date()).getTime();
+};
+
 const Books = () => {
   const { userId } = useContext(AuthContext);
   const router = useRouter();
@@ -33,9 +38,7 @@ const Books = () => {
   });
 
   const bookIds = [...(data?.bookEntriesByUserId || [])]
-    .sort(
-      (a, b) => new Date(a.dateRead).getTime() - new Date(b.dateRead).getTime()
-    )
+    .sort((a, b) => getTimestamp(a.dateRead) - getTimestamp(b.dateRead))
     .map((bookEntry) => bookEntry.bookId);
 
   const handleExploreClick = () => {

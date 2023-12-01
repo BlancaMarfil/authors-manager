@@ -12,6 +12,7 @@ import BookShelfBlock from "../../components/books/BookShelfBlock";
 import SerieSection from "../../components/books/SerieSection";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
+import Loader from "../../components/UI/Loader";
 const {
   SearchGoogleBooksByBookId,
 } = require("../../graphql/queries/googleBooks.graphql");
@@ -39,14 +40,15 @@ const Book = (props: Props) => {
   // Series
   const seriesMock = getSeriesFromBooks([book]);
   const { name: seriesName } = seriesMock.length > 0 && seriesMock[0];
-  const { data: dataSeriesBook } = useSearchGoogleBooksByAuthorSeriesQuery({
-    variables: {
-      query: seriesName,
-      author: book.volumeInfo.authors[0],
-      apiKey: process.env.GOOGLE_API_KEY!,
-    },
-    skip: seriesMock.length === 0,
-  });
+  const { data: dataSeriesBook, loading: loadingBookInfo } =
+    useSearchGoogleBooksByAuthorSeriesQuery({
+      variables: {
+        query: seriesName,
+        author: book.volumeInfo.authors[0],
+        apiKey: process.env.GOOGLE_API_KEY!,
+      },
+      skip: seriesMock.length === 0,
+    });
 
   if (dataSeriesBook?.searchGoogleBookAuthorSeries?.items) {
     series = getSeriesFromBooks(
@@ -65,13 +67,17 @@ const Book = (props: Props) => {
 
   return (
     <>
-      {!loadingBookRead && (
+      {loadingBookInfo ? (
+        <Loader />
+      ) : (
         <>
-          <ReadHeader
-            bookId={id}
-            dateReadInput={dateRead}
-            onChangeDateRead={(newDate) => setDateRead(newDate)}
-          />
+          {loadingBookRead ? <Loader /> : (
+            <ReadHeader
+              bookId={id}
+              dateReadInput={dateRead}
+              onChangeDateRead={(newDate) => setDateRead(newDate)}
+            />
+          )}
           <BookBlock book={book} serieName={seriesName} />
           {series.length > 0 && (
             <BookShelfBlock blockTitle="Other books in this series">

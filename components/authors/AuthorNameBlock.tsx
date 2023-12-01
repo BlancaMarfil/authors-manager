@@ -134,13 +134,11 @@ const AuthorNameBlock = (props: Props) => {
         variables: { userId: userId, authorName: authorName },
         refetchQueries: queriesToRefetch,
       });
-      // setFollowing(false);
     } else {
       followAuthor({
         variables: { userId: userId, authorName: authorName },
         refetchQueries: queriesToRefetch,
       });
-      // setFollowing(true);
     }
   };
 
@@ -161,17 +159,15 @@ const AuthorNameBlock = (props: Props) => {
             searchTheme={false}
             showName={false}
           />
-          {!loading && following !== undefined && (
-            <TextButtonDiv>
-              <NameFollowingDiv following={following.toString()}>
-                <StyledAuthorName>{authorName}</StyledAuthorName>
-                {following && <StyledFollow>Following</StyledFollow>}
-              </NameFollowingDiv>
-              <Button buttonStyle={followButtonStyle} onClick={handlefollowing}>
-                <StyledButton>{followButton}</StyledButton>
-              </Button>
-            </TextButtonDiv>
-          )}
+          <TextButtonDiv>
+            <NameFollowingDiv following={following.toString()}>
+              <StyledAuthorName>{authorName}</StyledAuthorName>
+              {!loading && following && <StyledFollow>Following</StyledFollow>}
+            </NameFollowingDiv>
+            <Button buttonStyle={followButtonStyle} onClick={handlefollowing}>
+              <StyledButton>{followButton}</StyledButton>
+            </Button>
+          </TextButtonDiv>
         </Container>
       </ColoredBlockContainer>
     </StyledBlockContainer>

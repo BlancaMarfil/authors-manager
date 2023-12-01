@@ -14,8 +14,12 @@ import CustomImage from "../UI/CustomImage";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.dimensions.base2};
+  gap: ${({ theme }) => theme.dimensions.base};
   cursor: pointer;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    gap: ${({ theme }) => theme.dimensions.base2};
+  }
 `;
 
 const BookCover = styled.div`
@@ -40,23 +44,38 @@ const TitleAuthorDiv = styled.div`
 `;
 
 const BookTitle = styled.p`
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 18px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 `;
 
 const BookAuthor = styled.p`
-  font-size: 18px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.gray};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    font-size: 18px;
+    line-height: 20px;
+  }
 `;
 
 const BookRead = styled.p`
   color: ${({ theme }) => theme.colors.sunsetRed};
-  font-size: 18px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 14px;
   font-style: italic;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.medium}) {
+    font-size: 18px;
+    line-height: 18px;
+  }
 `;
 
 const ReadText = styled.p`
