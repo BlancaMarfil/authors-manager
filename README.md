@@ -1,34 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Authors Manager
+This is a web application that helps you organise the books you've read focusing on the authors that have written them. Users can keep track of the books they've read, along with the dates they read them. The API (authors-manager-server) supports adding books to a user's catalogue, querying books read by a user, and checking if a book has been read by a user.
+This project is a React application featuring styled components, dynamic overlays, dropdown menus, and other UI elements. This project showcases advanced usage of React and styled-components, including handling scrolling, positioning, and component interactions.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Features
+- React and styled-components integration.
+- Dynamic overlays that stay within their parent containers.
+- Dropdown menus with customizable styles and functionality.
+- Scrollable divs with hidden vertical scrollbars but visible horizontal scrollbars.
+- Responsive design for various screen sizes.
+- Hover effects and animations using CSS transitions.
+- CRUD Operations: Create, Read, Update, and Delete authors.
+- Search and Filter: Allows efficient searching and filtering of authors.
+- Structured API endpoints for frontend-backend communication.
