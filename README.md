@@ -12,3 +12,6 @@ This project is a React application featuring styled components, dynamic overlay
 - CRUD Operations: Create, Read, Update, and Delete authors.
 - Search and Filter: Allows efficient searching and filtering of authors.
 - Structured API endpoints for frontend-backend communication.
+
+# Functional Code
+On branch: develop
